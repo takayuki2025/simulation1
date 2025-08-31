@@ -1,0 +1,42 @@
+.header {
+    background: #000;
+    height: 70px;
+}
+
+.header__inner {
+    display: flex;
+    padding: 20px 15px;
+}
+
+.company {
+
+}
+
+.search_form {
+    height: 30px;
+    width: 300px;
+    margin-left: 50px;
+}
+
+.login_page {
+    margin-left: auto;
+}
+
+.login_page_1 {
+    margin: 0 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.login_page_2 {
+    margin: 10px 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.login_page_3 {
+    margin: 10px 10px;
+    text-decoration: none;
+    color: white;
+}
+
