@@ -12,31 +12,53 @@ class ItemController extends Controller
 {
     public function index()
     {
-        return view('front_page');
-    }
-
-    public function profile_show()
-    {
-        $user = Auth::user();
-
-        return view('profile_edit',compact('user'));
-    }
-
-    public function profile_update(ProfileRequest $request)
-    {
-
-        // $user = $request->only('name','post_number','address','building');
-        $user = Auth::user();
-        $user->update($request->only('name', 'post_number', 'address', 'building'));
-        // Auth::user()->id->update($user);
         $items = Item::all();
 
-        // return view('front_page');
         return view('front_page',compact('items'));
     }
 
+        public function profile_show(Request $request)
+    {
+        if (Auth::check()) {
+        $user = Auth::user();
+        }
+        return view('profile',compact('user'));
+    }
 
+        public function item_sell_show(Request $request)
+    {
+        if (Auth::check()) {
+        $items = Item::all();
+        }
+        return view('item_sell',compact('items'));
+    }
 
+        public function profile_revise(Request $request)
+    {
+        if (Auth::check()) {
+        $user = Auth::user();
+        }
+        return view('profile_edit',compact('user'));
+    }
+
+    // public function profile_show()
+    // {
+    //     $user = Auth::user();
+
+    //     return view('profile_edit',compact('user'));
+    // }
+
+    public function profile_update(ProfileRequest $request)
+    {
+        if (Auth::check()) {
+        $user = Auth::user();
+        $user->update($request->only('name', 'post_number', 'address', 'building'));
+        }
+
+        $items = Item::all();
+
+        return view('front_page',compact('items'));
+    }
 
 public function showOneTimePage()
 {
@@ -61,4 +83,6 @@ public function showOneTimePage()
     // ユーザーデータをビューに渡して表示
     return view('profile_edit', compact('user'));
 }
+
+
 }

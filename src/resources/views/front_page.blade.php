@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<h1>テスト</h1>
+<h1>トップ画面</h1>
 
 
 

@@ -12,36 +12,47 @@
 
 <body>
     <header class="header">
-    <div class="header__inner">
-    <img class="company" src="/image_icon/logo.svg" alt="会社名">
+        <div class="header__inner">
+            <img class="company" src="/image_icon/logo.svg" alt="会社名">
+
         <form action="" method="POST">
+            @csrf
             <input type = "text" class="search_form" name="search_item" placeholder="何をお探しですか？">
         </form>
-        @if (Auth::check())
-        <div class="login_page0">
-            <form action="/logout" method="post">
-                @csrf
+            @if (Auth::check())
+                <div class="login_page0">
 
-        <input type="submit" class="login_page_1" value="ログアウト">
-        <!-- <button class="login_page_1">ログアウト</button> -->
-            </form>
+<!-- get? -->
+        <form action="/logout" method="post">
+            @csrf
+            <input type="submit" class="login_page_1" value="ログアウト">
+        </form>
 
-        <a class="login_page_2" href="{{ route('login') }}">マイページ</a>
-        <a class="login_page_3" href="{{ route('login') }}">出品</a>
+        <form action="/mypage" method="get">
+            @csrf
+            <input type="submit" class="login_page_2" value="マイページ">
+        </form>
+
+        <form action="/sell" method="get">
+            @csrf
+            <input type="submit" class="login_page_3" value="出品">
+        </form>
+                </div>
         </div>
-    </div>
-        @else
-        <div class="login_page0">
-        <a class="login_page_1" href="{{ route('login') }}">ログイン</a>
-        <a class="login_page_2" href="{{ route('login') }}">マイページ</a>
-        <a class="login_page_3" href="{{ route('login') }}">出品</a>
-      </div>
-        @endif
+
+            @else
+                <div class="login_page0">
+                    <a class="login_page_1" href="{{ route('login') }}">ログインN</a>
+                    <a class="login_page_2" href="{{ route('login') }}">マイページ</a>
+                    <a class="login_page_3" href="{{ route('login') }}">出品</a>
+                </div>
+            @endif
     </header>
 
     <main>
     @yield('content')
     </main>
+
 </body>
 
 </html>

@@ -14,26 +14,15 @@ use App\Http\Controllers\ItemController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [ItemController::class, 'index'])->name('front_page');
 
-Route::get('/', [ItemController::class, 'index']);
-Route::get('/mypage/profile', [ItemController::class, 'profile_show']);
-
-    // Route::get('/profile_edit', function () {
-    //     if (session('one_time_access_granted')) {
-    //         return Redirect::route('front_page'); // 既にアクセス済みの場合はリダイレクト
-    //     }
-    //     session(['one_time_access_granted' => true]); // 初回アクセス時のみフラグを設定
-    //     return view('profile_edit');
-    // })->name('profile_edit');
-
+// Route::get('/mypage/profile', [ItemController::class, 'profile_show']);
 Route::Patch('/', [ItemController::class, 'profile_update']);
-
-
-// 今回は使わないかも
-// Route::middleware('auth')->group(function () {
-//     Route::get('/', [ItemController::class, 'index']);
-// });
 
 Route::get('/mypage/profile', [ItemController::class, 'showOneTimePage'])
     ->middleware(['auth'])
     ->name('profile_edit');
+
+Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
+Route::get('/mypage', [ItemController::class, 'profile_show'])->middleware(['auth'])->name('profile');
+Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['auth'])->name('item_sell');

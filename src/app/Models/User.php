@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         'post_number',
         'address',
-        'building'
+        'building',
+        'first_time_access'
     ];
 
     /**

@@ -28,19 +28,19 @@
     background-color: black;
     color: white;
     border: black;
-    text-decoration: none;
-    /* color: white; */
 }
 
 .login_page_2 {
-    margin: 10px 10px;
-    text-decoration: none;
+    margin: 0 10px;
+    background-color: #000;
     color: white;
+    border: #000;
 }
 
 .login_page_3 {
-    margin: 10px 10px;
-    text-decoration: none;
+    margin: 0 10px;
+    background-color: #000;
     color: white;
+    border: #000;
 }
 
