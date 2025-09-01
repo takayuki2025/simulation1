@@ -8,10 +8,21 @@
 <div class="login_page">
 <h2 class="title">ログイン</h2>
 <form action="login" method="POST">
+    @csrf
     <label class="label_form_1">メールアドレス</label>
-    <input type="text" class="mail_form" name="email">
+    <input type="email" class="mail_form" name="email" value="{{ old('email') }}" />
+    <div class="error">
+    @error('email')
+    {{ $message }}
+    @enderror
+</div>
     <label class="label_form_2">パスワード</label>
-    <input type="text" class="password_form" name="password">
+    <input type="password" class="password_form" name="password">
+    <div class="error">
+    @error('password')
+    {{ $message }}
+    @enderror
+</div>
     <div class="submit">
     <input type="submit" class="submit_form" value="ログインする">
 </div>

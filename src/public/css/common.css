@@ -18,14 +18,18 @@
     margin-left: 50px;
 }
 
-.login_page {
+.login_page0 {
+    display: flex;
     margin-left: auto;
 }
 
 .login_page_1 {
     margin: 0 10px;
-    text-decoration: none;
+    background-color: black;
     color: white;
+    border: black;
+    text-decoration: none;
+    /* color: white; */
 }
 
 .login_page_2 {

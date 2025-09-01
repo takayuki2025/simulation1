@@ -66,3 +66,11 @@
     position: relative;
     right: 90px;
 }
+
+.error {
+    color: #ff5555;
+}
+
+.profile__error {
+    color: #ff5555;
+}

@@ -49,3 +49,7 @@ text-align: center;
     position: relative;
     right: 113px;
 }
+
+.error {
+    color: #ff5555;
+}

@@ -16,7 +16,7 @@
     <input type="submit" class="submit_form" value="ログインする">
 </div>
 </form>
-    <a class="register_page" href="{{ route('register') }}">会員登録はこちら</a>
+    <a class="register_page" href="/register">会員登録はこちら</a>
 
 </div>
 

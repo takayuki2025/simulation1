@@ -8,6 +8,7 @@
 <div class="login_page">
 <h2 class="title">会員登録</h2>
 <form action="login" method="POST">
+    @csrf
     <label class="label_form_1">ユーザー名</label>
     <input type="text" class="name_form" name="name">
     <label class="label_form_2">メールアドレス</label>
@@ -15,12 +16,12 @@
     <label class="label_form_3">パスワード</label>
     <input type="text" class="password_form" name="password">
     <label class="label_form_4">確認用パスワード</label>
-    <input type="text" class="password_form" name="">
+    <input type="text" class="password_form" name="password_confirmation">
     <div class="submit">
     <input type="submit" class="submit_form" value="登録する">
 </div>
 </form>
-    <a class="register_page" href="{{ route('login') }}">ログインはこちら</a>
+    <a class="register_page" href="/login">ログインはこちら</a>
 
 </div>
 
