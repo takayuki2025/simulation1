@@ -1,0 +1,36 @@
+.wrapper {
+
+    width: 900px;
+}
+
+
+.items_normal {
+    display: flex;
+    justify-content: space-around;
+        flex-wrap: wrap;
+        /* width: 80%; */
+        /* width: 30%;
+        height: 30%; */
+        /* width: 300px;
+        height: 300px; */
+}
+
+.img {
+    width: 30%;
+    height: 30%;
+    height: auto;
+}
+
+.items_normal1 {
+    width: 18%;
+    /* width: 33%; */
+
+}
+
+.items_normal2 {
+    width: 33%;
+}
+
+.items_normal3 {
+    width: 33%;
+}

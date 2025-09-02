@@ -16,13 +16,12 @@ use App\Http\Controllers\ItemController;
 */
 Route::get('/', [ItemController::class, 'index'])->name('front_page');
 
-// Route::get('/mypage/profile', [ItemController::class, 'profile_show']);
 Route::Patch('/', [ItemController::class, 'profile_update']);
 
 Route::get('/mypage/profile', [ItemController::class, 'showOneTimePage'])
     ->middleware(['auth'])
     ->name('profile_edit');
 
-Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
+Route::post('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
 Route::get('/mypage', [ItemController::class, 'profile_show'])->middleware(['auth'])->name('profile');
 Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['auth'])->name('item_sell');

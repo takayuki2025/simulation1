@@ -41,13 +41,6 @@ class ItemController extends Controller
         return view('profile_edit',compact('user'));
     }
 
-    // public function profile_show()
-    // {
-    //     $user = Auth::user();
-
-    //     return view('profile_edit',compact('user'));
-    // }
-
     public function profile_update(ProfileRequest $request)
     {
         if (Auth::check()) {
@@ -70,6 +63,7 @@ public function showOneTimePage()
 
     // ユーザーが認証済みであることが分かったので、安全にユーザー情報を取得できます
     $user = Auth::user();
+    
 
     // ユーザーがすでに一度アクセス済みかチェック
     if ($user->first_time_access) {
@@ -83,6 +77,5 @@ public function showOneTimePage()
     // ユーザーデータをビューに渡して表示
     return view('profile_edit', compact('user'));
 }
-
 
 }

@@ -11,4 +11,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="items_normal">
+    <div class="items_normal1">
+<img src="https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Armani+Mens+Clock.jpg" alt="会社のロゴ">
+</div>
+    <div class="items_normal1">
+<img src="https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/HDD+Hard+Disk.jpg" alt="会社のロゴ">
+</div>
+    <div class="items_normal1">
+<img src="https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/iLoveIMG+d.jpg" alt="会社のロゴ">
+</div>
+    <div class="items_normal1">
+<img src="https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Leather+Shoes+Product+Photo.jpg" alt="会社のロゴ">
+</div>
+</div> -->
+
+
 @endsection

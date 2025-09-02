@@ -18,7 +18,7 @@
         <input type = "text" class="search_form" name="search_item" placeholder="何をお探しですか？">
       </form>
       <div class="login_page">
-        <a class="login_page_1" href="{{ route('login') }}">ログイン</a>
+        <a class="login_page_1" href="{{ route('login') }}">ログインNN</a>
         <a class="login_page_2" href="{{ route('login') }}">マイページ</a>
         <a class="login_page_3" href="{{ route('login') }}">出品</a>
       </div>
