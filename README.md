@@ -41,7 +41,7 @@ laravel環境構築
 - 
 
 # ER図<br>
-<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/973adda2-8fa4-4c8b-83a0-4db581afef88" />
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/86ff6307-bed2-4e54-80f0-e3741c5d2617" />
 
 # 使用技術<br>
   - PHP 8.1.33

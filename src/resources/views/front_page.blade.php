@@ -5,44 +5,39 @@
 @endsection
 
 @section('content')
-<h1>トップ画面</h1>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <div class="items_normal">
-    <div class="items_normal1">
-<img src="https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Armani+Mens+Clock.jpg" alt="会社のロゴ">
+<div class="main_contents">
+<div class="main_select">
+<a href="/" class="recs">おすすめ</a>
+<a href="/" class="mylists">マイリスト</a>
 </div>
-    <div class="items_normal1">
-<img src="https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/HDD+Hard+Disk.jpg" alt="会社のロゴ">
-</div>
-    <div class="items_normal1">
-<img src="https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/iLoveIMG+d.jpg" alt="会社のロゴ">
-</div>
-    <div class="items_normal1">
-<img src="https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Leather+Shoes+Product+Photo.jpg" alt="会社のロゴ">
-</div>
-</div> -->
 
+<div class="items_select">
+    <div class="items_select_all">
+        <a href="/item">
+<img src="/pictures/Armani+Mens+Clock.jpg" alt="会社のロゴ">
+</a>
+<label>腕時計</label>
+
+</div>
+    <div class="items_select_all">
+<img src="/pictures/HDD+Hard+Disk.jpg" alt="会社のロゴ">
+<label>HDD</label>
+</div>
+    <div class="items_select_all">
+<img src="/pictures/iLoveIMG+d.jpg" alt="会社のロゴ">
+<label>玉ねぎ３束</label>
+</div>
+    <div class="items_select_all">
+<img src="/pictures/Leather+Shoes+Product+Photo.jpg" alt="会社のロゴ">
+<label>革靴</label>
+</div>
+    <div class="items_select_all">
+<img src="/pictures/Leather+Shoes+Product+Photo.jpg" alt="会社のロゴ">
+<label>腕時計</label>
+</div>
+
+</div>
+</div>
 
 @endsection

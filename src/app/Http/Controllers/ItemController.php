@@ -33,6 +33,29 @@ class ItemController extends Controller
         return view('item_sell',compact('items'));
     }
 
+        public function item_detail_show()
+    {
+        $items = Item::all();
+
+        return view('item_detail',compact('items'));
+    }
+
+            public function item_buy_show()
+    {
+        $items = Item::all();
+        $user = Auth::user();
+
+        return view('item_buy',compact('items','user'));
+    }
+
+            public function item_purchase_edit(Request $request)
+    {
+        if (Auth::check()) {
+        $user = Auth::user();
+        }
+        return view('address',compact('user'));
+    }
+
         public function profile_revise(Request $request)
     {
         if (Auth::check()) {
