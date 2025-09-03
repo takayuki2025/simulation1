@@ -1,0 +1,131 @@
+.item_sell_contents {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.item_sell_contents_box {
+    display: flex;
+    width: px;
+    height: 1500px;
+        width: 600px;
+    text-align: center;
+    justify-content: center;
+}
+
+.item_sell_contents_box_imagetitle {
+    position: relative;
+    right: 260px;
+}
+
+.upload_submit {
+    position: relative;
+    top: 35px;
+}
+
+.item_sell_contents_box_line {
+    border: 1px dotted black;
+    /* text-align: center;
+    justify-content: center; */
+    /* position: relative;
+    left: 190px; */
+    /* width: 400px; */
+    height: 100px
+}
+
+.small_box {
+    width: 100%;
+        text-align: center;
+            justify-content: center;
+}
+
+.sell_title1  {
+    margin-top: 30px;
+    border-bottom: 1px solid black;
+}
+
+.sell_title1 h2 {
+    position: relative;
+    right: 230px;
+}
+
+.sell_title1_1 {
+    margin-top: 30px;
+    position: relative;
+}
+ .sell_title1_1 label {
+    position: relative;
+    right: 250px;
+ }
+
+.sell_title1_2 label{
+    display: block;
+}
+
+.select_box {
+    width: 600px;
+    height: 30px;
+}
+
+.alert-success {
+    position: relative;
+    top: 45px;
+    color: gainsboro;
+}
+
+.sell_title2 {
+    margin-top: 40px;
+    border-bottom: 1px solid black;
+}
+
+.sell_title2 h2{
+    position: relative;
+    right: 220px;
+}
+
+.sell_title2_1 label{
+    display: block;
+    margin-top: 30px;
+    position: relative;
+    right: 270px;
+}
+
+.sell_title2_2 label {
+    display: block;
+    margin-top: 30px;
+    position: relative;
+    right: 270px;
+}
+
+.sell_title2_3 label {
+    display: block;
+    margin-top: 30px;
+    position: relative;
+    right: 270px;
+}
+
+.sell_title2_4 label {
+    display: block;
+    margin-top: 30px;
+    position: relative;
+    right: 270px;
+}
+
+.sell_item_form {
+    width: 600px;
+    height: 30px;
+}
+
+.sell_item_form_textarea {
+    width: 600px;
+    height: 130px;
+}
+
+.sell_title3 {
+    margin-top: 80px;
+}
+
+.sell_item_submit {
+    width: 610px;
+    height: 50px;
+}

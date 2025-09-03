@@ -33,27 +33,45 @@ class ItemController extends Controller
         return view('item_sell',compact('items'));
     }
 
-        public function item_detail_show()
+        public function item_detail_show($id)
     {
-        $items = Item::all();
+        $item = Item::findOrFail($id);
 
-        return view('item_detail',compact('items'));
+        // 商品が存在しない場合のエラー処理（推奨）
+            if (!$item) {
+        // 例として、404ページを表示
+            abort(404);
+    }
+        return view('item_detail',compact('item' ,'id'));
     }
 
-            public function item_buy_show()
+            public function item_buy_show($id)
     {
-        $items = Item::all();
         $user = Auth::user();
+        $item = Item::find($id);
+        if (!$item) {
+            abort(404);
+        }
 
-        return view('item_buy',compact('items','user'));
+        return view('item_buy',[
+            'item' => $item,
+            'id' => $item->id,
+            'user' => $user,
+        ]);
     }
 
-            public function item_purchase_edit(Request $request)
+            public function item_purchase_edit($id)
     {
+            // 未定義エラーを防ぐため、$userをnullで初期化
+    $user = null;
+
         if (Auth::check()) {
         $user = Auth::user();
         }
-        return view('address',compact('user'));
+            // URLにIDがあるので、アイテムもビューに渡すべきです
+    $item = Item::findOrFail($id);
+
+        return view('address',compact('user', 'item'));
     }
 
         public function profile_revise(Request $request)
@@ -101,4 +119,41 @@ public function showOneTimePage()
     return view('profile_edit', compact('user'));
 }
 
+
+public function item_image_upload(Request $request){
+    //  $img=$request->imgpath;  //formで設置したname名
+     $filename=$request->item_image->getClientOriginalName();
+
+    $img=$request->item_image->storeAs('public/item_images',$filename);
+
+    $img = str_replace('public/', '', $img);
+    //  dd($img);
+    return redirect()->back()->with('success', 'フ！')->with('image_path', 'storage/' .$img);
+}
+
+public function thanks_buy_create(Request $request)
+{
+    $item = $request->only(['name','price','brand','explain','condition','category','item_image']);
+
+     // 画像がアップロードされているか確認
+//   if ($request->hasFile('item_image')) {
+//     // ファイル名が重複しないようにユニークなファイル名を生成
+//     $filename = time() . '_' . $request->item_image->getClientOriginalName();
+    
+//     // 画像を保存し、そのパスを取得
+//     $path = $request->item_image->storeAs('public/item_images', $filename);
+    
+    // データベースに保存する画像パスを追加
+    // $item['item_image'] = $img;
+
+//   }
+
+
+
+  $item['user_id'] = auth()->id();
+
+  Item::create($item);
+
+  return redirect('/')->with('success', '商品を登録しました。');
+}
 }

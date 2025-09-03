@@ -17,7 +17,7 @@ class Item extends Model
         'explain',
         'condition',
         'category',
-        'image_date'
+        'item_image'
 
     ];
 

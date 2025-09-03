@@ -26,6 +26,10 @@ Route::post('/mypage/profile', [ItemController::class, 'profile_revise'])->middl
 Route::get('/mypage', [ItemController::class, 'profile_show'])->middleware(['auth'])->name('profile');
 Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['auth'])->name('item_sell');
 
-Route::get('/item', [ItemController::class, 'item_detail_show'])->name('item_detail');
-Route::get('/purchase', [ItemController::class, 'item_buy_show'])->name('item_buy');
-Route::get('/purchase/address', [ItemController::class, 'item_purchase_edit'])->name('address');
+Route::get('/item/{id}', [ItemController::class, 'item_detail_show'])->name('item_detail');
+Route::get('/purchase/{id}', [ItemController::class, 'item_buy_show'])->name('item_buy');
+Route::get('/purchase/address/{id}', [ItemController::class, 'item_purchase_edit'])->name('address');
+
+Route::post('/upload', [ItemController::class, 'item_image_upload']);
+
+Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create']);

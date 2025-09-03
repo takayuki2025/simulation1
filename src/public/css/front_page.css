@@ -1,7 +1,6 @@
 .items_select {
     display: flex;
-    /* justify-content: space-between; */
-    /* gap: 60px; */
+
     flex-wrap: wrap;
     gap: 70px;
 }
@@ -9,8 +8,8 @@
 .items_select_all {
     width: 18%;
     aspect-ratio: 1 / 1;
-    
-    /* padding: 40px; */
+
+
     margin: 30px;
 }
 
@@ -26,6 +25,7 @@
     height: 80px;
     border-bottom: 5px solid rgb(217, 217, 217);
     position: relative;
+    right: 70px;
 }
 
 .recs {

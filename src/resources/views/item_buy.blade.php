@@ -11,10 +11,10 @@
         <div class="item_buy_l">
                 <div class="item_buy_content1">
         <div class="item_buy_image">
-                <img src="/pictures/Armani+Mens+Clock.jpg" alt="会社のロゴ">
+                <img src="{{ asset($item->item_image) }}" alt="会社のロゴ">
                 </div>
-        <h3 class="item_name">商品名</h3>
-        <h2 class="item_price">価格</h2>
+        <h3 class="item_name">{{ $item->name }}</h3>
+        <h2 class="item_price">{{ $item->price }}</h2>
                 </div>
                 <div class="item_buy_content2">
                         <h4 class="item_pay">支払い方法</h4>
@@ -27,10 +27,10 @@
                 <div class="item_buy_content3">
                         <div class="item_edit">
                         <h4 class="item_address">配送先</h4>
-                        <a href="/purchase/address" class="item_edit_a">変更する</a>
+                        <a href="{{ route('address', ['id' => $id ?? '']) }}"  class="item_edit_a">変更する</a>
                         </div>
-                        <h5 class="item_address_view1">〒サンプル番号</h5>
-                        <h5 class="item_address_view2">東京都渋谷区</h5>
+                        <h5 class="item_address_view1">{{ $user->post_number}}</h5>
+                        <h5 class="item_address_view2">{{ $user->address }}</h5>
                 </select>
                 </div>
         </div>
@@ -41,7 +41,7 @@
                         <tr class="line">
 
                                 <th>商品代金</th>
-                                <td>価格</td>
+                                <td>{{ $item->price }}</td>
                         </tr>
                         <tr>
                                 <th>支払い方法</th>
