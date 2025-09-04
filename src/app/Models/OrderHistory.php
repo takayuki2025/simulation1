@@ -11,7 +11,8 @@ class OrderHistory extends Model
 
         protected $fillable = [
             'item_id',
-            'user_id'
+            'user_id',
+            'payment'
 
     ];
 

@@ -53,7 +53,7 @@
     <h2>商品の詳細</h2>
 </div>
 
-        <form action="/thanks_buy" method="post">
+        <form action="/thanks_sell" method="post">
     @csrf
 
 
@@ -63,7 +63,7 @@
 <br>
 <br>
         <select name="category" class="select_box">
-            <option value="仕事">仕事</option>
+            <option value="ファッション">ファッション</option>
 </select>
 <br>
 <br>

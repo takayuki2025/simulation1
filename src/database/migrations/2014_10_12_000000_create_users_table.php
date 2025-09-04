@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('post_number')->nullable();
             $table->string('address')->nullable();
             $table->string('building')->nullable();
+            // $table->string('first_time_access')->nullable();
+            $table->string('user_image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

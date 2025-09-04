@@ -29,7 +29,7 @@
                     <p>コメントマーク</p>
             </div>
             <div class="item_detail_form">
-        <form action="{{ route('item_buy', ['id' => $id ?? '']) }}" method="get">
+        <form action="{{ route('item_buy', ['item_id' => $item->id]) }}" method="get">
             @csrf
             <input type="submit" value="購入手続きへ">
         </form>
@@ -47,13 +47,16 @@
         </div>
         <div class="item_detail_comment_history">
             <h3>コメント</h3>
+
+
         </div>
         <div class="item_detail_comment_form">
             <h3>商品へのコメント</h3>
-        <form action="" method="post" >
+        <form action="{{ route('comment_create') }}"  method="post" >
             @csrf
-                <textarea name="comment" rows="4" cols="40"></textarea>
+                <textarea name="comment" rows="5" cols="40"></textarea>
                 <input type="submit" value="コメントを送信する" class="comment_submit">
+                <input type="hidden" name="item_id" value="{{ $item->id }}">
         </form>
         </div>
 

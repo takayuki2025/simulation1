@@ -8,7 +8,7 @@
 <div class="login_page">
     <h2 class="title">住所変更</h2>
 
-    <form action='' method="POST">
+    <form action="{{ route('address_update', ['item_id' => $item_id, 'user_id' => $user_id]) }}" method="POST">
         @method('PATCH')
         @csrf
 
@@ -37,7 +37,7 @@
         <div class="submit">
             <input type="submit" class="submit_form" value="更新する">
         </div>
-        </form>
+    </form>
 </div>
 
 
