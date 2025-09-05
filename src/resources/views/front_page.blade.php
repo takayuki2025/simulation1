@@ -7,11 +7,13 @@
 @section('content')
 
     <div class="main_contents">
-
+            <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
 
         <div class="main_select">
             <a href="/" class="recs">おすすめ</a>
-            <a href="/" class="mylists">マイリスト</a>
+            <a href="/?tab=mylist" class="mylists">マイリスト</a>
         </div>
 
 

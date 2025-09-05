@@ -8,8 +8,6 @@
     width: 13%;
     aspect-ratio: 1 / 1;
     margin-bottom: 20px;
-    
-    /* margin: 130px; */
 }
 
 .item_buy_image img {
@@ -40,6 +38,14 @@
     left: 30px;
     bottom: 60px;
 }
+
+#payment_select {
+    position: relative;
+    bottom: 50px;
+    left: 60px;
+}
+
+
 #pay {
     position: relative;
     left: 50px;
@@ -50,7 +56,7 @@
 .item_buy_content3 {
     margin: 90px;
     border-bottom: 2px solid black;
-    height: 90px;
+    height: 110px;
 }
 
 .item_edit {
@@ -81,31 +87,40 @@
     left: 70px;
 }
 
-.item_buy_table {
+.item_buy_select {
     margin: 80px;
+
 }
 
-table {
+.buy_price {
     border: 1px solid black;
-    height: 200px;
+    height: 80px;
+    width: 300px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
 }
 
-.line th{
-        border-bottom: 1px solid black;
+.price_view {
+    position: relative;
+    top: 10px;
+    right: 20px;
 }
 
-.line td {
-        border-bottom: 1px solid black;
+.buy_payment {
+    border: 1px solid black;
+    height: 80px;
+    width: 300px;
 }
 
-th {
-    width: 200px;
-    margin: 0%;
+.pay_view  {
+    position: relative;
+    top: 10px;
+    left: 40px;
 }
-
-td {
-    width: 100px;
-    margin: 0%;
+#selected_payment_text {
+    position: relative;
+    left: 30px;
 }
 
 .item_buy_form {
@@ -120,16 +135,12 @@ td {
 
 .item_buy_lr {
     display: flex;
-    
 }
 
 .item_buy_l {
     width: 65%;
-
 }
 
 .item_buy_r {
     width: 35%;
-    
-    /* display: inline-block; */
 }

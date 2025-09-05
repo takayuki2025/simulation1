@@ -16,20 +16,20 @@
             <a href="/">
             <img class="company" src="/image_icon/logo.svg" alt="会社名">
             </a>
-        <form action="" method="POST">
+        <form action="/item/search" method="get">
             @csrf
-            <input type = "text" class="search_form" name="search_item" placeholder="何をお探しですか？">
+            <input type = "text" class="search_form" name="all_item_search" placeholder="何をお探しですか？">
         </form>
             @if (Auth::check())
                 <div class="login_page0">
 
-<!-- get? -->
+
         <form action="/logout" method="post">
             @csrf
             <input type="submit" class="login_page_1" value="ログアウト">
         </form>
 
-        <form action="/mypage" method="get">
+        <form action="/mypage?page=sell" method="get">
             @csrf
             <input type="submit" class="login_page_2" value="マイページ">
         </form>
@@ -40,6 +40,7 @@
         </form>
                 </div>
         </div>
+
 
             @else
                 <div class="login_page0">

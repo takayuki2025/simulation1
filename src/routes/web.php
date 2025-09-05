@@ -16,6 +16,10 @@ use App\Http\Controllers\ItemController;
 */
 Route::get('/', [ItemController::class, 'index'])->name('front_page');
 
+Route::get('/?tab=mylist', [ItemController::class, 'index']);
+
+Route::get('/item/search', [ItemController::class, 'scour']);
+
 Route::Patch('/', [ItemController::class, 'profile_update']);
 
 Route::get('/mypage/profile', [ItemController::class, 'showOneTimePage'])
@@ -35,8 +39,14 @@ Route::Patch('/purchase/{user_id}/{item_id}', [ItemController::class, 'purchase_
 Route::get('/purchase/address/{user_id}/{item_id}', [ItemController::class, 'item_purchase_edit'])->name('address');
 
 Route::post('/upload', [ItemController::class, 'item_image_upload']);
+Route::match(['get','post'],'/upload2', [ItemController::class, 'user_image_upload']);
+
+
 
 Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
 Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('buy_create');
 
 Route::post('/comment_read', [ItemController::class, 'comment_create'])->name('comment_create');
+
+
+Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name('item.favorite');

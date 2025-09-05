@@ -8,10 +8,6 @@
     padding: 20px 15px;
 }
 
-.company {
-
-}
-
 .search_form {
     height: 30px;
     width: 300px;
@@ -44,3 +40,21 @@
     border: #000;
 }
 
+body .alert-success {
+    color: #7ec8ae;
+}
+
+/* PC向け設定 (1400px以上) */
+@media (min-width: 1400px) {
+    body {
+        width: 1300px;
+        margin: 0 auto;
+    }
+
+    .item-details {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+
+}

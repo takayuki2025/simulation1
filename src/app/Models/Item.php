@@ -17,7 +17,8 @@ class Item extends Model
         'explain',
         'condition',
         'category',
-        'item_image'
+        'item_image',
+        'remain'
 
     ];
 
@@ -25,4 +26,20 @@ class Item extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function favorites() {
+    return $this->hasMany(Good::class);
+}
+
+
+
+    public function scopeItemSearch($query, $all_item_search)
+{
+  if (!empty($all_item_search)) {
+    $query->where('name', 'like', '%' . $all_item_search . '%');
+  }
+
+
+}
+
 }

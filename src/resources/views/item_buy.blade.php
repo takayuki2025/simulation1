@@ -15,15 +15,15 @@
                                                 <img src="{{ asset($item->item_image) }}" alt="会社のロゴ">
                                         </div>
                                                 <h3 class="item_name">{{ $item->name }}</h3>
-                                                <h2 class="item_price">{{ $item->price }}</h2>
+                                                <h2 class="item_price">¥{{ $item->price }}</h2>
                                 </div>
 
                                 <div class="item_buy_content2">
                                                 <h4 class="item_pay">支払い方法</h4>
 
-                                        <form action="{{ route('buy_create') }}" method="POST">
+                                        <form action="{{ route('buy_create') }}" method="POST" class="test">
                                                 @csrf
-                                                        <select name="payment">
+                                                        <select name="payment" id="payment_select">
                                                                 <option value="">支払いを選択してください</option>
                                                                 <option value="コンビニ払い">コンビニ払い</option>
                                                                 <option value="カード支払い">カード支払い</option>
@@ -43,25 +43,22 @@
                         </div>
 
                 <div class="item_buy_r">
-                        <div class="item_buy_table">
-                                <table>
-                                        <tr class="line">
-                                                <th>商品代金</th>
-                                                <td>{{ $item->price }}</td>
-                                        </tr>
-                                        <tr>
-                                                <th>支払い方法</th>
-                                                <td>選択した方法</td>
-                                        </tr>
-                                </table>
+                        <div class="item_buy_select">
+                                        <div class="buy_price">
+                                        <p class="price_view"> 商品代金: 　　　￥{{ $item->price }}</p>
+                                        </div>
+                                        <div class="buy_payment">
+                                        <p class="pay_view">支払い方法: <span id="selected_payment_text">なし</span></p>
+                                        </div>
                         </div>
+
                                 <div class="item_buy_form">
                                         <input type="hidden" name="item_id" value="{{ $item->id }}">
 
 
                                         <input type="submit" class="item_buy_submit" value="購入する">
                                 </form>
-                </div>
+                                </div>
 
 
 
@@ -69,4 +66,17 @@
                 </div>
 
         </div>
+
+                        <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                const paymentSelect = document.getElementById('payment_select');
+                                const selectedPaymentText = document.getElementById('selected_payment_text');
+
+                                paymentSelect.addEventListener('change', function() {
+                                const selectedOptionText = this.options[this.selectedIndex].text;
+                                selectedPaymentText.textContent = selectedOptionText;
+                                });
+                                });
+                        </script>
+
 @endsection

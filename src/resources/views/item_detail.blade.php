@@ -19,13 +19,33 @@
                 <h2>{{ $item->name }}</h2>
             </div>
             <div class="item_detail_brand">
-                <p>{{ $item->brand }}</p>
+
+                <p>ブランド名：{{ $item->brand }}</p>
             </div>
             <div class="item_detail_price">
-                <h2>{{ $item->price}}</h2>
+                <h2>¥{{ $item->price}}</h2>
             </div>
             <div class="item_detail_icon">
-                    <p>いいねマーク　</p>
+
+                    <p>いいねマーク</p>
+                <form action="{{ route('item.favorite', ['item' => $item->id]) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="favorite_button">
+                        <span class="heart_icon">
+                            @if ($isFavorited)
+                                &#x2665; <!-- いいね済みハート -->
+                            @else
+                                &#x2661; <!-- いいねしていないハート -->
+                            @endif
+                        </span>
+                    </button>
+                    <span class="favorites_count">{{ $favoritesCount }}</span>
+                </form>
+
+
+
+
+
                     <p>コメントマーク</p>
             </div>
             <div class="item_detail_form">
@@ -48,6 +68,14 @@
         <div class="item_detail_comment_history">
             <h3>コメント</h3>
 
+            @forelse($comments as $comment)
+                <div class="comment">
+                    <p class="comment-text">{{ $comment->comment }}</p>
+                    <small>投稿日時: {{ $comment->created_at->format('Y/m/d H:i') }}</small>
+                </div>
+            @empty
+                <p>まだコメントはありません。</p>
+@endforelse
 
         </div>
         <div class="item_detail_comment_form">

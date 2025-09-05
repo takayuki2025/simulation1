@@ -8,8 +8,9 @@
     margin: 50px 400px 400px 150px;
 }
 
+
 .information {
-width: 50%;
+    width: 50%;
 }
 
 .item_detail_image1 {
@@ -17,27 +18,10 @@ width: 50%;
     object-position: center;
     width: 100%;
     height: 100%;
-    
-}
-
-.item_detail_name {
-
-}
-
-.item_detail_brand {
-
-}
-
-.item_detail_price {
-
 }
 
 .item_detail_icon {
     display: flex;
-}
-
-.item_detail_explain {
-
 }
 
 .item_detail_category {
@@ -48,14 +32,7 @@ width: 50%;
     display: flex;
 }
 
-.item_detail_comment_history {
-
-}
-
-.item_detail_comment_form {
-
-}
-
 .comment_submit {
     display: block;
 }
+

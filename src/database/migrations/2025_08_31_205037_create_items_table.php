@@ -23,6 +23,7 @@ class CreateItemsTable extends Migration
             $table->string('condition', 20);
             $table->string('category', 20)->nullable();
             $table->string('item_image');
+            $table->string('remain', 20)->nullable();
             $table->timestamps();
         });
     }
