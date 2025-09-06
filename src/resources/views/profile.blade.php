@@ -13,7 +13,7 @@
                 <h2 class="user_name_css">{{ $user['name'] }}</h2>
             <form action="/mypage/profile" method="post" class="user_edit_css1">
                 @csrf
-                    <input type="submit" class="user_edit_css2" value="プロフィール編集">
+                    <input type="submit" class="user_edit_css2" value="プロフィールを編集">
             </form>
         </div>
 

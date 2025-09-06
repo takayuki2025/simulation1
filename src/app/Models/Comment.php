@@ -13,7 +13,6 @@ class Comment extends Model
             'item_id',
             'user_id',
             'comment'
-
     ];
 
     public function item()

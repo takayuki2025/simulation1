@@ -1,7 +1,7 @@
 @extends('layouts.app_logout')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/register.css') }}">
+<link rel="stylesheet" href="{{ asset('css/profile_edit.css') }}">
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@
     @csrf
 
           <button type="button" class="upload_submit" onclick="document.getElementById('fileInput').click()">画像を選択する</button>
-              <input type="hidden" class="name_form" name="user_image" value="{{ $user['user_image'] }}"/>
+              <!-- <input type="hidden" class="name_form" name="user_image" value="{{ $user['user_image'] }}"/> -->
           <input type="file" name="user_image" id="fileInput" style="display: none;">
             @if (session('success'))
               <div class="alert-success">

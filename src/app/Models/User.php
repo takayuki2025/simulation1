@@ -24,7 +24,8 @@ class User extends Authenticatable
         'post_number',
         'address',
         'building',
-        'first_time_access'
+        'first_time_access',
+        'user_image'
     ];
 
     /**
@@ -50,10 +51,10 @@ class User extends Authenticatable
 
 
     public function articles() {
-    return $this->hasMany(Item::class);
+        return $this->hasMany(Item::class);
 }
 
-public function followers() {
-    return $this->hasMany(Good::class);
+    public function followers() {
+        return $this->hasMany(Good::class);
 }
 }

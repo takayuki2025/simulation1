@@ -19,24 +19,55 @@
     margin-left: auto;
 }
 
+.login_page0 a {
+    text-decoration: none;
+}
+
 .login_page_1 {
+    font-size: 16px;
     margin: 0 10px;
     background-color: black;
     color: white;
     border: black;
 }
 
+.login_page_1:hover {
+    font-size: 16px;
+    margin: 0 10px;
+    background-color: white;
+    color: black;
+    border: black;
+}
+
 .login_page_2 {
+    font-size: 16px;
     margin: 0 10px;
     background-color: #000;
     color: white;
     border: #000;
 }
 
+.login_page_2:hover {
+    font-size: 16px;
+    margin: 0 10px;
+    background-color: white;
+    color: black;
+    border: #000;
+}
+
 .login_page_3 {
+    font-size: 16px;
     margin: 0 10px;
     background-color: #000;
     color: white;
+    border: #000;
+}
+
+.login_page_3:hover {
+    font-size: 16px;
+    margin: 0 10px;
+    background-color: white;
+    color: black;
     border: #000;
 }
 

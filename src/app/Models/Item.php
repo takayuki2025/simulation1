@@ -19,7 +19,6 @@ class Item extends Model
         'category',
         'item_image',
         'remain'
-
     ];
 
     public function user()
@@ -31,15 +30,11 @@ class Item extends Model
     return $this->hasMany(Good::class);
 }
 
-
-
     public function scopeItemSearch($query, $all_item_search)
 {
   if (!empty($all_item_search)) {
     $query->where('name', 'like', '%' . $all_item_search . '%');
   }
-
-
 }
 
 }

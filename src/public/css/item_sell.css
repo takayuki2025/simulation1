@@ -21,6 +21,12 @@
 .upload_submit {
     position: relative;
     top: 35px;
+    color: #ff5655;
+    font-weight: bold;
+    border: 2px solid #ff5655;
+    background-color: white;
+    height: 35px;
+    border-radius: 5px;
 }
 
 .item_sell_contents_box_line {
@@ -72,6 +78,13 @@
     top: 45px;
     color: gainsboro;
 }
+
+.sell_title1_2 label {
+    position: relative;
+    right: 250px;
+    margin-bottom: 10px;
+}
+
 
 .sell_title2 {
     margin-top: 40px;
@@ -126,6 +139,16 @@
 }
 
 .sell_item_submit {
+    background-color: #ff5655;
+    border: #ff5655;
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 3px;
     width: 610px;
     height: 50px;
+}
+
+label {
+    font-weight: bold;
 }

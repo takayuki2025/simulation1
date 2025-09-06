@@ -18,7 +18,7 @@
                 <form action="/upload" enctype="multipart/form-data" method="post" class="item_sell_contents_box_line">
                     @csrf
 
-                    <button type="button" class="upload_submit" onclick="document.getElementById('fileInput').click()">ファイルを選択してアップロード</button>
+                    <button type="button" class="upload_submit" onclick="document.getElementById('fileInput').click()">画像を選択する</button>
 
                     <input type="file" name="item_image" id="fileInput" style="display: none;">
 

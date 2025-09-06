@@ -12,7 +12,6 @@ class Good extends Model
     protected $fillable = [
             'item_id',
             'user_id'
-
     ];
 
     public function item()

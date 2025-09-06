@@ -5,12 +5,13 @@
 .item_detail_image {
     width: 50%;
     aspect-ratio: 1 / 1;
-    margin: 50px 400px 400px 150px;
+    margin: 70px 150px 400px 150px;
 }
 
 
 .information {
     width: 50%;
+    margin: 30px 180px 0 0;
 }
 
 .item_detail_image1 {
@@ -32,7 +33,41 @@
     display: flex;
 }
 
-.comment_submit {
+.info_submit {
+    width: 300px;
+    height: 30px;
+    font-weight: bold;
+    font-size: 17px;
     display: block;
+    color: aliceblue;
+    border: #ff5555;
+    background-color: #ff5555;
 }
 
+.comment_submit {
+    width: 300px;
+    height: 30px;
+    margin-top: 15px;
+    display: block;
+    color: aliceblue;
+    border: #ff5555;
+    background-color: #ff5555;
+}
+
+h3 {
+    position: relative;
+    left: 20px;
+    font-size: 14px;
+}
+
+p {
+    position: relative;
+    left: 20px;
+    font-size: 14px;
+}
+
+.item_detail_icon p {
+    position: relative;
+    top: 15px;
+    left: 40px;
+}

@@ -41,12 +41,9 @@ Route::get('/purchase/address/{user_id}/{item_id}', [ItemController::class, 'ite
 Route::post('/upload', [ItemController::class, 'item_image_upload']);
 Route::match(['get','post'],'/upload2', [ItemController::class, 'user_image_upload']);
 
-
-
 Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
 Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('buy_create');
 
 Route::post('/comment_read', [ItemController::class, 'comment_create'])->name('comment_create');
-
 
 Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name('item.favorite');

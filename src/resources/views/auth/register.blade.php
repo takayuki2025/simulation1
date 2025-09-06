@@ -6,6 +6,7 @@
 
 @section('content')
     <div class="login_page">
+        <div class="register_box">
         <h2 class="title">会員登録</h2>
 
     <form action="register" method="POST">
@@ -45,6 +46,7 @@
 
         <a class="register_page" href="{{ route('login') }}">ログインはこちら</a>
 
+        </div>
     </div>
 
 

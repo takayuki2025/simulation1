@@ -27,7 +27,7 @@
             </div>
             <div class="item_detail_icon">
 
-                    <p>いいねマーク</p>
+                    <p>いいね</p>
                 <form action="{{ route('item.favorite', ['item' => $item->id]) }}" method="POST">
                     @csrf
                     <button type="submit" class="favorite_button">
@@ -51,11 +51,12 @@
             <div class="item_detail_form">
         <form action="{{ route('item_buy', ['item_id' => $item->id]) }}" method="get">
             @csrf
-            <input type="submit" value="購入手続きへ">
+            <input type="submit" value="購入手続きへ" class="info_submit">
         </form>
         </div>
         <div class="item_detail_explain">
             <h2>商品説明</h2>
+            <h3>{{ $item->explain }}</h3>
         </div>
         <div class="item_detail_category">
             <h3>カテゴリー　</h3>
@@ -66,7 +67,7 @@
                 <h3>{{ $item->condition }}</h3>
         </div>
         <div class="item_detail_comment_history">
-            <h3>コメント</h3>
+            <h2>コメント</h2>
 
             @forelse($comments as $comment)
                 <div class="comment">
@@ -79,7 +80,7 @@
 
         </div>
         <div class="item_detail_comment_form">
-            <h3>商品へのコメント</h3>
+            <h2>商品へのコメント</h2>
         <form action="{{ route('comment_create') }}"  method="post" >
             @csrf
                 <textarea name="comment" rows="5" cols="40"></textarea>

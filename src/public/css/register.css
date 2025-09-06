@@ -3,18 +3,23 @@
 
 }
 
+.register_box {
+    position: relative;
+    top: 70px;
+}
+
 .name_form {
-    width: 300px;
+    width: 400px;
     height: 30px;
 }
 
 .email_form {
-    width: 300px;
+    width: 400px;
     height: 30px;
 }
 
 .password_form {
-    width: 300px;
+    width: 400px;
     height: 30px;
 }
 
@@ -24,7 +29,9 @@
 }
 
 .submit_form {
-    width: 300px;
+    position: relative;
+    top: 20px;
+    width: 400px;
     height: 30px;
     margin: 30px 0;
     background-color: #ff5555;
@@ -33,6 +40,8 @@
 }
 
 .register_page {
+    position: relative;
+    top: 10px;
     text-decoration: none;
     display: block;
 }

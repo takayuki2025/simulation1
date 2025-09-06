@@ -23,7 +23,7 @@
 
 .main_select {
     height: 80px;
-    border-bottom: 5px solid rgb(217, 217, 217);
+    border-bottom: 3px solid #afafaf;
     position: relative;
     right: 70px;
 }
@@ -42,4 +42,8 @@
     bottom: 13px;
     left: 320px;
     font-weight: bold;
+}
+
+a:hover {
+    color: #ff0600;
 }

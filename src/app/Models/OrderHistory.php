@@ -13,7 +13,6 @@ class OrderHistory extends Model
             'item_id',
             'user_id',
             'payment'
-
     ];
 
     public function item()
