@@ -28,6 +28,11 @@
                                                                 <option value="コンビニ払い">コンビニ払い</option>
                                                                 <option value="カード支払い">カード支払い</option>
                                                         </select>
+
+                                                        @error('payment')
+                                                                <div class="error_buy">{{ $message }}</div>
+                                                        @enderror
+
                                 </div>
 
                                 <div class="item_buy_content3">
@@ -38,7 +43,9 @@
                                                                         <h5 class="item_address_view1">{{ $user->post_number}}</h5>
                                                                         <h5 class="item_address_view2">{{ $user->address }}</h5>
                                                                         <h5 class="item_address_view2">{{ $user->building }}</h5>
-
+                                                        @error('address')
+                                                                <div class="error_buy">{{ $message }}</div>
+                                                        @enderror
                                 </div>
                         </div>
 
@@ -55,9 +62,15 @@
                                 <div class="item_buy_form">
                                         <input type="hidden" name="item_id" value="{{ $item->id }}">
 
+                                        <input type="hidden" name="address" value="{{ $user->address }}">
 
                                         <input type="submit" class="item_buy_submit" value="購入する">
                                 </form>
+
+    <!-- 在庫切れのエラーメッセージを個別に表示 -->
+    @error('item_id')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
                                 </div>
 
 

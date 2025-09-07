@@ -144,3 +144,11 @@
 .item_buy_r {
     width: 35%;
 }
+
+.error_buy {
+    color: red;
+}
+
+.alert-danger {
+    color: red;
+}

@@ -3,13 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\ProfileImageRequest;
+
 use App\Models\Item;
 use App\Models\User;
 use App\Models\OrderHistory;
 use App\Models\Comment;
 use App\Models\Good;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Requests\CommentRequest;
+use App\Http\Requests\AddressRequest;
+use App\Http\Requests\ExhibitionRequest;
+use App\Http\Requests\PurchaseRequest;
 
 class ItemController extends Controller
 {
@@ -32,6 +40,17 @@ class ItemController extends Controller
             $items = Item::all();
         }
 
+
+                // --- ここから追加 ---
+        // 取得した商品コレクションをループ処理
+        $items->each(function ($item) {
+            // remainが0の場合、priceの値をsoldに設定
+            if ($item->remain == 0) {
+                $item->price = 'sold';
+            }
+        });
+        // --- ここまで追加 ---
+
         return view('front_page',compact('items', 'tab'));
     }
 
@@ -45,6 +64,68 @@ class ItemController extends Controller
 
         return view('front_page', compact('items'));
 }
+
+
+
+
+    public function mylist_scour(Request $request)
+    {
+        // URLのGETパラメータ'tab'を取得。デフォルトは'all'
+        $tab = $request->query('tab', 'all');
+        $item_search = $request->input('all_item_search');
+
+        if ($tab === 'mylist') {
+            // 'mylist'タブの場合、いいねした商品を取得
+            $user = Auth::user();
+            if (!$user) {
+                return redirect()->route('login')->with('error', 'ログインしてください。');
+            }
+
+            // いいねした商品のIDリストを取得
+            $likedItemIds = Good::where('user_id', $user->id)->pluck('item_id');
+
+            // Itemモデルから、いいねした商品のIDを検索対象として取得
+            $query = Item::whereIn('id', $likedItemIds);
+
+            // 検索キーワードがある場合、さらに絞り込み
+            if ($item_search) {
+                $query->ItemSearch($item_search);
+            }
+
+            $items = $query->get();
+
+        } else {
+            // 'all'タブの場合、全商品から検索
+            $query = Item::query();
+            
+            // 検索キーワードがある場合、絞り込み
+            if ($item_search) {
+                $query->ItemSearch($item_search);
+            }
+
+            $items = $query->get();
+        }
+
+                // --- ここから追加 ---
+        // 取得した商品コレクションをループ処理
+        $items->each(function ($item) {
+            // remainが0の場合、priceの値をsoldに設定
+            if ($item->remain == 0) {
+                $item->price = 'sold';
+            }
+        });
+        // --- ここまで追加 ---
+
+
+        return view('front_page', compact('items', 'tab'));
+    }
+
+
+
+
+
+
+
 
 
         public function profile_show(Request $request)
@@ -88,6 +169,16 @@ class ItemController extends Controller
         public function item_detail_show($item_id)
     {
             $item = Item::findOrFail($item_id);
+
+                // --- ここから追加 ---
+        // remainが0の場合、priceを'sold'という文字列に変更
+        if ($item->remain == 0) {
+            $item->price = 'sold';
+        }
+        // --- ここまで追加 ---
+
+
+
             $item_id = $item->id;
             $comments = Comment::where('item_id',$item_id)->get();
 
@@ -107,7 +198,7 @@ class ItemController extends Controller
                         abort(404);
 
     }
-            return view('item_detail',compact('item' ,'item_id','comments', 'isFavorited','favoritesCount'));
+            return view('item_detail',compact('item' ,'item_id','comments', 'isFavorited','favoritesCount','user'));
     }
 
 
@@ -174,7 +265,7 @@ class ItemController extends Controller
     }
 
 
-        public function purchase_before_update(Request $request, $user_id,$item_id)
+        public function purchase_before_update(AddressRequest $request, $user_id,$item_id)
     {
             // 未定義エラーを防ぐため、$userをnullで初期化
             $user = null;
@@ -187,7 +278,9 @@ class ItemController extends Controller
 
             $item = Item::findOrFail($item_id);
 
-        return view('item_buy',compact('item','user','item_id','user_id'));
+       return redirect()->route('item_buy', ['item_id' => $item_id])
+                         ->with('success', '住所情報を更新しました。');
+        // return view('item_buy',compact('item','user','item_id','user_id'));
     }
 
 
@@ -198,6 +291,7 @@ class ItemController extends Controller
         }
         return view('profile_edit',compact('user'));
     }
+
 
 
         public function profile_update(ProfileRequest $request)
@@ -226,7 +320,7 @@ class ItemController extends Controller
             // ログインしていない場合は、ログインページにリダイレクト
         return redirect()->route('login');
         }
-
+            $items = Item::all();
             // ユーザーが認証済みであることが分かったので、安全にユーザー情報を取得できます
             $user = Auth::user();
 
@@ -240,11 +334,29 @@ class ItemController extends Controller
         $user->update(['first_time_access' => true]);
 
         // ユーザーデータをビューに渡して表示
-        return view('profile_edit', compact('user'));
+        return view('profile_edit', compact('user','items'));
     }
 
 
         public function item_image_upload(Request $request){
+
+                    $rules = [
+            'item_image' => 'required|mimes:jpeg,png' ,
+        ];
+
+                    $messages = [
+            'item_image.required' => '商品画像ファイルをアップロードしてください。',
+            'item_image.mimes' => '商品画像ファイルは.jpegまたは.png形式でアップロードしてください。',
+        ];
+
+                    $validator = Validator::make($request->all(), $rules, $messages);
+
+                            if ($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        }
+
             //  $img=$request->imgpath;  //formで設置したname名
             $filename=$request->item_image->getClientOriginalName();
             $img=$request->item_image->storeAs('public/item_images',$filename);
@@ -254,7 +366,7 @@ class ItemController extends Controller
     }
 
 
-    public function user_image_upload(Request $request)
+    public function user_image_upload(ProfileImageRequest $request)
     {
 
         // アップロードされたファイルが存在するか、かつ有効なファイルかを確認
@@ -272,6 +384,7 @@ class ItemController extends Controller
                 'user_image' => 'storage/' . $dbPath // データベースに保存
             ]);
 
+            
             return redirect()->route('profile_edit')->with('success', 'ユーザイメージをアップロードしました。')->with('image_path2', 'storage/' .$dbPath);
         }
 
@@ -280,12 +393,19 @@ class ItemController extends Controller
     }
 
 
-        public function thanks_sell_create(Request $request)
+        public function thanks_sell_create(ExhibitionRequest $request)
     {
 
             $item = $request->only(['name','price','brand','explain','condition','category','item_image']);
 
             $item['user_id'] = auth()->id();
+
+            // --- ここから追加 ---
+            // remainカラムに任意の値を指定（例：1）
+            $item['remain'] = 1;
+            // --- ここまで追加 ---
+
+
 
             Item::create($item);
 
@@ -293,7 +413,7 @@ class ItemController extends Controller
     }
 
 
-        public function thanks_buy_create(Request $request)
+        public function thanks_buy_create(PurchaseRequest $request)
 {
             // リクエストから必要なデータを直接取得する
             $paymentMethod = $request->input('payment');
@@ -311,11 +431,35 @@ class ItemController extends Controller
 
         OrderHistory::create($order);
 
+                    // --- ここから追加 ---
+        // 購入された商品を取得
+        $item = Item::findOrFail($itemId);
+
+        // remainカラムを1減らす（デクリメント）
+        // ゼロを下回らないように保護
+        if ($item->remain > 0) {
+            $item->remain = $item->remain - 1;
+        } else {
+            // 在庫がない場合の処理（例：エラーメッセージを表示）
+            return redirect('/')->with('error', 'この商品は在庫がありません。');
+        }
+
+        // 変更をデータベースに保存
+        $item->save();
+        // --- ここまで追加 ---
+
+
+
+
+
+
+
+
         return redirect('/')->with('success', '商品を購入しました。');
     }
 
 
-        public function comment_create(Request $request)
+        public function comment_create(CommentRequest $request)
     {
             // リクエストから必要なデータを直接取得する
             $paymentMethod = $request->input('comment');

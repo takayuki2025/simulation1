@@ -9,7 +9,7 @@
     <h2 class="title">住所変更</h2>
 
     <form action="{{ route('address_update', ['item_id' => $item_id, 'user_id' => $user_id]) }}" method="POST">
-        @method('PATCH')
+        <!-- @method('PATCH') -->
         @csrf
 
 

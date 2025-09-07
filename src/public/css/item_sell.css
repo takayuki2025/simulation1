@@ -152,3 +152,19 @@
 label {
     font-weight: bold;
 }
+
+.alert-success {
+    position: relative;
+    top: 40px;
+    color: #7ec8ae;;
+}
+
+.alert_error {
+    position: relative;
+    top: 40px;
+    color: red;
+}
+
+.error {
+    color: red;
+}

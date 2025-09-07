@@ -24,10 +24,9 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
+            'name' => 'required|max:255',
             'post_number' => ['required'],
             'address' => ['required'],
-            // 'building' => ['required']
         ];
     }
 
@@ -35,13 +34,13 @@ class ProfileRequest extends FormRequest
     public function messages()
     {
         return [
-             'name.required' => '名前を入力してください',
-             'name.string' => '名前を文字列で入力してください',
-             'name.max' => '名前を255文字以下で入力してください',
-             'post_number.required' => '郵便を入力してください',
-             'address.required' => '住を入力してください',
-            // 'address.required' => '建物をを入力してください'
-
-         ];
-     }
+            'name.required' => '名前を入力してください。',
+            'name.string' => '名前を文字列で入力してください。',
+            'name.max' => '名前を255文字以下で入力してください。',
+            'post_number.required' => '郵便番号を入力してください。',
+            'address.required' => '住所を入力してください。',
+            'user_image.mimes' => '画像ファイルは.jpegまたは.png形式でアップロードしてください。',
+        ];
+    }
+    protected $redirectRoute = 'profile';
 }

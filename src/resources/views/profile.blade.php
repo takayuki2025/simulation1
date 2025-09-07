@@ -8,13 +8,27 @@
 
     <div class="profile_page">
         <div class="profile_header">
+
+        
+
             <div class="profile_header_1">
-                <img src="{{ asset($user->user_image) }}" alt="プロフィール画像" class="user_image_css">
+                <!-- <img src="{{ asset($user->user_image) }}" alt="プロフィール画像" class="user_image_css"> -->
+                <img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile.jpg') }}" alt="プロフィール画像" class="user_image_css">
                 <h2 class="user_name_css">{{ $user['name'] }}</h2>
+                
             <form action="/mypage/profile" method="post" class="user_edit_css1">
                 @csrf
                     <input type="submit" class="user_edit_css2" value="プロフィールを編集">
             </form>
+                @if ($errors->any())
+        <div class="validation-errors">
+            <ul class="error-list">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         </div>
 
         <div class="profile_header_2">

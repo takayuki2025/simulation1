@@ -72,6 +72,7 @@
             @forelse($comments as $comment)
                 <div class="comment">
                     <p class="comment-text">{{ $comment->comment }}</p>
+                    <small>投稿者: {{ $comment->user->name }}</small>
                     <small>投稿日時: {{ $comment->created_at->format('Y/m/d H:i') }}</small>
                 </div>
             @empty
@@ -81,6 +82,13 @@
         </div>
         <div class="item_detail_comment_form">
             <h2>商品へのコメント</h2>
+                        @if (count($errors) > 0)
+                            <ul class='error_massage'>
+                            @foreach ($errors->all() as $error)
+                            <li>{{$error}}</li>
+                            @endforeach
+                            </ul>
+                        @endif
         <form action="{{ route('comment_create') }}"  method="post" >
             @csrf
                 <textarea name="comment" rows="5" cols="40"></textarea>

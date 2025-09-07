@@ -28,6 +28,12 @@
                         </div>
                     @endif
 
+
+
+                    @error('item_image')
+                        <div class="alert_error">{{ $message }}</div>
+                    @enderror
+
                 </form>
 
                 <script>
@@ -53,8 +59,12 @@
                         <br>
                         <br>
                         <select name="category" class="select_box">
+                            <option value="">選択してください</option>
                             <option value="ファッション">ファッション</option>
                         </select>
+                                @error('category')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
                         <br>
                         <br>
                         <br>
@@ -71,6 +81,9 @@
                             <option value="やや傷や汚れあり">やや傷や汚れあり</option>
                             <option value="状態が悪い">状態が悪い</option>
                         </select>
+                                @error('condition')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
                     </div>
 
                     <div class="sell_title2">
@@ -80,6 +93,9 @@
                     <div class="sell_title2_1">
                         <label>商品名</label>
                         <input type="text" name="name" class="sell_item_form">
+                                @error('name')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
                     </div>
 
                     <div class="sell_title2_2">
@@ -90,11 +106,17 @@
                     <div class="sell_title2_3">
                         <label>商品の説明</label>
                         <textarea name="explain" class="sell_item_form_textarea"></textarea>
-                    </div>
+                                @error('explain')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                                </div>
 
                     <div class="sell_title2_4">
                         <label>販売価格</label>
-                        <input type="number" name="price" class="sell_item_form" value="￥">
+                        <input type="text" name="price" class="sell_item_form" value="">
+                                @error('price')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
                     </div>
 
                     <div class="sell_title3">

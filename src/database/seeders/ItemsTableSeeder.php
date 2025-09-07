@@ -24,6 +24,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => '良好',
                 'category' => 'メンズ',
                 'item_image' => 'storage/item_images/Armani+Mens+Clock.jpg',
+                'remain' => 1,
             ],
             [
                 'user_id' => 1,
@@ -34,6 +35,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => '目立った傷や汚れなし',
                 'category' => '家電',
                 'item_image' => 'storage/item_images/HDD+Hard+Disk.jpg',
+                'remain' => 1,
             ],
             [
                 'user_id' => 1,
@@ -44,6 +46,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => 'やや傷や汚れあり',
                 'category' => 'キッチン',
                 'item_image' => 'storage/item_images/iLoveIMG+d.jpg',
+                'remain' => 1,
             ],
             [
                 'user_id' => 1,
@@ -54,6 +57,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => '状態が悪い',
                 'category' => 'メンズ',
                 'item_image' => 'storage/item_images/Leather+Shoes+Product+Photo.jpg',
+                'remain' => 1,
             ],
             [
                 'user_id' => 1,
@@ -64,6 +68,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => '良好',
                 'category' => '家電',
                 'item_image' => 'storage/item_images/Living+Room+Laptop.jpg',
+                'remain' => 1,
             ],
             [
                 'user_id' => 1,
@@ -74,6 +79,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => '目立った傷や汚れなし',
                 'category' => '家電',
                 'item_image' => 'storage/item_images/Music+Mic+4632231.jpg',
+                'remain' => 1,
             ],
             [
                 'user_id' => 1,
@@ -84,6 +90,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => 'やや傷や汚れあり',
                 'category' => 'レディース',
                 'item_image' => 'storage/item_images/Purse+fashion+pocket.jpg',
+                'remain' => 1,
             ],
             [
                 'user_id' => 1,
@@ -94,6 +101,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => '状態が悪い',
                 'category' => 'キッチン',
                 'item_image' => 'storage/item_images/Tumbler+souvenir.jpg',
+                'remain' => 1,
             ],
             [
                 'user_id' => 1,
@@ -104,6 +112,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => '良好',
                 'category' => 'キッチン',
                 'item_image' => 'storage/item_images/Waitress+with+Coffee+Grinder.jpg',
+                'remain' => 1,
             ],
             [
                 'user_id' => 1,
@@ -114,6 +123,7 @@ class ItemsTableSeeder extends Seeder
                 'condition' => '目立った傷や汚れなし',
                 'category' => 'レディース',
                 'item_image' => 'storage/item_images/外出メイクアップセット.jpg',
+                'remain' => 1,
             ],
         ];
 
