@@ -28,6 +28,12 @@
                         </div>
                     @endif
 
+
+
+                    @error('item_image')
+                        <div class="alert_error">{{ $message }}</div>
+                    @enderror
+
                 </form>
 
                 <script>
@@ -52,13 +58,62 @@
                         <label>カテゴリー</label>
                         <br>
                         <br>
-                        <select name="category" class="select_box">
+                        <!-- <select name="category" class="select_box">
+                            <option value="">選択してください</option>
                             <option value="ファッション">ファッション</option>
                         </select>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
+                                @error('category')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror -->
+
+                                    <!-- <label>カテゴリーを選択してください:</label> -->
+<div class="category-buttons-container">
+
+    <!-- ユニークなIDとラベル -->
+    <input type="checkbox" id="cat1" name="category[]" value="ファッション" class="category-checkbox-input">
+    <label for="cat1" class="category-checkbox-label">ファッション</label>
+    
+    <input type="checkbox" id="cat2" name="category[]" value="家電" class="category-checkbox-input">
+    <label for="cat2" class="category-checkbox-label">家電</label>
+    
+    <input type="checkbox" id="cat3" name="category[]" value="インテリア" class="category-checkbox-input">
+    <label for="cat3" class="category-checkbox-label">インテリア</label>
+
+    <input type="checkbox" id="cat4" name="category[]" value="レディース" class="category-checkbox-input">
+    <label for="cat4" class="category-checkbox-label">レディース</label>
+    
+    <input type="checkbox" id="cat5" name="category[]" value="メンズ" class="category-checkbox-input">
+    <label for="cat5" class="category-checkbox-label">メンズ</label>
+    
+    <input type="checkbox" id="cat6" name="category[]" value="コスメ" class="category-checkbox-input">
+    <label for="cat6" class="category-checkbox-label">コスメ</label>
+
+    <input type="checkbox" id="cat7" name="category[]" value="本" class="category-checkbox-input">
+    <label for="cat7" class="category-checkbox-label">本</label>
+    
+    <input type="checkbox" id="cat8" name="category[]" value="ゲーム" class="category-checkbox-input">
+    <label for="cat8" class="category-checkbox-label">ゲーム</label>
+    
+    <input type="checkbox" id="cat9" name="category[]" value="スポーツ" class="category-checkbox-input">
+    <label for="cat9" class="category-checkbox-label">スポーツ</label>
+
+    <input type="checkbox" id="cat10" name="category[]" value="キッチン" class="category-checkbox-input">
+    <label for="cat10" class="category-checkbox-label">キッチン</label>
+
+    <input type="checkbox" id="cat11" name="category[]" value="ハンドメイド" class="category-checkbox-input">
+    <label for="cat11" class="category-checkbox-label">ハンドメイド</label>
+
+    <input type="checkbox" id="cat12" name="category[]" value="アクセサリー" class="category-checkbox-input">
+    <label for="cat12" class="category-checkbox-label">アクセサリー</label>
+
+    <input type="checkbox" id="cat13" name="category[]" value="おもちゃ" class="category-checkbox-input">
+    <label for="cat13" class="category-checkbox-label">おもちゃ</label>
+
+    <input type="checkbox" id="cat14" name="category[]" value="キッズ:ベビー" class="category-checkbox-input">
+    <label for="cat14" class="category-checkbox-label">キッズ:ベビー</label>
+</div>
+
+
                         <br>
                     </div>
 
@@ -71,6 +126,9 @@
                             <option value="やや傷や汚れあり">やや傷や汚れあり</option>
                             <option value="状態が悪い">状態が悪い</option>
                         </select>
+                                @error('condition')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
                     </div>
 
                     <div class="sell_title2">
@@ -80,6 +138,9 @@
                     <div class="sell_title2_1">
                         <label>商品名</label>
                         <input type="text" name="name" class="sell_item_form">
+                                @error('name')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
                     </div>
 
                     <div class="sell_title2_2">
@@ -90,11 +151,17 @@
                     <div class="sell_title2_3">
                         <label>商品の説明</label>
                         <textarea name="explain" class="sell_item_form_textarea"></textarea>
-                    </div>
+                                @error('explain')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                                </div>
 
                     <div class="sell_title2_4">
                         <label>販売価格</label>
-                        <input type="number" name="price" class="sell_item_form" value="￥">
+                        <input type="text" name="price" class="sell_item_form" value="">
+                                @error('price')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
                     </div>
 
                     <div class="sell_title3">

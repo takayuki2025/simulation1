@@ -21,6 +21,10 @@ class Item extends Model
         'remain'
     ];
 
+    protected $casts = [
+        'category' => 'array', // ここを追記
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

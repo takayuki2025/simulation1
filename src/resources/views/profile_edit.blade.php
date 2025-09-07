@@ -17,7 +17,7 @@
               <!-- <input type="hidden" class="name_form" name="user_image" value="{{ $user['user_image'] }}"/> -->
           <input type="file" name="user_image" id="fileInput" style="display: none;">
             @if (session('success'))
-              <div class="alert-success">
+              <div class="alert-success2">
               {{ session('success') }}
             </div>
           @endif

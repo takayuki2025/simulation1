@@ -21,9 +21,9 @@ class CreateItemsTable extends Migration
             $table->string('brand', 20)->nullable();
             $table->string('explain', 200);
             $table->string('condition', 20);
-            $table->string('category', 20)->nullable();
+            $table->json('category');
             $table->string('item_image');
-            $table->string('remain', 20)->nullable();
+            $table->integer('remain');
             $table->timestamps();
         });
     }

@@ -75,6 +75,14 @@ body .alert-success {
     color: #7ec8ae;
 }
 
+.alert-success2 {
+    position: relative;
+    bottom: 40px;
+    color: #7ec8ae;
+}
+
+
+
 /* PC向け設定 (1400px以上) */
 @media (min-width: 1400px) {
     body {

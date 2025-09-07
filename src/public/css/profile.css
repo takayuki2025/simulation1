@@ -83,3 +83,52 @@
 a:hover {
     color: #ff5555;
 }
+
+
+
+/*
+    エラーメッセージ全体のコンテナ
+*/
+.validation-errors {
+    /* フォームや関連するコンテナを`position: relative;`に設定 */
+    position: absolute;
+    top: 125px;
+    /* フォームの上の位置を調整 */
+    left: 70%;
+    /* 中央に配置 */
+    transform: translateX(-50%);
+
+    /* デザイン */
+    max-width: 400px;
+    width: 100%;
+    padding: 10px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    z-index: 10;
+    /* 他の要素の上に表示 */
+}
+
+/*
+    エラーメッセージのリスト
+*/
+.error-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    color: #721c24;
+}
+
+/*
+    エラーメッセージを包含する要素
+*/
+.main-container {
+    position: relative;
+    /* 子要素のabsoluteな位置の基準点となる */
+}
+
+/* フォームのコンテナ（例: .profile_header_1）もposition: relative; に設定するとより良い */
+.profile_header_1 {
+    position: relative;
+    /* ... その他のスタイル ... */
+}

@@ -71,3 +71,7 @@ p {
     top: 15px;
     left: 40px;
 }
+
+.error_massage {
+    color: red;
+}

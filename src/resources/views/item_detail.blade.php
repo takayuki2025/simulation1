@@ -59,8 +59,22 @@
             <h3>{{ $item->explain }}</h3>
         </div>
         <div class="item_detail_category">
-            <h3>カテゴリー　</h3>
-                <h3>{{ $item->category }}</h3>
+            <!-- <h3>カテゴリー　</h3> -->
+
+<div>
+    <h3>カテゴリー</h3>
+    @if ($item->category)
+        <ul class="category_views">
+
+            @foreach ($item->category as $category)
+                <li class="category_mark">{{ $category }}</li>
+            @endforeach
+
+        </ul>
+    @else
+        <p>カテゴリーは登録されていません。</p>
+    @endif
+</div>
         </div>
         <div class="item_detail_condition">
             <h3>商品の状態　</h3>
@@ -72,6 +86,7 @@
             @forelse($comments as $comment)
                 <div class="comment">
                     <p class="comment-text">{{ $comment->comment }}</p>
+                    <small>投稿者: {{ $comment->user->name }}</small>
                     <small>投稿日時: {{ $comment->created_at->format('Y/m/d H:i') }}</small>
                 </div>
             @empty
@@ -81,6 +96,13 @@
         </div>
         <div class="item_detail_comment_form">
             <h2>商品へのコメント</h2>
+                        @if (count($errors) > 0)
+                            <ul class='error_massage'>
+                            @foreach ($errors->all() as $error)
+                            <li>{{$error}}</li>
+                            @endforeach
+                            </ul>
+                        @endif
         <form action="{{ route('comment_create') }}"  method="post" >
             @csrf
                 <textarea name="comment" rows="5" cols="40"></textarea>

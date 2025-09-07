@@ -18,6 +18,10 @@ Route::get('/', [ItemController::class, 'index'])->name('front_page');
 
 Route::get('/?tab=mylist', [ItemController::class, 'index']);
 
+
+Route::get('/?tab=mylist', [ItemController::class, 'mylist_scour']);
+
+
 Route::get('/item/search', [ItemController::class, 'scour']);
 
 Route::Patch('/', [ItemController::class, 'profile_update']);
@@ -27,6 +31,11 @@ Route::get('/mypage/profile', [ItemController::class, 'showOneTimePage'])
     ->name('profile_edit');
 
 Route::post('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
+
+
+
+
+
 Route::get('/mypage', [ItemController::class, 'profile_show'])->middleware(['auth'])->name('profile');
 Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['auth'])->name('item_sell');
 
@@ -34,7 +43,7 @@ Route::get('/item/{item_id}', [ItemController::class, 'item_detail_show'])->name
 
 Route::get('/purchase/{item_id?}', [ItemController::class, 'item_buy_show'])->name('item_buy');
 
-Route::Patch('/purchase/{user_id}/{item_id}', [ItemController::class, 'purchase_before_update'])->name('address_update');
+Route::post('/purchase/{user_id}/{item_id}', [ItemController::class, 'purchase_before_update'])->name('address_update');
 
 Route::get('/purchase/address/{user_id}/{item_id}', [ItemController::class, 'item_purchase_edit'])->name('address');
 
@@ -47,3 +56,15 @@ Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('
 Route::post('/comment_read', [ItemController::class, 'comment_create'])->name('comment_create');
 
 Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name('item.favorite');
+
+
+
+
+
+Route::get('/profile/first-time-setup', [ExhibitionController::class, 'showFirstTimeForm'])->name('first_time_profile');
+
+// 初回フォーム送信用のルート（バリデーションなし）
+Route::post('/profile/first-time-setup', [ExhibitionController::class, 'processFirstTimeProfile'])->name('process_first_time');
+
+// 2回目以降のプロフィール更新用ルート（バリデーションあり）
+Route::put('/profile/update', [ExhibitionController::class, 'profile_update'])->name('profile.update');
