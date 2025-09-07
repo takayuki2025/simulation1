@@ -168,3 +168,50 @@ label {
 .error {
     color: red;
 }
+
+
+
+
+
+
+
+
+
+/* 1. コンテナを Flexbox にする */
+.category-buttons-container {
+    position: relative;
+    left: 250px;
+    display: flex;
+    /* Flexbox を有効にする */
+    flex-wrap: wrap;
+    /* ボタンが多すぎるときに次の行へ折り返す */
+    gap: 8px;
+    /* ボタン同士の間に隙間を空ける */
+    /* 必要に応じて中央寄せなどを追加 */
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. チェックボックス本体を非表示にする */
+.category-checkbox-input {
+    display: none;
+}
+
+/* 3. ラベルをボタンのように装飾する */
+.category-checkbox-label {
+    /* これまでのスタイルを維持 */
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 9999px;
+    cursor: pointer;
+    background-color: #f7f7f7;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* 4. チェックされたときのスタイル */
+.category-checkbox-input:checked+.category-checkbox-label {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}

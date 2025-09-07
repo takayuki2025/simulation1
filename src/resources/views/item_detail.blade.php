@@ -59,8 +59,22 @@
             <h3>{{ $item->explain }}</h3>
         </div>
         <div class="item_detail_category">
-            <h3>カテゴリー　</h3>
-                <h3>{{ $item->category }}</h3>
+            <!-- <h3>カテゴリー　</h3> -->
+
+<div>
+    <h3>カテゴリー</h3>
+    @if ($item->category)
+        <ul class="category_views">
+
+            @foreach ($item->category as $category)
+                <li class="category_mark">{{ $category }}</li>
+            @endforeach
+
+        </ul>
+    @else
+        <p>カテゴリーは登録されていません。</p>
+    @endif
+</div>
         </div>
         <div class="item_detail_condition">
             <h3>商品の状態　</h3>

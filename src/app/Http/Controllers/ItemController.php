@@ -395,8 +395,10 @@ class ItemController extends Controller
 
         public function thanks_sell_create(ExhibitionRequest $request)
     {
-
+// dd($request);
             $item = $request->only(['name','price','brand','explain','condition','category','item_image']);
+
+//  $selectedCategories = $request->input('category');
 
             $item['user_id'] = auth()->id();
 
@@ -405,6 +407,9 @@ class ItemController extends Controller
             $item['remain'] = 1;
             // --- ここまで追加 ---
 
+                    // 4. カテゴリーデータを $item 配列に追加
+        // categoriesというキーで、選択されたカテゴリーを代入
+        // $item['category'] = $selectedCategories;
 
 
             Item::create($item);
