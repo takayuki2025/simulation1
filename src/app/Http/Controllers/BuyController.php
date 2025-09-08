@@ -24,7 +24,10 @@ class BuyController extends Controller
         if ($request->payment === 'カード支払い') {
             // Stripe APIキーを設定
             // 環境変数からキーを取得することが推奨されます
+
             Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+
 
             try {
                 // PaymentIntentを作成し、クライアントシークレットを返す
