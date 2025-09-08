@@ -29,6 +29,8 @@ class BuyController extends Controller
 
 
 
+
+
             try {
                 // PaymentIntentを作成し、クライアントシークレットを返す
                 $paymentIntent = PaymentIntent::create([
