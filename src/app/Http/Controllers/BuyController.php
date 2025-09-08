@@ -25,8 +25,8 @@ class BuyController extends Controller
             // Stripe APIキーを設定
             // 環境変数からキーを取得することが推奨されます
 
-            Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+            
 
 
             try {
