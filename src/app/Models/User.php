@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,11 +22,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_image',
         'post_number',
         'address',
+        'address_country',
         'building',
+        'stripe_id',
         'first_time_access',
-        'user_image'
     ];
 
     /**
@@ -36,6 +39,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
     ];
 
     /**
@@ -47,14 +52,32 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Stripeに渡す顧客情報をカスタマイズします。
+     * このメソッドを上書きすることで、Stripeに送信する情報を追加できます。
+     *
+     * @return array
+     */
+    public function toStripeCustomerArray()
+    {
+        // データベースから住所データを取得し、trim()で空白文字を削除します
+        $address = array_filter([
+            'country' => trim($this->address_country ?? ''),
+            'line1' => trim($this->address ?? ''),
+            'postal_code' => trim($this->post_number ?? ''),
+        ]);
 
+        // 住所データが空でなければ、Stripeに送信する配列に含めます。
+        $customer = array_filter([
+            'name' => $this->name,
+            'email' => $this->email,
+        ]);
 
+        // $addressが空ではないことを確認してから追加します
+        if (!empty($address)) {
+            $customer['address'] = $address;
+        }
 
-    public function articles() {
-        return $this->hasMany(Item::class);
-}
-
-    public function followers() {
-        return $this->hasMany(Good::class);
-}
+        return $customer;
+    }
 }

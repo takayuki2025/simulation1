@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 
 
+use App\Http\Controllers\ExhibitionController;
+use App\Http\Controllers\BuyController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,12 +62,20 @@ Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name
 
 
 
+// 購入処理のルートを正しく修正
+Route::post('/purchase/create', [BuyController::class, 'create'])->name('buy_create');
+Route::get('/thanks_buy', [BuyController::class, 'thanks_buy_show'])->name('thanks_buy');
 
 
-Route::get('/profile/first-time-setup', [ExhibitionController::class, 'showFirstTimeForm'])->name('first_time_profile');
+// Stripe決済ページへの新しいルート
+Route::get('/stripe_payment/{item_id}', [BuyController::class, 'showStripePaymentForm'])->name('stripe_payment');
 
-// 初回フォーム送信用のルート（バリデーションなし）
-Route::post('/profile/first-time-setup', [ExhibitionController::class, 'processFirstTimeProfile'])->name('process_first_time');
 
-// 2回目以降のプロフィール更新用ルート（バリデーションあり）
-Route::put('/profile/update', [ExhibitionController::class, 'profile_update'])->name('profile.update');
+
+// Route::get('/profile/first-time-setup', [ExhibitionController::class, 'showFirstTimeForm'])->name('first_time_profile');
+
+// // 初回フォーム送信用のルート（バリデーションなし）
+// Route::post('/profile/first-time-setup', [ExhibitionController::class, 'processFirstTimeProfile'])->name('process_first_time');
+
+// // 2回目以降のプロフィール更新用ルート（バリデーションあり）
+// Route::put('/profile/update', [ExhibitionController::class, 'profile_update'])->name('profile.update');
