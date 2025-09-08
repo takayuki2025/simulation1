@@ -26,7 +26,7 @@ class BuyController extends Controller
             // 環境変数からキーを取得することが推奨されます
 
             Stripe::setApiKey(env('STRIPE_SECRET'));
-            
+
 
 
             try {
