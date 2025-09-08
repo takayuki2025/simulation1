@@ -331,7 +331,7 @@ class ItemController extends Controller
             }
 
         // フラグをtrueに更新して、初回アクセス済みとマーク
-        $user->update(['first_time_access' => true]);
+        $user->update(['first_time_access' => 1]);
 
         // ユーザーデータをビューに渡して表示
         return view('profile_edit', compact('user','items'));
@@ -452,12 +452,6 @@ class ItemController extends Controller
         // 変更をデータベースに保存
         $item->save();
         // --- ここまで追加 ---
-
-
-
-
-
-
 
 
         return redirect('/')->with('success', '商品を購入しました。');
