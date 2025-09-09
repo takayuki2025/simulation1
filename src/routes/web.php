@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
-
-
 use App\Http\Controllers\ExhibitionController;
 use App\Http\Controllers\BuyController;
 
@@ -29,11 +27,17 @@ Route::get('/item/search', [ItemController::class, 'scour']);
 
 Route::Patch('/', [ItemController::class, 'profile_update']);
 
+
+
+
+
+
 Route::get('/mypage/profile', [ItemController::class, 'showOneTimePage'])
     ->middleware(['auth'])
     ->name('profile_edit');
 
-Route::post('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
+// Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
+Route::get('/mypage/profile/after', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit2');
 
 
 
@@ -54,7 +58,13 @@ Route::post('/upload', [ItemController::class, 'item_image_upload']);
 Route::match(['get','post'],'/upload2', [ItemController::class, 'user_image_upload']);
 
 Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
+
+
+
+
 Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('buy_create');
+Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('thanks_buy_create');
+
 
 Route::post('/comment_read', [ItemController::class, 'comment_create'])->name('comment_create');
 
@@ -63,12 +73,13 @@ Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name
 
 
 // 購入処理のルートを正しく修正
-Route::post('/purchase/create', [BuyController::class, 'create'])->name('buy_create');
+Route::post('/purchase/create', [BuyController::class, 'create'])->name('buy_create_stripe');
 Route::get('/thanks_buy', [BuyController::class, 'thanks_buy_show'])->name('thanks_buy');
 
 
 // Stripe決済ページへの新しいルート
 Route::get('/stripe_payment/{item_id}', [BuyController::class, 'showStripePaymentForm'])->name('stripe_payment');
+Route::get('/stripe_success', [ItemController::class, 'stripeSuccess'])->name('stripe_success');
 
 
 

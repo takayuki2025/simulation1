@@ -20,42 +20,59 @@ class BuyController extends Controller
      */
     public function create(Request $request)
     {
-        // 支払い方法がクレジットカードの場合の処理
-        if ($request->payment === 'カード支払い') {
-            // Stripe APIキーを設定
-            // 環境変数からキーを取得することが推奨されます
+        // 支払い方法を取得
+        $paymentMethod = $request->input('payment');
+        $itemId = $request->input('item_id');
+        $item = Item::findOrFail($itemId);
+        $address = $request->input('address');
 
-            Stripe::setApiKey(env('STRIPE_SECRET'));
+        // 価格を整数に変換
+        $priceInYen = (int) $item->price;
 
+        // 価格がStripeの最小支払い額(50円)未満でないかチェック
+        if ($priceInYen < 50) {
+            return response()->json(['message' => 'お支払い金額は¥50以上である必要があります。'], 400);
+        }
 
-
-
-
-            try {
-                // PaymentIntentを作成し、クライアントシークレットを返す
-                $paymentIntent = PaymentIntent::create([
-                    'amount' => Item::findOrFail($request->item_id)->price,
-                    'currency' => 'jpy',
-                    'payment_method' => $request->payment_method_id,
-                ]);
-
-                // 成功したクライアントシークレットをフロントエンドに返す
-                return response()->json(['client_secret' => $paymentIntent->client_secret]);
-
-            } catch (\Exception $e) {
-                // 例外処理
-                return response()->json(['message' => 'サーバー側でエラーが発生しました。' . $e->getMessage()], 500);
-            }
+        // バリデーションチェック
+        if ($item->remain < 1) {
+            return response()->json(['message' => 'この商品は在庫がありません。'], 400);
         }
         
-        // その他の支払い方法（例: コンビニ払い）の処理
-        if ($request->payment === 'コンビニ払い') {
-            $this->handleSuccessfulPayment($request);
-            return redirect()->route('thanks_buy')->with('success', '商品を購入しました。');
+        if (empty($address)) {
+            return response()->json(['message' => '配送先住所が入力されていません。'], 400);
         }
+        
+        // Stripe決済の場合の処理
+        try {
+            Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
-        // 支払い方法が選択されていない場合の処理
-        return redirect()->back()->withErrors(['payment' => '支払い方法を選択してください。']);
+            $paymentIntent = PaymentIntent::create([
+                'amount' => $priceInYen, // 整数に変換した価格を使用
+                'currency' => 'jpy',
+                'payment_method' => $request->input('payment_method_id'),
+                'confirmation_method' => 'manual',
+                'confirm' => true,
+            ]);
+
+            // 決済成功時にデータベースに購入情報を保存
+            OrderHistory::create([
+                'payment' => 'カード支払い',
+                'user_id' => Auth::id(),
+                'item_id' => $itemId,
+                'address' => $request->input('address') // 配送先情報を保存
+            ]);
+
+            // 在庫を減らす
+            $item->remain = $item->remain - 1;
+            $item->save();
+
+            return response()->json(['success' => true]);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => '決済エラー: ' . $e->getMessage()], 500);
+        }
+    
     }
 
     /**

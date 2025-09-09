@@ -26,32 +26,33 @@
                 <h2>¥{{ $item->price}}</h2>
             </div>
             <div class="item_detail_icon">
-
-                    <p>いいね</p>
-                <form action="{{ route('item.favorite', ['item' => $item->id]) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="favorite_button">
-                        <span class="heart_icon">
-                            @if ($isFavorited)
-                                &#x2665; <!-- いいね済みハート -->
-                            @else
-                                &#x2661; <!-- いいねしていないハート -->
-                            @endif
-                        </span>
-                    </button>
+                <p>いいね</p>
+                @if(Auth::check() && Auth::id() != $item->user_id)
+                    <form action="{{ route('item.favorite', ['item' => $item->id]) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="favorite_button">
+                            <span class="heart_icon">
+                                @if ($isFavorited)
+                                    &#x2665; <!-- いいね済みハート -->
+                                @else
+                                    &#x2661; <!-- いいねしていないハート -->
+                                @endif
+                            </span>
+                        </button>
                     <span class="favorites_count">{{ $favoritesCount }}</span>
-                </form>
-
-
-
-
-
-                    <p>コメントマーク</p>
+                    </form>
+                @endif
+                @if(Auth::check() && Auth::id() == $item->user_id)
+                    <span class="favorites_count">{{ $favoritesCount }}</span>
+                @endif
+                <p>コメントマーク</p>
             </div>
             <div class="item_detail_form">
         <form action="{{ route('item_buy', ['item_id' => $item->id]) }}" method="get">
             @csrf
-            <input type="submit" value="購入手続きへ" class="info_submit">
+            @if(Auth::check() && Auth::id() != $item->user_id)
+                <input type="submit" value="購入手続きへ" class="info_submit" @if ($item->remain < 1) disabled style="opacity: 0.5; cursor: not-allowed;" @endif>
+            @endif
         </form>
         </div>
         <div class="item_detail_explain">
@@ -64,12 +65,17 @@
 <div>
     <h3>カテゴリー</h3>
     @if ($item->category)
+        @php
+            $categories = is_string($item->category) ? json_decode($item->category, true) : $item->category;
+            // json_decodeが失敗した場合に備えて、$categoriesが配列であることを確認する
+            if (!is_array($categories)) {
+                $categories = [];
+            }
+        @endphp
         <ul class="category_views">
-
-            @foreach ($item->category as $category)
+            @foreach ($categories as $category)
                 <li class="category_mark">{{ $category }}</li>
             @endforeach
-
         </ul>
     @else
         <p>カテゴリーは登録されていません。</p>
@@ -119,5 +125,3 @@
     </div>
 
 @endsection
-
-

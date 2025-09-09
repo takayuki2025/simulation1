@@ -47,3 +47,14 @@
 a:hover {
     color: #ff0600;
 }
+
+.sold_view {
+    display: flex;
+}
+
+.sold_view1 {
+    position: relative;
+    left: 20px;
+    font-size: 14px;
+    color: rgb(250, 103, 77)
+}

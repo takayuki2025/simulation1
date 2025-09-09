@@ -25,11 +25,13 @@ class ExhibitionRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:100',
             'explain' => 'required|max:255',
             'condition' => ['required'],
+                // この2つのルールを追加します
             'category' => ['required', 'array'],
-            // 'item_image' => 'required|mimes:jpeg,png' ,
+            // 'category.*' => ['string'],
+            'item_image' => 'required',
             ];
     }
         public function messages()
@@ -39,10 +41,12 @@ class ExhibitionRequest extends FormRequest
             'name.max' => '名前を255文字以下で入力してください。',
             'price.required' => '金額を入力してください。',
             'price.numeric' => '数値で入力してください。',
+            'price.min' => '１００円以上の金額で入力してください。',
             'explain.required' => '商品説明を入力してください。',
             'explain.max' => '商品説明を２５５文字以内で入力してください。',
             'condition.required' => '商品状態を選択してください。',
             'category.required' => 'カテゴリーを選択してください。',
+            'category.*.string' => 'カテゴリーを選択してください。',
             'item_image.required' => '商品画像ファイルをアップロードしてください。',
             // 'item_image.mimes' => '商品画像ファイルは.jpegまたは.png形式でアップロードしてください!!!',
         ];

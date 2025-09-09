@@ -69,6 +69,7 @@
                                     <!-- <label>カテゴリーを選択してください:</label> -->
 <div class="category-buttons-container">
 
+<!-- <input type="hidden" name="category[]" value=""> -->
     <!-- ユニークなIDとラベル -->
     <input type="checkbox" id="cat1" name="category[]" value="ファッション" class="category-checkbox-input">
     <label for="cat1" class="category-checkbox-label">ファッション</label>
@@ -111,8 +112,12 @@
 
     <input type="checkbox" id="cat14" name="category[]" value="キッズ:ベビー" class="category-checkbox-input">
     <label for="cat14" class="category-checkbox-label">キッズ:ベビー</label>
-</div>
 
+                     
+</div>
+   @error('category')
+                            <div class="error">{{ $message }}</div>
+                        @enderror
 
                         <br>
                     </div>
@@ -158,7 +163,10 @@
 
                     <div class="sell_title2_4">
                         <label>販売価格</label>
+                        <div class="test">
+                        <span class="currency-symbol">¥</span>
                         <input type="text" name="price" class="sell_item_form" value="">
+                </div>
                                 @error('price')
                                     <div class="error">{{ $message }}</div>
                                 @enderror

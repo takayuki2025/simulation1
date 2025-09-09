@@ -169,11 +169,13 @@ label {
     color: red;
 }
 
+.test {
+    display: flex;
+}
 
-
-
-
-
+.currency-symbol {
+    font-size: 30px;
+}
 
 
 

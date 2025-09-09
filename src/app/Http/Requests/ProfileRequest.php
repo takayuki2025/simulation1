@@ -24,7 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
+            'name' => 'required|max:20',
             'post_number' => ['required'],
             'address' => ['required'],
         ];
@@ -36,11 +36,11 @@ class ProfileRequest extends FormRequest
         return [
             'name.required' => '名前を入力してください。',
             'name.string' => '名前を文字列で入力してください。',
-            'name.max' => '名前を255文字以下で入力してください。',
+            'name.max' => '名前は20文字以内で入力してください。',
             'post_number.required' => '郵便番号を入力してください。',
             'address.required' => '住所を入力してください。',
             'user_image.mimes' => '画像ファイルは.jpegまたは.png形式でアップロードしてください。',
         ];
     }
-    protected $redirectRoute = 'profile';
+    protected $redirectRoute = 'profile_edit2';
 }

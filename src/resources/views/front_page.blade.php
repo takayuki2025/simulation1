@@ -23,7 +23,12 @@
                     <a href="/item/{{ $item->id }}">
                         <img src="{{ asset($item->item_image) }}" alt="商品写真">
                     </a>
-                        <label>{{ $item->name }}</label>
+                    <div class="sold_view">
+                        <p>{{ $item->name }}</p>
+                                @if($item->remain === 0)
+                                    <p class="sold_view1">{{ $item->price }}</p>
+                                @endif
+                    </div>
                 </div>
             @endforeach
         </div>

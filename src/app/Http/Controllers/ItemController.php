@@ -19,6 +19,9 @@ use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ExhibitionRequest;
 use App\Http\Requests\PurchaseRequest;
 
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+
 class ItemController extends Controller
 {
     public function index(Request $request)
@@ -36,8 +39,8 @@ class ItemController extends Controller
                 return $good->item;
             });
         } else {
-            // 'all'タブ（またはデフォルト）の場合、全商品を取得
-            $items = Item::all();
+            // 'all'タブ（またはデフォルト）の場合、出品者自身の商品を除いて全商品を取得
+            $items = Item::where('user_id', '!=', Auth::id())->get();
         }
 
 
@@ -128,32 +131,27 @@ class ItemController extends Controller
 
 
 
-        public function profile_show(Request $request)
+    public function profile_show(Request $request)
     {
-
-        $page = $request->input('page');
-
-        $userId = Auth::id();
-        $items = collect();
         $user = Auth::user();
+
         // ログイン状態を確認
-        if (!$userId) {
-        return redirect()->route('login')->with('error', 'ログインしてください。');
-    }
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'ログインしてください。');
+        }
 
-                // pageの値に応じてデータを取得
-            if ($page === 'sell') {
-                $items = Item::where('user_id', $userId)->get();
-            } elseif ($page === 'buy') {
-                $items = OrderHistory::where('user_id', $userId)->with('item')->get();
-            }else {
-                // デフォルトの表示（出品した商品）
-                $items = Item::where('user_id', $user->id)->get();
-                // $page もデフォルト値を設定しておくと、ビューで扱いやすい
-                $page = 'sell';
-            }
+        // URLのGETパラメータ'page'を取得。デフォルトは'sell'
+        $page = $request->input('page', 'sell');
+        $items = collect();
 
-            return view('profile',compact('user','items','page'));
+        // pageの値に応じてデータを取得
+        if ($page === 'sell') {
+            $items = Item::where('user_id', $user->id)->get();
+        } elseif ($page === 'buy') {
+            $items = OrderHistory::where('user_id', $user->id)->with('item')->get();
+        }
+
+        return view('profile', compact('user', 'items', 'page'));
     }
 
 
@@ -395,66 +393,113 @@ class ItemController extends Controller
 
         public function thanks_sell_create(ExhibitionRequest $request)
     {
-// dd($request);
-            $item = $request->only(['name','price','brand','explain','condition','category','item_image']);
+        // バリデーションはExhibitionRequestが自動的に処理します。
+        
+        // リクエストから必要なデータを取得
+        $item = $request->only([
+            'name',
+            'price',
+            'brand',
+            'explain',
+            'condition',
+            'item_image',
+        ]);
+        
+        // カテゴリーデータを明示的に取得し、JSON形式に変換
+        $selectedCategories = $request->input('category');
+        $item['category'] = json_encode($selectedCategories);
 
-//  $selectedCategories = $request->input('category');
+        $item['user_id'] = auth()->id();
+        $item['remain'] = 1;
 
-            $item['user_id'] = auth()->id();
+        Item::create($item);
 
-            // --- ここから追加 ---
-            // remainカラムに任意の値を指定（例：1）
-            $item['remain'] = 1;
-            // --- ここまで追加 ---
-
-                    // 4. カテゴリーデータを $item 配列に追加
-        // categoriesというキーで、選択されたカテゴリーを代入
-        // $item['category'] = $selectedCategories;
-
-
-            Item::create($item);
-
+        return view('thanks_sell');
         return redirect('/')->with('success', '商品を出品しました。');
     }
 
+    public function thanks_buy_create(Request $request)
+    {
+        $item = Item::find($request->item_id);
 
-        public function thanks_buy_create(PurchaseRequest $request)
-{
-            // リクエストから必要なデータを直接取得する
-            $paymentMethod = $request->input('payment');
-            $itemId = $request->input('item_id');
+        $rules = [
+            'payment' => 'required',
+            'address' => 'required',
+        ];
+        $messages = [
+            'payment.required' => '支払い方法を選択してください。',
+            'address.required' => '配送先住所が入力されていません。',
+        ];
 
-            // ユーザーIDも取得
-            $userId = auth()->id();
+        $validator = Validator::make($request->all(), $rules, $messages);
 
-            // データベースに挿入するデータを整理
-            $order = [
-                'payment' => $paymentMethod,
-                'user_id' => $userId,
-                'item_id' => $itemId,
-            ];
-
-        OrderHistory::create($order);
-
-                    // --- ここから追加 ---
-        // 購入された商品を取得
-        $item = Item::findOrFail($itemId);
-
-        // remainカラムを1減らす（デクリメント）
-        // ゼロを下回らないように保護
-        if ($item->remain > 0) {
-            $item->remain = $item->remain - 1;
-        } else {
-            // 在庫がない場合の処理（例：エラーメッセージを表示）
-            return redirect('/')->with('error', 'この商品は在庫がありません。');
+        if ($item->remain < 1) {
+            $validator->errors()->add('item_id', 'この商品は在庫がありません。');
         }
 
-        // 変更をデータベースに保存
-        $item->save();
-        // --- ここまで追加 ---
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
+        if ($request->input('payment') === 'コンビニ払い') {
+            OrderHistory::create([
+                'user_id' => Auth::id(),
+                'item_id' => $item->id,
+                'status' => '購入済み',
+                'address' => $request->address,
+                'payment' => 'コンビニ払い'
+            ]);
 
-        return redirect('/')->with('success', '商品を購入しました。');
+            $item->decrement('remain');
+
+            return redirect()->route('thanks_buy');
+
+        } elseif ($request->input('payment') === 'カード支払い') {
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+            $session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'product_data' => [
+                            'name' => $item->name,
+                        ],
+                        'unit_amount' => $item->price,
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => route('stripe_success', [
+                    'item_id' => $item->id, 
+                    'address' => $request->address, 
+                    'payment' => 'カード支払い'
+                ]),
+                'cancel_url' => route('item_buy', ['item_id' => $item->id]),
+            ]);
+
+            return redirect($session->url, 303);
+        }
+    }
+    
+    /**
+     * Stripe決済成功後の処理
+     */
+    public function stripeSuccess(Request $request)
+    {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        OrderHistory::create([
+            'user_id' => Auth::id(),
+            'item_id' => $request->item_id,
+            'status' => '購入済み',
+            'address' => $request->address,
+            'payment' => 'カード支払い'
+        ]);
+
+        $item = Item::find($request->item_id);
+        $item->decrement('remain');
+
+        return redirect()->route('thanks_buy');
     }
 
 

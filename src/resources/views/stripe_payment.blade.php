@@ -53,32 +53,41 @@
             </div>
         </div>
 
-        <div id="loading-spinner" class="hidden text-center">
-            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-            <p class="mt-2 text-gray-600">決済処理中...</p>
-        </div>
-
-        <!-- 決済フォーム -->
-        <form id="payment-form" class="space-y-6" action="{{ route('buy_create') }}" method="POST">
-            @csrf
-            <input type="hidden" name="item_id" value="{{ $item->id }}">
-            <input type="hidden" name="address" value="{{ $user->address }}">
-            <input type="hidden" name="payment_method_id" id="payment-method-id">
-
-            <div>
-                <label for="card-element" class="block text-sm font-medium text-gray-700 mb-2">
-                    クレジットカード情報
-                </label>
-                <div id="card-element" class="px-4 py-3 bg-gray-50 rounded-lg">
-                    <!-- Stripe Elements がここにカードフォームを挿入します -->
-                </div>
-                <div id="card-errors" role="alert" class="text-red-500 text-sm mt-2"></div>
+        @if ($item->price < 50)
+            <!-- 価格が50円未満の場合に表示するメッセージ -->
+            <div class="text-center bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert">
+                <p class="font-bold">購入できません</p>
+                <p>Stripeの規定により、お支払い金額は¥50以上である必要があります。恐れ入りますが、別の商品をご検討ください。</p>
+            </div>
+        @else
+            <!-- 価格が50円以上の場合は既存のフォームを表示 -->
+            <div id="loading-spinner" class="hidden text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+                <p class="mt-2 text-gray-600">決済処理中...</p>
             </div>
 
-            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" id="submit-button">
-                購入を確定する
-            </button>
-        </form>
+            <!-- 決済フォーム -->
+            <form id="payment-form" class="space-y-6" action="{{ route('buy_create_stripe') }}" method="POST">
+                @csrf
+                <input type="hidden" name="item_id" value="{{ $item->id }}">
+                <input type="hidden" name="address" value="{{ session('address') }}">
+                <input type="hidden" name="payment_method_id" id="payment-method-id">
+
+                <div>
+                    <label for="card-element" class="block text-sm font-medium text-gray-700 mb-2">
+                        クレジットカード情報
+                    </label>
+                    <div id="card-element" class="px-4 py-3 bg-gray-50 rounded-lg">
+                        <!-- Stripe Elements がここにカードフォームを挿入します -->
+                    </div>
+                    <div id="card-errors" role="alert" class="text-red-500 text-sm mt-2"></div>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors" id="submit-button">
+                    購入を確定する
+                </button>
+            </form>
+        @endif
     </div>
 
     <script type="text/javascript">
@@ -91,84 +100,87 @@
         const loadingSpinner = document.getElementById('loading-spinner');
         const cardErrors = document.getElementById('card-errors');
         
-        cardElement.mount('#card-element');
+        // 価格が50円未満の場合はカードフォームをマウントしない
+        if (form) {
+            cardElement.mount('#card-element');
 
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            submitButton.disabled = true;
-            loadingSpinner.classList.remove('hidden');
-            cardErrors.textContent = '';
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                submitButton.disabled = true;
+                loadingSpinner.classList.remove('hidden');
+                cardErrors.textContent = '';
 
-            const { paymentMethod, error: createError } = await stripe.createPaymentMethod({
-                type: 'card',
-                card: cardElement,
-            });
-
-            if (createError) {
-                cardErrors.textContent = createError.message;
-                submitButton.disabled = false;
-                loadingSpinner.classList.add('hidden');
-                return;
-            }
-
-            try {
-                const response = await fetch('{{ route('buy_create') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        payment: 'カード支払い',
-                        payment_method_id: paymentMethod.id,
-                        item_id: document.querySelector('input[name="item_id"]').value,
-                        address: document.querySelector('input[name="address"]').value,
-                    }),
+                const { paymentMethod, error: createError } = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement,
                 });
 
-                const result = await response.json();
-                
-                if (!response.ok) {
-                    cardErrors.textContent = result.message || '予期せぬエラーが発生しました。';
-                    loadingSpinner.classList.add('hidden');
+                if (createError) {
+                    cardErrors.textContent = createError.message;
                     submitButton.disabled = false;
+                    loadingSpinner.classList.add('hidden');
                     return;
                 }
 
-                if (result.client_secret) {
-                    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
-                        result.client_secret, {
-                            payment_method: {
-                                card: cardElement
-                            }
-                        }
-                    );
+                try {
+                    const response = await fetch('{{ route('buy_create_stripe') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            payment: 'カード支払い',
+                            payment_method_id: paymentMethod.id,
+                            item_id: document.querySelector('input[name="item_id"]').value,
+                            address: document.querySelector('input[name="address"]').value,
+                        }),
+                    });
+
+                    const result = await response.json();
                     
-                    if (confirmError) {
-                        cardErrors.textContent = confirmError.message;
+                    if (!response.ok) {
+                        cardErrors.textContent = result.message || '予期せぬエラーが発生しました。';
                         loadingSpinner.classList.add('hidden');
                         submitButton.disabled = false;
-                    } else if (paymentIntent.status === 'succeeded') {
+                        return;
+                    }
+
+                    if (result.success) {
                         window.location.href = '{{ route('thanks_buy') }}';
+                    } else if (result.client_secret) {
+                        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+                            result.client_secret, {
+                                payment_method: {
+                                    card: cardElement
+                                }
+                            }
+                        );
+                        
+                        if (confirmError) {
+                            cardErrors.textContent = confirmError.message;
+                            loadingSpinner.classList.add('hidden');
+                            submitButton.disabled = false;
+                        } else if (paymentIntent.status === 'succeeded') {
+                            window.location.href = '{{ route('thanks_buy') }}';
+                        } else {
+                            cardErrors.textContent = '決済処理中に予期せぬ状態になりました。';
+                            loadingSpinner.classList.add('hidden');
+                            submitButton.disabled = false;
+                        }
                     } else {
-                        cardErrors.textContent = '決済処理中に予期せぬ状態になりました。';
+                        cardErrors.textContent = result.message || '予期せぬエラーが発生しました。';
                         loadingSpinner.classList.add('hidden');
                         submitButton.disabled = false;
                     }
-                } else if (result.redirect_url) {
-                    window.location.href = result.redirect_url;
-                } else {
-                    cardErrors.textContent = result.message || '予期せぬエラーが発生しました。';
+                } catch (fetchError) {
+                    console.error('Error:', fetchError);
+                    cardErrors.textContent = '通信中にエラーが発生しました。サーバーまたはネットワークを確認してください。';
                     loadingSpinner.classList.add('hidden');
                     submitButton.disabled = false;
                 }
-            } catch (fetchError) {
-                console.error('Error:', fetchError);
-                cardErrors.textContent = '通信中にエラーが発生しました。サーバーまたはネットワークを確認してください。';
-                loadingSpinner.classList.add('hidden');
-                submitButton.disabled = false;
-            }
-        });
+            });
+        }
     </script>
 </body>
 </html>
