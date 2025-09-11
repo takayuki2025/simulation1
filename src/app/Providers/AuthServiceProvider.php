@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
+
+use Laravel\Fortify\Fortify;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // Fortifyにメール認証ページのビューを登録 (古いバージョンに対応)
+        Fortify::verifyEmailView('auth.verify-email');
     }
 }

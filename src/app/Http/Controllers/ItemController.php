@@ -22,6 +22,11 @@ use App\Http\Requests\PurchaseRequest;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 
+
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+    // use VerifiesEmails;
+
 class ItemController extends Controller
 {
     public function index(Request $request)
@@ -282,57 +287,116 @@ class ItemController extends Controller
     }
 
 
+
+
+
+
+    public function profile_update(ProfileRequest $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if (!$user) {
+                // セキュリティ上のチェック
+                return redirect()->route('login')->with('error', 'ログインしてください。');
+            }
+
+            // first_time_accessをtrueに設定するための更新
+            $updateData = $request->only('name', 'post_number', 'address', 'building');
+            $updateData['first_time_access'] = true;
+
+            $user->user_image = $request->input('user_image');
+            $user->update($updateData);
+
+            // update()の後の$userオブジェクトは、更新された最新の状態を反映しています。
+        }
+
+        $items = Item::all();
+
+        return view('front_page', compact('items'));
+    }
+
+
+    /**
+     * showOneTimePage メソッド:
+     * 初回アクセスとメール認証のロジックを処理します。
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    //  */
+    // public function showOneTimePage(Request $request)
+
+    // {
+    //     $user = Auth::user();
+
+    //     // ユーザーがログインしていない場合はログインページにリダイレクトします。
+    //     if (!$user) {
+    //         return redirect()->route('login');
+    //     }
+
+    //     // メールが認証済みの場合
+    //     if ($user->hasVerifiedEmail()) {
+    //         // first_time_accessフラグがfalse（未設定）の場合
+    //         if (!$user->first_time_access) {
+    //             dd($request);
+    //             // 初回アクセス用のプロファイル編集ページを表示します。
+    //             return view('profile_edit', compact('user'));
+    //         }
+
+    //         // メールが既に認証済みで、初回アクセスフラグがtrueの場合はfront_pageへ
+    //         return redirect()->route('front_page');
+    //     }
+
+    //     // メールが未認証の場合は、メール確認ページを表示します。
+    //     return view('email_check', compact('user'));
+    // }
+
+    // VerifiesEmailsトレイトをインポート
+    // use VerifiesEmails;
+
+
+    /**
+     * コントローラーインスタンスの生成とミドルウェア設定
+     *
+     * @return void
+     */
+    // public function __construct()
+    // {
+    //     // ルーティングでミドルウェアが指定されていますが、
+    //     // コントローラー側で一括設定することも可能です
+    //     $this->middleware('auth');
+    // }
+
+    //  * '/onetime'へのアクセスを処理し、認証状態に応じてリダイレクトする
+    //  */
+    public function handleOnetimeRedirect(): RedirectResponse
+    {
+        // ユーザーが認証済みかどうかを確認
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            // メール認証が完了しているか確認
+            if ($user->hasVerifiedEmail()) {
+                // メール認証済みの場合、'front_page'ルートへリダイレクト
+                return redirect()->route('front_page');
+            }
+
+            // ユーザーは認証済みだが、メールが未認証の場合
+            // Fortifyの認証メール再送信ページへリダイレクト
+            return redirect()->route('verification.notice');
+        }
+
+        // ユーザーが未認証の場合、Fortifyのログインページへリダイレクト
+        return redirect()->route('login');
+    }
+
         public function profile_revise(Request $request)
     {
+        // dd($request);
         if (Auth::check()) {
         $user = Auth::user();
         }
         return view('profile_edit',compact('user'));
-    }
-
-
-
-        public function profile_update(ProfileRequest $request)
-    {
-            if (Auth::check()) {
-                $user = Auth::user();
-                    // `$user`変数が存在しない場合（ログインしていない場合）のエラーハンドリング
-                    if (!$user) {
-                return redirect()->route('login')->with('error', 'ログインしてください。');
-                }
-
-            $user->user_image = $request->input('user_image');
-            $user->update($request->only('name', 'post_number', 'address', 'building',));
-            }
-
-            $items = Item::all();
-
-        return view('front_page',compact('items'));
-    }
-
-
-        public function showOneTimePage()
-    {
-            // ユーザーがログインしているかを確認します
-            if (!Auth::check()) {
-            // ログインしていない場合は、ログインページにリダイレクト
-        return redirect()->route('login');
-        }
-            $items = Item::all();
-            // ユーザーが認証済みであることが分かったので、安全にユーザー情報を取得できます
-            $user = Auth::user();
-
-            // ユーザーがすでに一度アクセス済みかチェック
-            if ($user->first_time_access) {
-            // 既にアクセス済みならホームページにリダイレクト
-            return redirect()->route('front_page');
-            }
-
-        // フラグをtrueに更新して、初回アクセス済みとマーク
-        $user->update(['first_time_access' => 1]);
-
-        // ユーザーデータをビューに渡して表示
-        return view('profile_edit', compact('user','items'));
     }
 
 

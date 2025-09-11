@@ -10,4 +10,9 @@ RUN curl -sS https://getcomposer.org/installer | php \
   && mv composer.phar /usr/local/bin/composer \
   && composer self-update
 
+RUN apt-get update \
+  && curl -sL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 -o /usr/local/bin/mhsendmail \
+  && chmod +x /usr/local/bin/mhsendmail \
+  && echo "sendmail_path = /usr/local/bin/mhsendmail --smtp-addr=mailhog:1025" > /usr/local/etc/php/conf.d/mailhog.ini
+
 WORKDIR /var/www

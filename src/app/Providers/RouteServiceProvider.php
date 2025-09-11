@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
+
+
+
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -17,7 +20,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/mypage/profile';
+    public const HOME = '/onetime';
 
     /**
      * The controller namespace for the application.

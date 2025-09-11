@@ -14,7 +14,7 @@
     @csrf
 
           <button type="button" class="upload_submit" onclick="document.getElementById('fileInput').click()">画像を選択する</button>
-              <!-- <input type="hidden" class="name_form" name="user_image" value="{{ $user['user_image'] }}"/> -->
+            
           <input type="file" name="user_image" id="fileInput" style="display: none;">
             @if (session('success'))
               <div class="alert-success2">
@@ -41,28 +41,28 @@
         @csrf
 
           <label class="label_form_1">ユーザー名</label>
-              <input type="text" class="name_form" name="name" value="{{ $user['name'] }}"/>
+              <input type="text" class="name_form" name="name" value="{{ $user->name ?? '' }}"/>
                 <div class="profile__error">
                   @error('name')
                   {{ $message }}
                   @enderror
                 </div>
               <label class="label_form_2">郵便番号</label>
-                <input type="text" class="email_form" name="post_number" value="{{ $user['post_number'] }}"/>
+                <input type="text" class="email_form" name="post_number" value="{{ $user->post_number ?? '' }}"/>
                   <div class="profile__error">
                     @error('post_number')
                     {{ $message }}
                     @enderror
                   </div>
               <label class="label_form_3">住所</label>
-                <input type="text" class="password_form" name="address" value="{{ $user['address'] }}"/>
+                <input type="text" class="password_form" name="address" value="{{ $user->address ?? '' }}"/>
                   <div class="profile__error">
                     @error('address')
                     {{ $message }}
                     @enderror
                 </div>
               <label class="label_form_4">建物名</label>
-                <input type="text" class="password_form" name="building" value="{{ $user['building'] }}"/>
+                <input type="text" class="password_form" name="building" value="{{ $user->building ?? '' }}"/>
                   <div class="profile__error">
                     @error('building')
                     {{ $message }}
@@ -72,7 +72,7 @@
                 <input type="submit" class="submit_form" value="更新する">
               </div>
 
-                <input type="hidden" name="user_image" value="{{ session('image_path2') ?? $user->user_image }}">
+                <input type="hidden" name="user_image" value="{{ session('image_path2') ?? ($user->user_image ?? '') }}">
     </form>
   </div>
 

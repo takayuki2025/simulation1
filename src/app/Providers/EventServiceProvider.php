@@ -7,6 +7,8 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
+
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -18,6 +20,13 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        \Illuminate\Auth\Events\Verified::class => [
+            \App\Listeners\RedirectAfterEmailVerified::class,
+        ],
+        Login::class => [
+            LogSuccessfulLogin::class, // この行を追加
+        ],
+
     ];
 
     /**

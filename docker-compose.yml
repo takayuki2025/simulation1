@@ -15,6 +15,7 @@ services:
     build: ./docker/php
     volumes:
       - ./src:/var/www/
+      - ./docker/php/conf.d/mailhog.ini:/usr/local/etc/php/conf.d/mailhog.ini
 
   mysql:
     image: mysql:8.3

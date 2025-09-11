@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('post_number')->nullable();
             $table->string('address')->nullable();
             $table->string('building')->nullable();
-            // $table->string('first_time_access')->nullable();
+            $table->boolean('first_time_access')->nullable()->default(false)->change();
             $table->string('user_image')->nullable();
             $table->string('address_country')->nullable();
             $table->rememberToken();
@@ -36,8 +36,11 @@ class CreateUsersTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('users');
+        // NULLを許容しない状態に戻す
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('first_time_access')->nullable(false)->default(false)->change();
+        });
     }
 }
