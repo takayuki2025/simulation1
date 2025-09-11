@@ -52,7 +52,7 @@ laravel環境構築
 - 　完了　新規ユーザ情報登録、プロフィール変更時のバリデーションがかかった時そのページにbackするようにする<br>
 - 　サーチ機能実行後マイリストに移っても継続サーチできるようにする<br>
 - 　アイテム・ユーザイメージ名をユニークにするためのイメージ名保存<br>
-- 　mailhogを使用してメール認証サービスを実装する<br><br>
+- 　完了　mailhogを使用してメール認証サービスを実装する<br><br>
 -   PHPUnitを使用してテスト作成
 - <br>
 
@@ -76,7 +76,7 @@ laravel環境構築
 
 
 # ER図<br>
-<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/0403421b-5f2b-4821-9187-6e1b8c62befc" />
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/3f3ae433-2aa9-48b5-b838-683a9b010a98" />
 
 # 使用技術<br>
   - PHP 8.1.33
@@ -89,3 +89,4 @@ laravel環境構築
   - フリマアプリトップページ： http://localhost/
   - ユーザー登録： http://localhost/register/
   - phpMyAdmin:http://localhost:8080/
+  - meilhog：http://http://localhost:8025/

@@ -3,61 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>メールアドレスを確認してください</title>
+    <title>メール認証</title>
     <style>
         body {
             font-family: sans-serif;
-            background-color: #f7fafc;
-            color: #4a5568;
+            background-color: #f3f4f6;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
+        }
+        .verification-container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .verification-container h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        .verification-container p {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        .verification-button, .resend-button {
+            width: 100%;
+            padding: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            text-decoration: none;
+            display: inline-block;
             text-align: center;
         }
-        .container {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
+        .verification-button {
+            background-color: #3b82f6;
+            color: #fff;
         }
-        .heading {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-        .message {
-            margin-bottom: 1rem;
-        }
-        .resend-form {
-            display: inline;
+        .verification-button:hover {
+            background-color: #2563eb;
         }
         .resend-button {
-            background-color: #4c51bf;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
+            background-color: #e5e7eb;
+            color: #4b5563;
+            margin-top: 1rem;
+        }
+        .resend-button:hover {
+            background-color: #d1d5db;
+        }
+        .status-message {
+            margin-top: 1rem;
+            color: #16a34a; /* Green color for success message */
+            font-weight: 500;
+        }
+        .info-message {
+            color: #374151;
+            font-weight: normal;
+        }
+        .logout-link {
+            display: block;
+            margin-top: 1.5rem;
+            color: #6b7280;
             text-decoration: none;
-            cursor: pointer;
-            border: none;
+        }
+        .logout-link:hover {
+            color: #1f2937;
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="heading">メールアドレスを確認してください</h1>
-        <p class="message">
-            新しいメールアドレス宛に、認証リンクを送信しました。メールをご確認ください。
-        </p>
-        <p class="message">
-            メールが届かない場合は、以下のボタンをクリックして再送信してください。
-        </p>
-        <form class="resend-form" method="POST" action="{{ route('verification.send') }}">
-            @csrf
-            <div>
-                <button type="submit" class="resend-button">認証メールを再送信</button>
+    <div class="verification-container">
+        <h1>メールアドレスを認証してください</h1>
+        <p>続行するには、登録したメールアドレスに送られたリンクをクリックしてください。</p>
+
+        <!-- 成功メッセージを表示 -->
+        @if (session('status') === 'verification-link-sent')
+            <div class="status-message">
+                新しい認証リンクが、あなたのメールアドレスに送信されました。
             </div>
+        @else
+            <div class="info-message">
+                メールが見つからない場合は、以下のボタンから再送を試すか、メールアプリを開いて確認してください。
+            </div>
+        @endif
+
+        <!-- 「認証はこちらから」ボタン（MailHogにリダイレクト） -->
+        <a href="http://localhost:8025" target="_blank" class="verification-button">認証はこちらから</a>
+
+        <!-- 「認証メールを再送」ボタン -->
+        <form method="POST" action="{{ route('verification.send') }}">
+            @csrf
+            <button type="submit" class="resend-button">認証メールを再送</button>
+        </form>
+
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="logout-link">ログアウト</button>
         </form>
     </div>
 </body>

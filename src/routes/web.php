@@ -73,13 +73,20 @@ Route::post('/logout', function (Request $request) {
 })->name('logout');
 
 
-    // メール認証関連のルート
-Route::get('/email/verify', [EmailVerificationController::class, 'notice'])->name('verification.notice');
+// メール認証関連のルート
+// メール認証通知ページを表示するルート
+Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
+    ->middleware('auth')
+    ->name('verification.notice');
+
+// メール認証リクエストを処理するルート
 Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
-    ->middleware(['signed'])
+    ->middleware(['auth', 'signed'])
     ->name('verification.verify');
+
+// メール認証通知を再送信するルート
 Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
-    ->middleware(['throttle:6,1'])
+    ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 // Fortifyが提供するメール認証ルートを有効化するため、
 // web.phpから以下のカスタムルート定義をすべて削除します。
