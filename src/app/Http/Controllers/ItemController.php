@@ -29,92 +29,48 @@ use Illuminate\Http\RedirectResponse;
 
 class ItemController extends Controller
 {
+    /**
+     * フロントページを表示し、検索とタブの切り替えを処理します。
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function index(Request $request)
     {
         // URLのGETパラメータ'tab'を取得。デフォルトは'all'
         $tab = $request->query('tab', 'all');
 
+        // URLのGETパラメータ'all_item_search'を取得
+        $searchQuery = $request->query('all_item_search');
+
         if ($tab === 'mylist') {
             // 'mylist'タブの場合、いいねした商品を取得
             $user = Auth::user();
             if (!$user) {
                 return redirect()->route('login')->with('error', 'ログインしてください。');
             }
+            // Goodモデルを介して関連するItemを取得
             $items = Good::where('user_id', $user->id)->with('item')->get()->map(function ($good) {
                 return $good->item;
             });
+            // 取得したコレクションを検索キーワードでフィルタリング
+            if (!empty($searchQuery)) {
+                $items = $items->filter(function ($item) use ($searchQuery) {
+                    return stripos($item->name, $searchQuery) !== false;
+                });
+            }
         } else {
             // 'all'タブ（またはデフォルト）の場合、出品者自身の商品を除いて全商品を取得
-            $items = Item::where('user_id', '!=', Auth::id())->get();
-        }
-
-
-                // --- ここから追加 ---
-        // 取得した商品コレクションをループ処理
-        $items->each(function ($item) {
-            // remainが0の場合、priceの値をsoldに設定
-            if ($item->remain == 0) {
-                $item->price = 'sold';
-            }
-        });
-        // --- ここまで追加 ---
-
-        return view('front_page',compact('items', 'tab'));
-    }
-
-
-    public function scour(Request $request)
-{
-        $item_search = $request->input('all_item_search');
-
-        $items = Item::ItemSearch($item_search)->get();
-
-
-        return view('front_page', compact('items'));
-}
-
-
-
-
-    public function mylist_scour(Request $request)
-    {
-        // URLのGETパラメータ'tab'を取得。デフォルトは'all'
-        $tab = $request->query('tab', 'all');
-        $item_search = $request->input('all_item_search');
-
-        if ($tab === 'mylist') {
-            // 'mylist'タブの場合、いいねした商品を取得
-            $user = Auth::user();
-            if (!$user) {
-                return redirect()->route('login')->with('error', 'ログインしてください。');
-            }
-
-            // いいねした商品のIDリストを取得
-            $likedItemIds = Good::where('user_id', $user->id)->pluck('item_id');
-
-            // Itemモデルから、いいねした商品のIDを検索対象として取得
-            $query = Item::whereIn('id', $likedItemIds);
-
-            // 検索キーワードがある場合、さらに絞り込み
-            if ($item_search) {
-                $query->ItemSearch($item_search);
-            }
-
-            $items = $query->get();
-
-        } else {
-            // 'all'タブの場合、全商品から検索
             $query = Item::query();
-            
-            // 検索キーワードがある場合、絞り込み
-            if ($item_search) {
-                $query->ItemSearch($item_search);
-            }
+            $query->where('user_id', '!=', Auth::id());
 
+            // 検索キーワードがあれば、クエリをフィルタリング
+            if (!empty($searchQuery)) {
+                $query->where('name', 'like', '%' . $searchQuery . '%');
+            }
             $items = $query->get();
         }
 
-                // --- ここから追加 ---
         // 取得した商品コレクションをループ処理
         $items->each(function ($item) {
             // remainが0の場合、priceの値をsoldに設定
@@ -122,11 +78,75 @@ class ItemController extends Controller
                 $item->price = 'sold';
             }
         });
-        // --- ここまで追加 ---
-
 
         return view('front_page', compact('items', 'tab'));
     }
+
+
+//     public function scour(Request $request)
+// {
+//         $item_search = $request->input('all_item_search');
+
+//         $items = Item::ItemSearch($item_search)->get();
+
+
+//         return view('front_page', compact('items'));
+// }
+
+
+
+
+//     public function mylist_scour(Request $request)
+//     {
+//         // URLのGETパラメータ'tab'を取得。デフォルトは'all'
+//         $tab = $request->query('tab', 'all');
+//         $item_search = $request->input('all_item_search');
+
+//         if ($tab === 'mylist') {
+//             // 'mylist'タブの場合、いいねした商品を取得
+//             $user = Auth::user();
+//             if (!$user) {
+//                 return redirect()->route('login')->with('error', 'ログインしてください。');
+//             }
+
+//             // いいねした商品のIDリストを取得
+//             $likedItemIds = Good::where('user_id', $user->id)->pluck('item_id');
+
+//             // Itemモデルから、いいねした商品のIDを検索対象として取得
+//             $query = Item::whereIn('id', $likedItemIds);
+
+//             // 検索キーワードがある場合、さらに絞り込み
+//             if ($item_search) {
+//                 $query->ItemSearch($item_search);
+//             }
+
+//             $items = $query->get();
+
+//         } else {
+//             // 'all'タブの場合、全商品から検索
+//             $query = Item::query();
+            
+//             // 検索キーワードがある場合、絞り込み
+//             if ($item_search) {
+//                 $query->ItemSearch($item_search);
+//             }
+
+//             $items = $query->get();
+//         }
+
+//                 // --- ここから追加 ---
+//         // 取得した商品コレクションをループ処理
+//         $items->each(function ($item) {
+//             // remainが0の場合、priceの値をsoldに設定
+//             if ($item->remain == 0) {
+//                 $item->price = 'sold';
+//             }
+//         });
+//         // --- ここまで追加 ---
+
+
+//         return view('front_page', compact('items', 'tab'));
+//     }
 
 
 

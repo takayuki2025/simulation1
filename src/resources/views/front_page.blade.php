@@ -7,13 +7,26 @@
 @section('content')
 
     <div class="main_contents">
+        @if (session('success'))
             <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+                {{ session('success') }}
+            </div>
+        @endif
 
         <div class="main_select">
-            <a href="/" class="recs">おすすめ</a>
-            <a href="/?tab=mylist" class="mylists">マイリスト</a>
+            {{-- おすすめタブのリンクを修正 --}}
+            {{-- 検索クエリが存在すればURLに付加する --}}
+            <a href="/{{ request()->query('all_item_search') ? '?all_item_search=' . request()->query('all_item_search') : '' }}" 
+               class="recs">
+                おすすめ
+            </a>
+            
+            {{-- マイリストタブのリンクを修正 --}}
+            {{-- tab=mylistと現在の検索クエリを両方付加する --}}
+            <a href="/?tab=mylist{{ request()->query('all_item_search') ? '&all_item_search=' . request()->query('all_item_search') : '' }}" 
+               class="mylists">
+                マイリスト
+            </a>
         </div>
 
 
@@ -25,19 +38,14 @@
                     </a>
                     <div class="sold_view">
                         <p>{{ $item->name }}</p>
-                                @if($item->remain === 0)
-                                    <p class="sold_view1">{{ $item->price }}</p>
-                                @endif
+                        @if($item->remain === 0)
+                            <p class="sold_view1">{{ $item->price }}</p>
+                        @endif
                     </div>
                 </div>
             @endforeach
         </div>
 
-
     </div>
-
-
-
-
 
 @endsection
