@@ -23,8 +23,14 @@
                 <p>ブランド名：{{ $item->brand }}</p>
             </div>
             <div class="item_detail_price">
-                <h2>¥{{ $item->price}}</h2>
-            </div>
+    {{-- 商品が売り切れの場合は「sold」、それ以外は価格を表示 --}}
+    @if ($item->remain < 1)
+        <h2>sold</h2>
+    @else
+        {{-- ここを修正しました --}}
+        <h2>¥{{ number_format($item->price) }}</h2>
+    @endif
+</div>
             <div class="item_detail_icon">
                 <p>いいね</p>
                 @if(Auth::check() && Auth::id() != $item->user_id)

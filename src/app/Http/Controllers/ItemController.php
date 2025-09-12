@@ -47,12 +47,14 @@ class ItemController extends Controller
             // 'mylist'タブの場合、いいねした商品を取得
             $user = Auth::user();
             if (!$user) {
-                return redirect()->route('login')->with('error', 'ログインしてください。');
+                $items = collect([]); // 未認証ユーザーの場合、空のコレクションを渡す
+            } else {
+                // Goodモデルを介して関連するItemを取得
+                $items = Good::where('user_id', $user->id)->with('item')->get()->map(function ($good) {
+                    return $good->item;
+                });
             }
-            // Goodモデルを介して関連するItemを取得
-            $items = Good::where('user_id', $user->id)->with('item')->get()->map(function ($good) {
-                return $good->item;
-            });
+            
             // 取得したコレクションを検索キーワードでフィルタリング
             if (!empty($searchQuery)) {
                 $items = $items->filter(function ($item) use ($searchQuery) {
@@ -62,7 +64,10 @@ class ItemController extends Controller
         } else {
             // 'all'タブ（またはデフォルト）の場合、出品者自身の商品を除いて全商品を取得
             $query = Item::query();
-            $query->where('user_id', '!=', Auth::id());
+            // Auth::id()がnullでないことを確認してからwhere句を適用
+            if (Auth::id()) {
+                $query->where('user_id', '!=', Auth::id());
+            }
 
             // 検索キーワードがあれば、クエリをフィルタリング
             if (!empty($searchQuery)) {
@@ -587,7 +592,7 @@ class ItemController extends Controller
     }
 
 
-        public function comment_create(CommentRequest $request)
+         public function comment_create(CommentRequest $request)
     {
             // リクエストから必要なデータを直接取得する
             $paymentMethod = $request->input('comment');

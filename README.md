@@ -90,4 +90,4 @@ laravel環境構築
   - フリマアプリトップページ： http://localhost/
   - ユーザー登録： http://localhost/register/
   - phpMyAdmin:http://localhost:8080/
-  - meilhog：http://localhost:8025/
+  - meilhog： http://localhost:8025/

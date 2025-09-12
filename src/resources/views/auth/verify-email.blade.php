@@ -1,115 +1,109 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>メール認証</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .verification-container {
-            background-color: #fff;
-            padding: 2.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-        .verification-container h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 1rem;
-        }
-        .verification-container p {
-            color: #6b7280;
-            margin-bottom: 2rem;
-        }
-        .verification-button, .resend-button {
-            width: 100%;
-            padding: 0.75rem;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-        .verification-button {
-            background-color: #3b82f6;
-            color: #fff;
-        }
-        .verification-button:hover {
-            background-color: #2563eb;
-        }
-        .resend-button {
-            background-color: #e5e7eb;
-            color: #4b5563;
-            margin-top: 1rem;
-        }
-        .resend-button:hover {
-            background-color: #d1d5db;
-        }
-        .status-message {
-            margin-top: 1rem;
-            color: #16a34a; /* Green color for success message */
-            font-weight: 500;
-        }
-        .info-message {
-            color: #374151;
-            font-weight: normal;
-        }
-        .logout-link {
-            display: block;
-            margin-top: 1.5rem;
-            color: #6b7280;
-            text-decoration: none;
-        }
-        .logout-link:hover {
-            color: #1f2937;
-            text-decoration: underline;
-        }
-    </style>
-</head>
+@extends('layouts.app_register')
+
+@section('content')
+<style>
+    /* bodyとコンテナに全画面の高さを指定 */
+    body, html, #app {
+        height: 100%;
+        margin: 0; /* bodyのデフォルトマージンをリセット */
+        padding: 0; /* bodyのデフォルトパディングをリセット */
+    }
+
+    /* Flexboxを使ってコンテナを中央に配置 */
+    .verification-container {
+        display: flex;
+        justify-content: center; /* 水平方向の中央寄せ */
+        align-items: center; /* 垂直方向の中央寄せ */
+        min-height: 100vh; /* 画面の最小高さを100%に設定 */
+        width: 100%;
+        box-sizing: border-box; /* パディングやボーダーを高さに含める */
+    }
+
+    /* 中央寄せされた子要素のスタイル */
+    .verification-container_1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    /* 成功メッセージのスタイル */
+    .status-message {
+        color: green;
+        margin-top: 1rem;
+        font-weight: bold;
+    }
+
+    /* h3タグの余白を調整して隙間をなくす */
+    .verification-container_1 h3 {
+        margin: 0;
+    }
+
+    /* ボタンの共通スタイル */
+    .verification-button, .resend-button, .logout-link {
+        margin-top: 1rem;
+        padding: 0.75rem 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    /* 個別のボタンカラー */
+    .verification-button {
+        background-color: #d9d9d9;
+        border: 1px solid #000000ff;
+        color: #000000ff;
+        text-decoration: none;
+    }
+
+    .resend-button {
+        /* ボタンのスタイルをリセットしてテキストリンク風に */
+        background-color: transparent;
+        color: #3182ce;
+        text-decoration: none;
+        padding: 0; /* パディングを削除 */
+    }
+
+    .logout-link {
+        background-color: #dfd0a3ff;
+        color: white;
+        opacity: 0.3; /* ここで透明度を調整 */
+    }
+    
+    /* ログアウトボタンを左寄せにするスタイル */
+    .logout-form {
+        width: 100%;
+        text-align: left;
+    }
+</style>
 <body>
     <div class="verification-container">
-        <h1>メールアドレスを認証してください</h1>
-        <p>続行するには、登録したメールアドレスに送られたリンクをクリックしてください。</p>
+        <div class="verification-container_1">
+            <h3>登録していただいたメールアドレスに認証メールを送付しました。</h3>
+            <h3>メール認証を完了してください。</h3>
 
-        <!-- 成功メッセージを表示 -->
-        @if (session('status') === 'verification-link-sent')
-            <div class="status-message">
-                新しい認証リンクが、あなたのメールアドレスに送信されました。
-            </div>
-        @else
-            <div class="info-message">
-                メールが見つからない場合は、以下のボタンから再送を試すか、メールアプリを開いて確認してください。
-            </div>
-        @endif
+            @if (session('status') === 'verification-link-sent')
+                <div class="status-message">
+                    新しい認証リンクが、あなたのメールアドレスに送信されました。
+                </div>
+            @endif
 
-        <!-- 「認証はこちらから」ボタン（MailHogにリダイレクト） -->
-        <a href="http://localhost:8025" target="_blank" class="verification-button">認証はこちらから</a>
+            <a href="http://localhost:8025" target="_blank" class="verification-button">認証はこちらから</a>
 
-        <!-- 「認証メールを再送」ボタン -->
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-            <button type="submit" class="resend-button">認証メールを再送</button>
-        </form>
+            <form method="POST" action="{{ route('verification.send') }}">
+                @csrf
+                <button type="submit" class="resend-button">認証メールを再送する</button>
+            </form>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="logout-link">ログアウト</button>
-        </form>
+            <form method="POST" action="{{ route('logout') }}" class="logout-form">
+                @csrf
+                <button type="submit" class="logout-link">ログアウト</button>
+            </form>
+        </div>
     </div>
 </body>
-</html>
+@endsection
