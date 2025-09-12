@@ -1,5 +1,7 @@
 <?php
 
+// 商品詳細情報取得テスト
+
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;

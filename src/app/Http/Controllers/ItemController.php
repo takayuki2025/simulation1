@@ -592,24 +592,24 @@ class ItemController extends Controller
     }
 
 
-         public function comment_create(CommentRequest $request)
+    public function comment_create(CommentRequest $request)
     {
-            // リクエストから必要なデータを直接取得する
-            $paymentMethod = $request->input('comment');
-            $itemId = $request->input('item_id');
+        // リクエストから必要なデータを取得
+        $comment = $request->input('comment');
+        $itemId = $request->input('item_id');
+        $userId = auth()->id();
 
-            // ユーザーIDも取得
-            $userId = auth()->id();
+        // データベースに挿入するデータを整理
+        $word = [
+            'comment' => $comment,
+            'user_id' => $userId,
+            'item_id' => $itemId,
+        ];
 
-            // データベースに挿入するデータを整理
-            $word = [
-                'comment' => $paymentMethod,
-                'user_id' => $userId,
-                'item_id' => $itemId,
-            ];
-
+        // コメントを保存
         Comment::create($word);
 
-        return redirect()->back()->with('success', 'コメントが送信されました。');
+        // 明示的に商品詳細ページにリダイレクト
+        return redirect()->route('item_detail', ['item_id' => $itemId])->with('success', 'コメントが送信されました。');
     }
 }

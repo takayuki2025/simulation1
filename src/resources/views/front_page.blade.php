@@ -39,7 +39,7 @@
                     <div class="sold_view">
                         <p>{{ $item->name }}</p>
                         @if($item->remain === 0)
-                            <p class="sold_view1">{{ $item->price }}</p>
+                            <p class="sold_view1">sold</p>
                         @endif
                     </div>
                 </div>

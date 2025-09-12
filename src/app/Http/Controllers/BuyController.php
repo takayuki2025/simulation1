@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 
+
+use Illuminate\Support\Facades\Validator;
+use Stripe\Checkout\Session;
+
 class BuyController extends Controller
 {
     /**

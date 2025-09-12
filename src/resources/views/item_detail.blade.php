@@ -39,9 +39,9 @@
                         <button type="submit" class="favorite_button">
                             <span class="heart_icon">
                                 @if ($isFavorited)
-                                    &#x2665; <!-- いいね済みハート -->
+                                    &#x2665;
                                 @else
-                                    &#x2661; <!-- いいねしていないハート -->
+                                    &#x2661;
                                 @endif
                             </span>
                         </button>
@@ -51,7 +51,9 @@
                 @if(Auth::check() && Auth::id() == $item->user_id)
                     <span class="favorites_count">{{ $favoritesCount }}</span>
                 @endif
-                <p>コメントマーク</p>
+                {{-- ここにコメント数を追加 --}}
+                <p>コメント</p>
+                <span class="comments_count">{{ $comments->count() }}</span>
             </div>
             <div class="item_detail_form">
         <form action="{{ route('item_buy', ['item_id' => $item->id]) }}" method="get">
@@ -106,6 +108,8 @@
 @endforelse
 
         </div>
+
+        @auth
         <div class="item_detail_comment_form">
             <h2>商品へのコメント</h2>
                         @if (count($errors) > 0)
@@ -122,6 +126,7 @@
                 <input type="hidden" name="item_id" value="{{ $item->id }}">
         </form>
         </div>
+        @endauth
 
 
         </div>

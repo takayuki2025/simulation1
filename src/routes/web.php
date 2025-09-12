@@ -144,7 +144,7 @@ Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name
 
 
 // 購入処理のルートを正しく修正
-Route::post('/purchase/create', [BuyController::class, 'create'])->name('buy_create_stripe');
+Route::post('create/purchase/', [BuyController::class, 'create'])->name('buy_create_stripe');
 Route::get('/thanks_buy', [BuyController::class, 'thanks_buy_show'])->name('thanks_buy');
 
 
