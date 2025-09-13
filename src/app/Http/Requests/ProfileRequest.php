@@ -25,7 +25,7 @@ class ProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|max:20',
-            'post_number' => ['required'],
+            'post_number' => 'required||regex:/^\d{3}-\d{4}$/',
             'address' => ['required'],
         ];
     }
@@ -38,10 +38,11 @@ class ProfileRequest extends FormRequest
             'name.string' => '名前を文字列で入力してください。',
             'name.max' => '名前は20文字以内で入力してください。',
             'post_number.required' => '郵便番号を入力してください。',
+            'post_number.regex' => 'ハイフンありの８桁で入力してください。',
             'address.required' => '住所を入力してください。',
-            
-            'user_image.mimes' => '画像ファイルは.jpegまたは.png形式でアップロードしてください。',
+
+            // 'user_image.mimes' => '画像ファイルは.jpegまたは.png形式でアップロードしてください。',
         ];
     }
-    protected $redirectRoute = 'profile_edit2';
+    protected $redirectRoute = 'profile_edit';
 }

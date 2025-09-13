@@ -57,9 +57,18 @@ Route::get('/onetime', [ItemController::class, 'handleOnetimeRedirect'])->name('
 
     // 認証済みかつメール認証済みのユーザーのみアクセス可能にしたいルート
     // handleOnetimeRedirectで認証をチェックするため、ここでは'verified'ミドルウェアを外します
-    Route::get('/profile_edit', [ItemController::class, 'profile_revise'])->name('profile_edit');
+    Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
 
 
+// Route::get('/mypage/profile/after', [ItemController::class, 'profile_revise'])
+//     ->middleware(['auth'])
+//     ->name('profile_edit2');
+
+
+// Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])
+//     ->middleware('auth')
+//     ->name('profile_edit');
+// profile_edit
 
 
 
@@ -107,9 +116,7 @@ Route::get('/?tab=mylist', [ItemController::class, 'mylist_scour']);
 Route::get('/item/search', [ItemController::class, 'scour']);
 Route::patch('/', [ItemController::class, 'profile_update']);
 
-Route::get('/mypage/profile/after', [ItemController::class, 'profile_revise'])
-    ->middleware(['auth'])
-    ->name('profile_edit2');
+
 
 
 

@@ -99,3 +99,10 @@ a .profile_header {
     object-position: center;
 }
 
+.user_image_error_message {
+        color: #e3342f;
+            font-size: 15px;
+            position: relative;
+            bottom: 20px;
+            text-align: center;
+}

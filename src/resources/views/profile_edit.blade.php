@@ -14,14 +14,17 @@
     @csrf
 
           <button type="button" class="upload_submit" onclick="document.getElementById('fileInput').click()">画像を選択する</button>
-            
           <input type="file" name="user_image" id="fileInput" style="display: none;">
             @if (session('success'))
               <div class="alert-success2">
               {{ session('success') }}
             </div>
           @endif
-
+          <div class="user_image_error_message">
+          @error('user_image')
+                  {{ $message }}
+                  @enderror
+</div>
 </form>
 
       <script>

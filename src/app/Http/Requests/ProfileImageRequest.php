@@ -34,5 +34,5 @@ class ProfileImageRequest extends FormRequest
             'user_image.mimes' => 'ユーザー画像ファイルは.jpegまたは.png形式でアップロードしてください。',
         ];
     }
-    protected $redirectRoute = 'profile';
+    protected $redirectRoute = 'profile_edit';
 }

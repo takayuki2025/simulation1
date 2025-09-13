@@ -14,12 +14,12 @@
             <img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile.jpg') }}" alt="プロフィール画像" class="user_image_css">
             <h2 class="user_name_css">{{ $user['name'] }}</h2>
 
-        <form action="{{ route('profile_edit2') }}" method="get" class="user_edit_css1">
+        <form action="{{ route('profile_edit') }}" method="get" class="user_edit_css1">
             @csrf
                 <input type="submit" class="user_edit_css2" value="プロフィールを編集">
         </form>
 
-            @if ($errors->any())
+            <!-- @if ($errors->any())
                 <div class="validation-errors">
                     <ul class="error-list">
                         @foreach ($errors->all() as $error)
@@ -27,7 +27,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif
+            @endif -->
         </div>
 
         <div class="profile_header_2">
