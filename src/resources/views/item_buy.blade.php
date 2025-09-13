@@ -35,7 +35,7 @@
                     <div class="item_buy_content3">
                         <div class="item_edit">
                             <h4 class="item_address">配送先</h4>
-                            <a href="{{ route('address', ['user_id' => Auth::id(), 'item_id' => $item->id]) }}" class="item_edit_a">変更する</a>
+                            <a href="{{ route('item.purchase.edit', ['item_id' => $item->id, 'user_id' => Auth::id()]) }}" class="item_edit_a">変更する</a>
                         </div>
                         <h5 class="item_address_view1">{{ $user->post_number}}</h5>
                         <h5 class="item_address_view2">{{ $user->address }}</h5>
@@ -56,11 +56,17 @@
                         </div>
                     </div>
 
-                    <div class="item_buy_form">
-                        <input type="hidden" name="item_id" value="{{ $item->id }}">
-                        <input type="hidden" name="address" value="{{ $user->address }}">
-                        <input type="submit" class="item_buy_submit" value="購入する" @if ($item->remain < 1) disabled style="opacity: 0.5; cursor: not-allowed;" @endif>
-                    </div>
+<div class="item_buy_form">
+    @if($item->remain > 0)
+        <input type="hidden" name="item_id" value="{{ $item->id }}">
+        <input type="hidden" name="address" value="{{ $user->address }}">
+        <input type="submit" class="item_buy_submit" value="購入する">
+    @else
+        <div class="sold_out_message">
+            <p>sold</p>
+        </div>
+    @endif
+</div>
                     <!-- 在庫切れのエラーメッセージを個別に表示 -->
                     @error('item_id')
                         <div class="alert alert-danger">{{ $message }}</div>

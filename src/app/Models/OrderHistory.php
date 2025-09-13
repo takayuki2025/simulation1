@@ -12,7 +12,8 @@ class OrderHistory extends Model
         protected $fillable = [
             'item_id',
             'user_id',
-            'payment'
+            'payment',
+            'buy_address'
     ];
 
     public function item()

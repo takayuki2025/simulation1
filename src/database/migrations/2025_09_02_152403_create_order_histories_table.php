@@ -18,6 +18,7 @@ class CreateOrderHistoriesTable extends Migration
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('payment')->nullable();
+            $table->string('buy_address');
             $table->timestamps();
         });
     }

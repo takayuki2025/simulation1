@@ -121,9 +121,12 @@ Route::get('/item/{item_id}', [ItemController::class, 'item_detail_show'])->name
 
 Route::get('/purchase/{item_id?}', [ItemController::class, 'item_buy_show'])->name('item_buy');
 
-Route::post('/purchase/{user_id}/{item_id}', [ItemController::class, 'purchase_before_update'])->name('address_update');
 
-Route::get('/purchase/address/{user_id}/{item_id}', [ItemController::class, 'item_purchase_edit'])->name('address');
+// POSTルートの名前を'item.purchase.update'に変更し、パラメータの順序を修正
+Route::post('/purchase/address/{item_id}/{user_id}', [ItemController::class, 'update'])->name('item.purchase.update');
+
+// GETルートの名前を'item.purchase.edit'に変更し、パラメータの順序を修正
+Route::get('/purchase/address/{item_id}/{user_id}', [ItemController::class, 'item_purchase_edit'])->name('item.purchase.edit');
 
 Route::post('/upload', [ItemController::class, 'item_image_upload']);
 Route::match(['get','post'],'/upload2', [ItemController::class, 'user_image_upload']);
@@ -132,8 +135,10 @@ Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
 
 
 
+// ???
+// Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('buy_create');
 
-Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('buy_create');
+
 Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('thanks_buy_create');
 
 
@@ -145,6 +150,7 @@ Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name
 
 // 購入処理のルートを正しく修正
 Route::post('create/purchase/', [BuyController::class, 'create'])->name('buy_create_stripe');
+
 Route::get('/thanks_buy', [BuyController::class, 'thanks_buy_show'])->name('thanks_buy');
 
 
@@ -179,3 +185,6 @@ Route::get('/send-test-email', function () {
 // Route::post('/email/verification-notification', [ItemController::class, 'resendVerificationEmail'])
 //     ->middleware(['auth', 'throttle:6,1'])
 //     ->name('verification.send');
+
+// コンビニ支払い用のルート
+// Route::post('thanks_buy_create', [BuyController::class, 'thanks_buy_create'])->name('thanks_buy_create');

@@ -1,5 +1,6 @@
 <?php
-
+// Laravel Dusk参照
+// 支払い方法選択機能
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;

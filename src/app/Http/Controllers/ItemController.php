@@ -293,22 +293,26 @@ class ItemController extends Controller
     }
 
 
-        public function purchase_before_update(AddressRequest $request, $user_id,$item_id)
+    public function update(AddressRequest $request, $itemId, $userId)
     {
-            // 未定義エラーを防ぐため、$userをnullで初期化
-            $user = null;
+        // ユーザーIDを使ってユーザーを取得します。
+        $user = User::find($userId);
 
+        // ユーザーが存在しない場合はエラーを返します。
+        if (!$user) {
+            return redirect()->back()->with('error', 'ユーザーが見つかりません。');
+        }
 
-            if (Auth::check()) {
-                $user = Auth::user();
-                $user->update($request->only('post_number', 'address', 'building'));
-            }
+        // リクエストから新しい住所情報を取得してユーザーを更新します。
+        // AddressRequestでバリデーション済みのため、直接アクセスします。
+        $user->update([
+            'post_number' => $request->post_number,
+            'address' => $request->address,
+            'building' => $request->building,
+        ]);
 
-            $item = Item::findOrFail($item_id);
-
-       return redirect()->route('item_buy', ['item_id' => $item_id])
-                         ->with('success', '住所情報を更新しました。');
-        // return view('item_buy',compact('item','user','item_id','user_id'));
+        // 住所更新後に購入処理へリダイレクト
+        return redirect()->route('thanks_buy_create');
     }
 
 
@@ -480,33 +484,6 @@ class ItemController extends Controller
     }
 
 
-        public function thanks_sell_create(ExhibitionRequest $request)
-    {
-        // バリデーションはExhibitionRequestが自動的に処理します。
-        
-        // リクエストから必要なデータを取得
-        $item = $request->only([
-            'name',
-            'price',
-            'brand',
-            'explain',
-            'condition',
-            'item_image',
-        ]);
-        
-        // カテゴリーデータを明示的に取得し、JSON形式に変換
-        $selectedCategories = $request->input('category');
-        $item['category'] = json_encode($selectedCategories);
-
-        $item['user_id'] = auth()->id();
-        $item['remain'] = 1;
-
-        Item::create($item);
-
-        return view('thanks_sell');
-        return redirect('/')->with('success', '商品を出品しました。');
-    }
-
     public function thanks_buy_create(Request $request)
     {
         $item = Item::find($request->item_id);
@@ -531,11 +508,17 @@ class ItemController extends Controller
         }
 
         if ($request->input('payment') === 'コンビニ払い') {
+            // 認証済みユーザーの情報を取得
+            $user = Auth::user();
+            
+            // ユーザー情報をまとめて一つの文字列としてbuy_addressカラムに保存
+            $buyAddress = "{$user->name}\n{$user->post_number}\n{$user->address}\n{$user->building}";
+
             OrderHistory::create([
-                'user_id' => Auth::id(),
+                'user_id' => $user->id,
                 'item_id' => $item->id,
                 'status' => '購入済み',
-                'address' => $request->address,
+                'buy_address' => $buyAddress, // 修正: 'address'ではなく'buy_address'に保存
                 'payment' => 'コンビニ払い'
             ]);
 
