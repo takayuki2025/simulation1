@@ -185,6 +185,9 @@ class ItemController extends Controller
     }
 
 
+
+
+
         public function item_sell_show(Request $request)
     {
             if (Auth::check()) {
@@ -482,6 +485,12 @@ class ItemController extends Controller
         // ファイルが存在しない、または無効な場合
         return back()->with('error', '画像ファイルがありません。');
     }
+
+
+
+
+
+
 
 
     public function thanks_buy_create(Request $request)
