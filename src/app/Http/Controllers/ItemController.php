@@ -487,7 +487,32 @@ class ItemController extends Controller
 
 
 
+    public function thanks_sell_create(ExhibitionRequest $request)
+    {
+        // リクエストから必要なデータを取得
+        $item = $request->only([
+            'name',
+            'price',
+            'brand',
+            'explain',
+            'condition',
+            'item_image',
+        ]);
+        
+        // カテゴリーデータを明示的に取得し、JSON形式に変換
+        $selectedCategories = $request->input('category');
+        $item['category'] = json_encode($selectedCategories);
+        
+        // ログインユーザーIDとremainを付与
+        $item['user_id'] = auth()->id();
+        $item['remain'] = 1;
 
+        // データベースに商品を保存
+        Item::create($item);
+
+        // 商品出品後のリダイレクトと成功メッセージの設定
+        return redirect('/')->with('success', '商品を出品しました。');
+    }
 
 
 
