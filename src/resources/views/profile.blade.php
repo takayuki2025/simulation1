@@ -1,66 +1,65 @@
 @extends('layouts.app_logout')
 
 @section('css')
+
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 @endsection
 
 @section('content')
 
-    <div class="profile_page">
-        <div class="profile_header">
-            <div class="profile_header_1">
-                <!-- プロフィール画像の表示。画像がない場合はデフォルト画像を表示 -->
-                <img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile.jpg') }}" alt="プロフィール画像" class="user_image_css">
-                <h2 class="user_name_css">{{ $user['name'] }}</h2>
-                
-                <!-- プロフィール編集ページへのリンクに変更 
-                <a href="{{ route('profile_edit2') }}" class="user_edit_css2">プロフィールを編集</a> -->
+<div class="profile_page">
+    <div class="profile_header">
+        <div class="profile_header_1">
+            <!-- プロフィール画像の表示。画像がない場合はデフォルト画像を表示 -->
+            <img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile.jpg') }}" alt="プロフィール画像" class="user_image_css">
+            <h2 class="user_name_css">{{ $user['name'] }}</h2>
 
-            <form action="{{ route('profile_edit2') }}" method="get" class="user_edit_css1">
-                @csrf
-                    <input type="submit" class="user_edit_css2" value="プロフィールを編集">
-            </form>
+        <form action="{{ route('profile_edit2') }}" method="get" class="user_edit_css1">
+            @csrf
+                <input type="submit" class="user_edit_css2" value="プロフィールを編集">
+        </form>
 
-                @if ($errors->any())
-                    <div class="validation-errors">
-                        <ul class="error-list">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-            </div>
-
-            <div class="profile_header_2">
-                <a href="/mypage?page=sell" class="sell_items @if($page === 'sell') active @endif">出品した商品</a>
-                <a href="/mypage?page=buy" class="buy_items @if($page === 'buy') active @endif">購入した商品</a>
-            </div>
-        </div>
-
-        <div class="profile_content">
-            @if ($items->isEmpty())
-                <p>{{ $page === 'sell' ? '出品した商品はありません。' : '購入した商品はありません。' }}</p>
-            @else
-                <div class="items_select">
-                    @foreach ($items as $item)
-                        <div class="items_select_all">
-                            @if ($page === 'sell')
-                                <a href="/item/{{ $item->id }}">
-                                    <img src="{{ asset($item->item_image) }}" alt="商品写真">
-                                    <label>{{ $item->name }}</label>
-                                </a>
-                            @elseif ($page === 'buy')
-                                <!-- 購入履歴の場合は、関連する商品データにアクセス -->
-                                <a href="/item/{{ $item->item->id }}">
-                                    <img src="{{ asset($item->item->item_image) }}" alt="商品写真">
-                                    <label>{{ $item->item->name }}</label>
-                                </a>
-                            @endif
-                        </div>
-                    @endforeach
+            @if ($errors->any())
+                <div class="validation-errors">
+                    <ul class="error-list">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
         </div>
+
+        <div class="profile_header_2">
+            <a href="/mypage?page=sell" class="sell_items @if($page === 'sell') active @endif">出品した商品</a>
+            <a href="/mypage?page=buy" class="buy_items @if($page === 'buy') active @endif">購入した商品</a>
+        </div>
     </div>
+
+    <div class="profile_content">
+        @if ($items->isEmpty())
+            <p>{{ $page === 'sell' ? '出品した商品はありません。' : '購入した商品はありません。' }}</p>
+        @else
+            <div class="items_select">
+                @foreach ($items as $item)
+                    <div class="items_select_all">
+                        @if ($page === 'sell')
+                            <a href="/item/{{ $item->id }}">
+                                <img src="{{ asset($item->item_image) }}" alt="商品写真">
+                                <label>{{ $item->name }}</label>
+                            </a>
+                        @elseif ($page === 'buy')
+                            <!-- 購入履歴の場合は、関連する商品データにアクセス -->
+                            <a href="/item/{{ $item->item->id }}">
+                                <img src="{{ asset($item->item->item_image) }}" alt="商品写真">
+                                <label>{{ $item->item->name }}</label>
+                            </a>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+</div>
+
 @endsection

@@ -180,7 +180,7 @@ class ItemController extends Controller
         } elseif ($page === 'buy') {
             $items = OrderHistory::where('user_id', $user->id)->with('item')->get();
         }
-
+// dd($items);
         return view('profile', compact('user', 'items', 'page'));
     }
 
@@ -462,11 +462,11 @@ class ItemController extends Controller
 
     public function user_image_upload(ProfileImageRequest $request)
     {
-
         // アップロードされたファイルが存在するか、かつ有効なファイルかを確認
         if ($request->hasFile('user_image') && $request->file('user_image')->isValid()) {
             $filename = $request->user_image->getClientOriginalName();
-            $path = $request->user_image->storeAs('public/user_images', $filename);
+            // ここを修正：'public/' を削除して、パスをシンプルにする
+            $path = $request->user_image->storeAs('user_images', $filename, 'public');
 
             // パスから 'public/' を除去してデータベースに保存する形式に変換
             $dbPath = str_replace('public/', '', $path);
@@ -478,7 +478,6 @@ class ItemController extends Controller
                 'user_image' => 'storage/' . $dbPath // データベースに保存
             ]);
 
-            
             return redirect()->route('profile_edit')->with('success', 'ユーザイメージをアップロードしました。')->with('image_path2', 'storage/' .$dbPath);
         }
 

@@ -1,53 +1,79 @@
 <?php
 
+// ユーザー情報取得テスト
+
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Item;
+use App\Models\OrderHistory;
 
 class Id13Test extends TestCase
 {
-    // refresh database trait to migrate the database for each test
     use RefreshDatabase;
 
-    /**
-     * プロフィール画像が保存されたときにユーザー画像が表示されることのテスト
-     *
-     * @return void
-     */
-    public function test_profile_image_is_displayed_when_user_image_is_saved()
+
+    //ID13-1マイページに移動して、ユーザー情報と出品商品が表示されることを確認するテスト。
+    public function test_my_page_displays_user_info_and_selling_items()
     {
-        // Public diskのStorageを偽装（テスト用の仮想的なストレージを作成）
-        Storage::fake('public');
+        // テストユーザーを作成
+        $user = User::factory()->create([
+            'user_image' => 'https://example.com/user_image.jpg' // テスト用の画像URL
+        ]);
 
-        // テスト用のユーザーを作成
-        $user = User::factory()->create();
-
-        // actingAs() ヘルパーを使用して、ユーザーとして認証
+        // ログイン
         $this->actingAs($user);
 
-        // **ここが重要な変更点です**
-        // UploadedFile::fake() を使用してダミーファイルを生成。
-        // これにより、仮想ストレージへのファイルの配置が自動的に行われます。
-        $file = UploadedFile::fake()->image('dummy.png');
+        // ユーザーが出品した商品を複数作成
+        $sellingItems = Item::factory()->count(2)->create(['user_id' => $user->id]);
 
-        // POSTリクエストを正しいURLとパラメータ名で送信
-        $response = $this->post('/upload2', ['user_image' => $file]);
+        // マイページにアクセス
+        $response = $this->get('/mypage');
 
-        // リダイレクトのステータスコード302を確認
-        $response->assertRedirect(route('profile_edit'));
+        // レスポンスが成功したことを確認
+        $response->assertStatus(200);
 
-        // データベースを最新の状態に更新
-        $user->refresh();
+        // ユーザー名とユーザー画像が表示されていることを確認
+        $response->assertSee($user->name);
+        $response->assertSee($user->user_image);
 
-        // データベースに保存されたパスが期待通りであることを確認
-        $this->assertStringContainsString('storage/user_images/' . $file->hashName(), $user->user_image);
+        // 出品した商品が複数表示されていることを確認
+        $response->assertSee($sellingItems[0]->name);
+        $response->assertSee($sellingItems[1]->name);
+    }
 
-        // ファイルが正しく仮想ストレージに保存されていることを確認
-        // Storage::fake() の場合、hashName() で生成されたファイル名で保存されるため
-        Storage::disk('public')->assertExists('public/user_images/' . $file->hashName());
+ 
+    // ID13-1マイページで「購入した商品」が正しく表示されることを確認するテスト。
+    public function test_my_page_displays_purchased_items()
+    {
+        // テストユーザーを作成
+        $user = User::factory()->create();
+
+        // ログイン
+        $this->actingAs($user);
+
+        // 購入済み商品を作成
+        // 別のユーザーが販売した商品として作成
+        $seller = User::factory()->create();
+        $purchasedItem = Item::factory()->create(['user_id' => $seller->id]);
+
+        // OrderHistoryレコードを作成し、ユーザーが商品を購入したことをシミュレート
+        OrderHistory::create([
+            'item_id' => $purchasedItem->id,
+            'user_id' => $user->id,
+            'payment' => 'credit_card', // 支払い方法
+            'buy_address' => '東京都渋谷区' // 購入時の住所
+        ]);
+
+        // マイページの「購入した商品」タブにアクセス
+        $response = $this->get('/mypage?page=buy');
+
+        // レスポンスが成功したことを確認
+        $response->assertStatus(200);
+
+        // 購入済み商品が表示されていることを確認
+        $response->assertSee($purchasedItem->name);
     }
 }
