@@ -36,39 +36,11 @@ Route::get('/', [ItemController::class, 'index'])->name('front_page');
 // onetime.show ルートをauthミドルウェアの外に定義
 Route::get('/onetime', [ItemController::class, 'handleOnetimeRedirect'])->name('onetime.show');
 
-    // // メール認証通知ページ
-    // Route::get('/email/verify', function () {
-    //     return view('auth.verify-email');
-    // })->name('verification.notice');
-
-    // メール認証通知の再送信
-    // Route::post('/email/verification-notification', function (Request $request) {
-    //     $request->user()->sendEmailVerificationNotification();
-    //     return back()->with('status', 'verification-link-sent');
-    // })->middleware('throttle:6,1')->name('verification.send');
-
-
-// // 認証済みかつメール認証済みのユーザーのみアクセス可能なルート
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     Route::get('/mypage/profile', [ItemController::class, 'editProfile'])->name('profile_edit');
-// });
-
-// Route::get('/onetime', [ItemController::class, 'handleOnetimeRedirect'])->name('onetime.show');
 
     // 認証済みかつメール認証済みのユーザーのみアクセス可能にしたいルート
     // handleOnetimeRedirectで認証をチェックするため、ここでは'verified'ミドルウェアを外します
     Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
 
-
-// Route::get('/mypage/profile/after', [ItemController::class, 'profile_revise'])
-//     ->middleware(['auth'])
-//     ->name('profile_edit2');
-
-
-// Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])
-//     ->middleware('auth')
-//     ->name('profile_edit');
-// profile_edit
 
 
 
@@ -97,26 +69,15 @@ Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 've
 Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
-// Fortifyが提供するメール認証ルートを有効化するため、
-// web.phpから以下のカスタムルート定義をすべて削除します。
-// FortifyServiceProviderで設定した内容が自動的に適用されます。
-// Route::get('/email/verify', ...
-// Route::get('/email/verify/{id}/{hash}', ...
-// Route::post('/email/verification-notification', ...
-//     // ... その他の認証済みルート
-// });
+
 
 
 
 
 
 // その他のルート...
-Route::get('/?tab=mylist', [ItemController::class, 'index']);
-Route::get('/?tab=mylist', [ItemController::class, 'mylist_scour']);
-Route::get('/item/search', [ItemController::class, 'scour']);
-Route::patch('/', [ItemController::class, 'profile_update']);
 
-
+Route::patch('/profile_update', [ItemController::class, 'profile_update']);
 
 
 
@@ -126,7 +87,7 @@ Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['aut
 
 Route::get('/item/{item_id}', [ItemController::class, 'item_detail_show'])->name('item_detail');
 
-Route::get('/purchase/{item_id?}', [ItemController::class, 'item_buy_show'])->name('item_buy');
+Route::get('/purchase/{item_id}', [ItemController::class, 'item_buy_show'])->name('item_buy');
 
 
 // POSTルートの名前を'item.purchase.update'に変更し、パラメータの順序を修正
@@ -136,14 +97,16 @@ Route::post('/purchase/address/{item_id}/{user_id}', [ItemController::class, 'up
 Route::get('/purchase/address/{item_id}/{user_id}', [ItemController::class, 'item_purchase_edit'])->name('item.purchase.edit');
 
 Route::post('/upload', [ItemController::class, 'item_image_upload']);
-Route::match(['get','post'],'/upload2', [ItemController::class, 'user_image_upload']);
+
+Route::post('/upload2', [ItemController::class, 'user_image_upload']);
+// Route::match(['get','post'],'/upload2', [ItemController::class, 'user_image_upload']);
+
 
 Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
 
 
 
-// ???
-// Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('buy_create');
+
 
 
 
@@ -160,24 +123,13 @@ Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name
 //購入処理（コンビニ払い完了処理まで/カード支払いstripe決済に繋げる処理）のルード
 Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('thanks_buy_create');
 
-// 購入処理のルートを正しく修正
-// Route::post('create/purchase/', [BuyController::class, 'create'])->name('buy_create_stripe');
 
-// Stripe決済ページへの新しいルート
-// Route::get('/stripe_payment/{item_id}', [BuyController::class, 'showStripePaymentForm'])->name('stripe_payment');
 Route::get('/stripe_success', [ItemController::class, 'stripeSuccess'])->name('stripe_success');
 
 // コンビニ/カード支払い共に処理完了後のページ移動のルード
 Route::get('/thanks_buy', [ItemController::class, 'thanks_buy_show'])->name('thanks_buy');
 
 
-// Route::get('/profile/first-time-setup', [ExhibitionController::class, 'showFirstTimeForm'])->name('first_time_profile');
-
-// // 初回フォーム送信用のルート（バリデーションなし）
-// Route::post('/profile/first-time-setup', [ExhibitionController::class, 'processFirstTimeProfile'])->name('process_first_time');
-
-// // 2回目以降のプロフィール更新用ルート（バリデーションあり）
-// Route::put('/profile/update', [ExhibitionController::class, 'profile_update'])->name('profile.update');
 
 // mailhog受信テスト用
 Route::get('/send-test-email', function () {
@@ -190,12 +142,3 @@ Route::get('/send-test-email', function () {
         return 'Failed to send email: ' . $e->getMessage();
     }
 });
-
-
-// fortifyのコントローラが通常に機能しなかったので独自ルードを作りました。
-// Route::post('/email/verification-notification', [ItemController::class, 'resendVerificationEmail'])
-//     ->middleware(['auth', 'throttle:6,1'])
-//     ->name('verification.send');
-
-// コンビニ支払い用のルート
-// Route::post('thanks_buy_create', [BuyController::class, 'thanks_buy_create'])->name('thanks_buy_create');

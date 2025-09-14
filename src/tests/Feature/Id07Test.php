@@ -62,7 +62,9 @@ class Id07Test extends TestCase
 
         // 各情報が正しく表示されているかを確認
         $response->assertSeeText($item->name);
-        $response->assertSeeText('ブランド名：' . $item->brand);
+        // ブランド名のテストを、別々の要素として確認するように修正
+        $response->assertSeeText('ブランド名');
+        $response->assertSeeText($item->brand);
         $response->assertSeeText('¥' . number_format($item->price));
         $response->assertSeeText($item->explain);
         $response->assertSeeText($item->condition);

@@ -28,17 +28,16 @@ class ID14Test extends TestCase
     // ID14-1(1)全ての入力が有効な場合にプロフィール更新が成功するかテスト
     public function test_profile_update_succeeds_with_valid_data()
     {
-        $response = $this->patch('/', [ // URLを'/'に修正
+        $response = $this->patch('/profile_update', [ // URLを'/profile_update'に修正
             'name' => 'Updated User Name',
             'post_number' => '123-4567',
             'address' => '東京都港区',
             'building' => 'テストビル',
         ]);
 
-        // リダイレクトの代わりに、ステータス200とビューの確認
-        $response->assertStatus(200);
-        $response->assertViewIs('front_page');
-        $response->assertViewHas('items');
+        // 正しくリダイレクトされたか、セッションに成功メッセージがあるかを確認
+        $response->assertRedirect('/');
+        $response->assertSessionHas('success', 'プロフィールを更新しました');
 
         // データベースが正しく更新されたことを確認
         $this->assertDatabaseHas('users', [
@@ -53,7 +52,7 @@ class ID14Test extends TestCase
     // ID14-1(2)郵便番号のフォーマットが無効な場合にバリデーションが失敗するかテスト
     public function test_profile_update_validation_fails_with_invalid_post_number_format()
     {
-        $response = $this->patch('/', [ // URLを'/'に修正
+        $response = $this->patch('/profile_update', [ // URLを'/profile_update'に修正
             'name' => 'Test User',
             'post_number' => 'invalid-format', // 無効な郵便番号
             'address' => '東京都',
@@ -68,17 +67,16 @@ class ID14Test extends TestCase
     // ID14-1(3)建物名が空の場合でもプロフィール更新が成功するかテスト
     public function test_profile_update_succeeds_without_building_name()
     {
-        $response = $this->patch('/', [ // URLを'/'に修正
+        $response = $this->patch('/profile_update', [ // URLを'/profile_update'に修正
             'name' => 'Updated User Name',
             'post_number' => '123-4567',
             'address' => '東京都港区',
             'building' => '', // 建物名は空でもOK
         ]);
 
-        // リダイレクトの代わりに、ステータス200とビューの確認
-        $response->assertStatus(200);
-        $response->assertViewIs('front_page');
-        $response->assertViewHas('items');
+        // 正しくリダイレクトされたか、セッションに成功メッセージがあるかを確認
+        $response->assertRedirect('/');
+        $response->assertSessionHas('success', 'プロフィールを更新しました');
 
         // データベースが正しく更新されたことを確認
         $this->assertDatabaseHas('users', [
@@ -118,7 +116,7 @@ class ID14Test extends TestCase
     // ID14-1(5)名前の未入力時のバリデーションメッセージを検証
     public function test_name_required_validation_message()
     {
-        $response = $this->patch('/', [ // URLを'/'に修正
+        $response = $this->patch('/profile_update', [ // URLを'/profile_update'に修正
             'name' => '',
             'post_number' => '123-4567',
             'address' => '東京都',
@@ -133,7 +131,7 @@ class ID14Test extends TestCase
     // ID14-1(6)名前の最大文字数超過時のバリデーションメッセージを検証
     public function test_name_max_validation_message()
     {
-        $response = $this->patch('/', [ // URLを'/'に修正
+        $response = $this->patch('/profile_update', [ // URLを'/profile_update'に修正
             'name' => str_repeat('a', 21), // 21文字の文字列
             'post_number' => '123-4567',
             'address' => '東京都',
@@ -148,7 +146,7 @@ class ID14Test extends TestCase
     // ID14-1(7)郵便番号の未入力時のバリデーションメッセージを検証
     public function test_post_number_required_validation_message()
     {
-        $response = $this->patch('/', [ // URLを'/'に修正
+        $response = $this->patch('/profile_update', [ // URLを'/profile_update'に修正
             'name' => 'Test User',
             'post_number' => '',
             'address' => '東京都',
@@ -163,7 +161,7 @@ class ID14Test extends TestCase
     // ID14-1(8)住所の未入力時のバリデーションメッセージを検証
     public function test_address_required_validation_message()
     {
-        $response = $this->patch('/', [ // URLを'/'に修正
+        $response = $this->patch('/profile_update', [ // URLを'/profile_update'に修正
             'name' => 'Test User',
             'post_number' => '123-4567',
             'address' => '',

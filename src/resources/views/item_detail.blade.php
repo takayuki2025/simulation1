@@ -19,8 +19,8 @@
                 <h2>{{ $item->name }}</h2>
             </div>
             <div class="item_detail_brand">
-
-                <p>ブランド名：{{ $item->brand }}</p>
+                <p class="item_detail_brand_1">ブランド名</p>
+                <p class="item_detail_brand_2">{{ $item->brand }}</p>
             </div>
             <div class="item_detail_price">
     {{-- 商品が売り切れの場合は「sold」、それ以外は価格を表示 --}}
@@ -56,12 +56,19 @@
                 <span class="comments_count">{{ $comments->count() }}</span>
             </div>
             <div class="item_detail_form">
-        <form action="{{ route('item_buy', ['item_id' => $item->id]) }}" method="get">
-            @csrf
-            @if(Auth::check() && Auth::id() != $item->user_id)
-                <input type="submit" value="購入手続きへ" class="info_submit" @if ($item->remain < 1) disabled style="opacity: 0.5; cursor: not-allowed;" @endif>
-            @endif
-        </form>
+<form action="{{ route('item_buy', ['item_id' => $item->id]) }}" method="get">
+    @csrf
+    {{-- ログイン済みで、かつ自分が出品した商品ではない場合 --}}
+    @if(Auth::check() && Auth::id() != $item->user_id)
+        <input type="submit" value="購入手続きへ" class="info_submit" @if ($item->remain < 1) disabled style="opacity: 0.5; cursor: not-allowed;" @endif>
+    {{-- ログイン済みで、かつ自分が出品した商品の場合 --}}
+    @elseif(Auth::check() && Auth::id() == $item->user_id)
+        <a href="/mypage" class="info_submit">マイページへ移動する</a>
+    {{-- ゲストユーザーの場合 --}}
+    @else
+        <a href="{{ route('login') }}" class="info_submit">ログインして購入</a>
+    @endif
+</form>
         </div>
         <div class="item_detail_explain">
             <h2>商品説明</h2>
@@ -71,7 +78,7 @@
             <!-- <h3>カテゴリー　</h3> -->
 
 <div>
-    <h3>カテゴリー</h3>
+    <h2>商品情報</h2>
     @if ($item->category)
         @php
             $categories = is_string($item->category) ? json_decode($item->category, true) : $item->category;
@@ -81,6 +88,7 @@
             }
         @endphp
         <ul class="category_views">
+            <li class="category_mark01">カテゴリー</li>
             @foreach ($categories as $category)
                 <li class="category_mark">{{ $category }}</li>
             @endforeach
@@ -91,8 +99,8 @@
 </div>
         </div>
         <div class="item_detail_condition">
-            <h3>商品の状態　</h3>
-                <h3>{{ $item->condition }}</h3>
+            <h3 class="item_detail_condition_1">商品の状態　</h3>
+                <h3 class="item_detail_condition_2">{{ $item->condition }}</h3>
         </div>
         <div class="item_detail_comment_history">
             <h2>コメント</h2>
@@ -109,26 +117,36 @@
 
         </div>
 
-        @auth
+
         <div class="item_detail_comment_form">
-            <h2>商品へのコメント</h2>
-                        @if (count($errors) > 0)
+            <h2></h2>
+                        <!-- @if (count($errors) > 0)
                             <ul class='error_massage'>
                             @foreach ($errors->all() as $error)
                             <li>{{$error}}</li>
                             @endforeach
                             </ul>
-                        @endif
-        <form action="{{ route('comment_create') }}"  method="post" >
-            @csrf
-                <textarea name="comment" rows="5" cols="40"></textarea>
-                <input type="submit" value="コメントを送信する" class="comment_submit">
-                <input type="hidden" name="item_id" value="{{ $item->id }}">
-        </form>
-        </div>
-        @endauth
-
-
+                        @endif -->
+        <div class="item_detail_comment_form">
+            @auth
+                <h2>商品へのコメント</h2>
+                @if (count($errors) > 0)
+                    <ul class='error_massage'>
+                        @foreach ($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                    </ul>
+                @endif
+                <form action="{{ route('comment_create') }}" method="post" class="comment_form">
+                    @csrf
+                    <textarea name="comment" rows="5" cols="40" placeholder="コメントを入力してください"></textarea>
+                    <input type="submit" value="コメントを送信する" class="comment_submit">
+                    <input type="hidden" name="item_id" value="{{ $item->id }}">
+                </form>
+            @else
+                <h2></h2>
+                <a href="{{ route('login') }}" class="comment_submit">ログインしてコメントする</a>
+            @endauth
         </div>
 
 
