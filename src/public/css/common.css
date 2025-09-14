@@ -72,7 +72,11 @@
 }
 
 body .alert-success {
-    color: #7ec8ae;
+    color: #799d90;
+    position: relative;
+    top: 10px;
+    left: 20px;
+    font-weight:800;
 }
 
 .alert-success2 {

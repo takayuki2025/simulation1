@@ -39,7 +39,7 @@
             });
       </script>
 
-  <form action='/' method="POST">
+  <form action='/profile_update' method="POST">
         @method('PATCH')
         @csrf
 

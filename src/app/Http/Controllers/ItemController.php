@@ -54,7 +54,7 @@ class ItemController extends Controller
                     return $good->item;
                 });
             }
-            
+
             // 取得したコレクションを検索キーワードでフィルタリング
             if (!empty($searchQuery)) {
                 $items = $items->filter(function ($item) use ($searchQuery) {
@@ -88,77 +88,6 @@ class ItemController extends Controller
     }
 
 
-//     public function scour(Request $request)
-// {
-//         $item_search = $request->input('all_item_search');
-
-//         $items = Item::ItemSearch($item_search)->get();
-
-
-//         return view('front_page', compact('items'));
-// }
-
-
-
-
-//     public function mylist_scour(Request $request)
-//     {
-//         // URLのGETパラメータ'tab'を取得。デフォルトは'all'
-//         $tab = $request->query('tab', 'all');
-//         $item_search = $request->input('all_item_search');
-
-//         if ($tab === 'mylist') {
-//             // 'mylist'タブの場合、いいねした商品を取得
-//             $user = Auth::user();
-//             if (!$user) {
-//                 return redirect()->route('login')->with('error', 'ログインしてください。');
-//             }
-
-//             // いいねした商品のIDリストを取得
-//             $likedItemIds = Good::where('user_id', $user->id)->pluck('item_id');
-
-//             // Itemモデルから、いいねした商品のIDを検索対象として取得
-//             $query = Item::whereIn('id', $likedItemIds);
-
-//             // 検索キーワードがある場合、さらに絞り込み
-//             if ($item_search) {
-//                 $query->ItemSearch($item_search);
-//             }
-
-//             $items = $query->get();
-
-//         } else {
-//             // 'all'タブの場合、全商品から検索
-//             $query = Item::query();
-            
-//             // 検索キーワードがある場合、絞り込み
-//             if ($item_search) {
-//                 $query->ItemSearch($item_search);
-//             }
-
-//             $items = $query->get();
-//         }
-
-//                 // --- ここから追加 ---
-//         // 取得した商品コレクションをループ処理
-//         $items->each(function ($item) {
-//             // remainが0の場合、priceの値をsoldに設定
-//             if ($item->remain == 0) {
-//                 $item->price = 'sold';
-//             }
-//         });
-//         // --- ここまで追加 ---
-
-
-//         return view('front_page', compact('items', 'tab'));
-//     }
-
-
-
-
-
-
-
 
 
     public function profile_show(Request $request)
@@ -180,12 +109,8 @@ class ItemController extends Controller
         } elseif ($page === 'buy') {
             $items = OrderHistory::where('user_id', $user->id)->with('item')->get();
         }
-// dd($items);
         return view('profile', compact('user', 'items', 'page'));
     }
-
-
-
 
 
         public function item_sell_show(Request $request)
@@ -194,6 +119,23 @@ class ItemController extends Controller
             $items = Item::all();
             }
             return view('item_sell',compact('items'));
+    }
+
+
+        public function item_buy_show($item_id)
+    {
+
+            $user = Auth::user();
+            $item = Item::find($item_id);
+            if (!$item) {
+                abort(404);
+            }
+
+        return view('item_buy',[
+            'item' => $item,
+            'item_id' => $item->id,
+            'user' => $user,
+        ]);
     }
 
 
@@ -207,9 +149,6 @@ class ItemController extends Controller
             $item->price = 'sold';
         }
         // --- ここまで追加 ---
-
-
-
             $item_id = $item->id;
             $comments = Comment::where('item_id',$item_id)->get();
 
@@ -227,7 +166,6 @@ class ItemController extends Controller
                         if (!$item) {
                             // 例として、404ページを表示
                         abort(404);
-
     }
             return view('item_detail',compact('item' ,'item_id','comments', 'isFavorited','favoritesCount','user'));
     }
@@ -254,7 +192,6 @@ class ItemController extends Controller
         // 明示的に商品詳細ページにリダイレクト
         return redirect()->route('item_detail', ['item_id' => $itemId])->with('success', 'コメントが送信されました。');
     }
-
 
 
         public function favorite(Request $request, Item $item)
@@ -286,21 +223,7 @@ class ItemController extends Controller
     }
 
 
-        public function item_buy_show($item_id)
-    {
 
-            $user = Auth::user();
-            $item = Item::find($item_id);
-            if (!$item) {
-                abort(404);
-            }
-
-        return view('item_buy',[
-            'item' => $item,
-            'item_id' => $item->id,
-            'user' => $user,
-        ]);
-    }
 
 
         public function item_purchase_edit($user_id,$item_id)
@@ -343,8 +266,14 @@ class ItemController extends Controller
     }
 
 
-
-
+            public function profile_revise(Request $request)
+    {
+        // dd($request);
+        if (Auth::check()) {
+        $user = Auth::user();
+        }
+        return view('profile_edit',compact('user'));
+    }
 
 
     public function profile_update(ProfileRequest $request)
@@ -366,62 +295,10 @@ class ItemController extends Controller
 
             // update()の後の$userオブジェクトは、更新された最新の状態を反映しています。
         }
-
-        $items = Item::all();
-
-        return view('front_page', compact('items'));
+        return redirect()->route('front_page')->with('success', 'プロフィールを更新しました');
     }
 
 
-    /**
-     * showOneTimePage メソッド:
-     * 初回アクセスとメール認証のロジックを処理します。
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
-      */
-    // public function showOneTimePage(Request $request)
-
-    // {
-    //     $user = Auth::user();
-
-    //     // ユーザーがログインしていない場合はログインページにリダイレクトします。
-    //     if (!$user) {
-    //         return redirect()->route('login');
-    //     }
-
-    //     // メールが認証済みの場合
-    //     if ($user->hasVerifiedEmail()) {
-    //         // first_time_accessフラグがfalse（未設定）の場合
-    //         if (!$user->first_time_access) {
-    //             dd($request);
-    //             // 初回アクセス用のプロファイル編集ページを表示します。
-    //             return view('profile_edit', compact('user'));
-    //         }
-
-    //         // メールが既に認証済みで、初回アクセスフラグがtrueの場合はfront_pageへ
-    //         return redirect()->route('front_page');
-    //     }
-
-    //     // メールが未認証の場合は、メール確認ページを表示します。
-    //     return view('email_check', compact('user'));
-    // }
-
-    // VerifiesEmailsトレイトをインポート
-    // use VerifiesEmails;
-
-
-    /**
-     * コントローラーインスタンスの生成とミドルウェア設定
-     *
-     * @return void
-     */
-    // public function __construct()
-    // {
-    //     // ルーティングでミドルウェアが指定されていますが、
-    //     // コントローラー側で一括設定することも可能です
-    //     $this->middleware('auth');
-    // }
 
     //  * '/onetime'へのアクセスを処理し、認証状態に応じてリダイレクトする
     //  */
@@ -446,14 +323,6 @@ class ItemController extends Controller
         return redirect()->route('login');
     }
 
-        public function profile_revise(Request $request)
-    {
-        // dd($request);
-        if (Auth::check()) {
-        $user = Auth::user();
-        }
-        return view('profile_edit',compact('user'));
-    }
 
 
         public function item_image_upload(Request $request){
@@ -471,8 +340,8 @@ class ItemController extends Controller
 
                             if ($validator->fails()) {
             return redirect()->back()
-                             ->withErrors($validator)
-                             ->withInput();
+                    ->withErrors($validator)
+                    ->withInput();
         }
 
             //  $img=$request->imgpath;  //formで設置したname名
@@ -541,11 +410,6 @@ class ItemController extends Controller
 
 
 
-
-
-
-
-
     public function thanks_buy_create(Request $request)
     {
         $item = Item::find($request->item_id);
@@ -572,7 +436,7 @@ class ItemController extends Controller
         if ($request->input('payment') === 'コンビニ払い') {
             // 認証済みユーザーの情報を取得
             $user = Auth::user();
-            
+
             // ユーザー情報をまとめて一つの文字列としてbuy_addressカラムに保存
             $buyAddress = "{$user->name}\n{$user->post_number}\n{$user->address}\n{$user->building}";
 
@@ -615,7 +479,7 @@ class ItemController extends Controller
             return redirect($session->url, 303);
         }
     }
-    
+
     /**
      * Stripe決済成功後の処理
      */
@@ -629,7 +493,6 @@ class ItemController extends Controller
             // ユーザー情報をまとめて一つの文字列としてbuy_addressカラムに保存
             $buyAddress = "{$user->name}\n{$user->post_number}\n{$user->address}\n{$user->building}";
 
-//  dd($request);
         OrderHistory::create([
             'user_id' => Auth::id(),
             'item_id' => $request->item_id,
@@ -644,7 +507,6 @@ class ItemController extends Controller
         return redirect()->route('thanks_buy');
     }
 
-
         /**
      * 決済完了ページを表示する
      */
@@ -652,9 +514,4 @@ class ItemController extends Controller
     {
         return view('thanks_buy');
     }
-
-
-
-
-
 }
