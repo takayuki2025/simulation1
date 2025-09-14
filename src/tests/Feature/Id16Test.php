@@ -1,6 +1,6 @@
 <?php
 
-// メール認証機能のテスト
+// （応用）メール認証機能のテスト
 
 namespace Tests\Feature;
 

@@ -35,7 +35,7 @@ laravel環境構築
 # 伝えること<br>
 - テストカード決済のカード番号は、4242 4242 4242 4242　で有効期限日は未来の日にち、セキュリティー番号とメールアドレスと名前はなんでも大丈夫です。<br>
 - COACHTECHのロゴをクリックするとトップページに戻ります<br>
-- 自分が出品した商品のトップページの画面表示といいね機能は無しです。<br>
+- 
 
 <br>
 
@@ -53,7 +53,7 @@ laravel環境構築
 - 　完了　新規ユーザ情報登録、プロフィール変更時のバリデーションがかかった時そのページにbackするようにする<br>
 - 　完了　サーチ機能実行後マイリストに移っても継続サーチできるようにする<br>
 - 　完了　mailhogを使用してメール認証の実装<br>
-- 　PHPUnitを使用してテスト作成
+- 　完了　PHPUnitを使用してテスト作成
 - 　アイテム・ユーザイメージ名をユニークにするためのイメージ名保存<br>
 - <br>
 
@@ -66,7 +66,7 @@ laravel環境構築
 <br>
 
 > # 確認事項（模擬案件の時だけ掲載）<br>
-- パスを増やすことについて、プロフィール設定画面のパスを増やすことについて減点対象となってしまうのでしょうか？
+- 
 <br>
 <br>
 <br>
@@ -77,7 +77,7 @@ laravel環境構築
 
 
 # ER図<br>
-<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/3f3ae433-2aa9-48b5-b838-683a9b010a98" />
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/9fede595-ecf6-4482-8894-1336d41adf97" />
 
 # 使用技術<br>
   - PHP 8.1.33
@@ -90,4 +90,4 @@ laravel環境構築
   - フリマアプリトップページ： http://localhost/
   - ユーザー登録： http://localhost/register/
   - phpMyAdmin:http://localhost:8080/
-  - meilhog： http://localhost:8025/
+  - meilhog： http://localhost:8025/     アクセスできなかったらこちらでコピペしてください。　localhost:8025
