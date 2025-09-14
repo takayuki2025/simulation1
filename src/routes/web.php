@@ -87,7 +87,7 @@ Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['aut
 
 Route::get('/item/{item_id}', [ItemController::class, 'item_detail_show'])->name('item_detail');
 
-Route::get('/purchase/{item_id?}', [ItemController::class, 'item_buy_show'])->name('item_buy');
+Route::get('/purchase/{item_id}', [ItemController::class, 'item_buy_show'])->name('item_buy');
 
 
 // POSTルートの名前を'item.purchase.update'に変更し、パラメータの順序を修正

@@ -226,7 +226,7 @@ class ItemController extends Controller
 
 
 
-        public function item_purchase_edit($user_id,$item_id)
+        public function item_purchase_edit($item_id,$user_id)
     {
                 // 重要なセキュリティチェック：
                 // URLのuser_idが認証済みユーザーのIDと一致することを確認する。
@@ -262,7 +262,7 @@ class ItemController extends Controller
         ]);
 
         // 住所更新後に購入処理へリダイレクト
-        return redirect()->route('thanks_buy_create');
+        return redirect()->route('item_buy', ['item_id' => $itemId]);
     }
 
 

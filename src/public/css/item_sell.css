@@ -154,9 +154,9 @@ label {
 }
 
 .alert-success {
-    position: relative;
-    top: 40px;
-    color: #7ec8ae;;
+    position: relative !important;
+    top: 40px !important;
+    color: #799d90!important;
 }
 
 .alert_error {

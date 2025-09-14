@@ -19,8 +19,8 @@
                 <h2>{{ $item->name }}</h2>
             </div>
             <div class="item_detail_brand">
-
-                <p>ブランド名：{{ $item->brand }}</p>
+                <p class="item_detail_brand_1">ブランド名</p>
+                <p class="item_detail_brand_2">{{ $item->brand }}</p>
             </div>
             <div class="item_detail_price">
     {{-- 商品が売り切れの場合は「sold」、それ以外は価格を表示 --}}
@@ -78,7 +78,7 @@
             <!-- <h3>カテゴリー　</h3> -->
 
 <div>
-    <h3>カテゴリー</h3>
+    <h2>商品情報</h2>
     @if ($item->category)
         @php
             $categories = is_string($item->category) ? json_decode($item->category, true) : $item->category;
@@ -88,6 +88,7 @@
             }
         @endphp
         <ul class="category_views">
+            <li class="category_mark01">カテゴリー</li>
             @foreach ($categories as $category)
                 <li class="category_mark">{{ $category }}</li>
             @endforeach
@@ -98,8 +99,8 @@
 </div>
         </div>
         <div class="item_detail_condition">
-            <h3>商品の状態　</h3>
-                <h3>{{ $item->condition }}</h3>
+            <h3 class="item_detail_condition_1">商品の状態　</h3>
+                <h3 class="item_detail_condition_2">{{ $item->condition }}</h3>
         </div>
         <div class="item_detail_comment_history">
             <h2>コメント</h2>
