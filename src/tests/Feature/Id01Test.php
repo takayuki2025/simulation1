@@ -1,5 +1,7 @@
 <?php
 
+// 会員登録機能のテスト
+
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,15 +15,12 @@ class Id01Test extends TestCase
 {
     use RefreshDatabase;
 
-    // 無効なデータ（メールアドレスが空）でバリデーションが失敗するテスト
-    //バリデーション用のアクション
 
-//
-
+    // ID1無効なデータでバリデーションが失敗するテスト
     public function test_registration_with_empty_email_fails_validation_with_specific_message()
     {
 
-                // ID1-1　名前が入力されていない場合
+        // ID1-1　名前が入力されていない場合
         $response = $this->post('/register', [
             'name' => '', //名前を空にする
             'email' => 'valid.email@example.com',
@@ -35,7 +34,7 @@ class Id01Test extends TestCase
 
 
 
-                // ID1-2　メールアドレスが入力されていない場合
+        // ID1-2　メールアドレスが入力されていない場合
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => '', // メールアドレスを空にする
@@ -49,7 +48,7 @@ class Id01Test extends TestCase
 
 
 
-                // ID1-3　パスワードが入力されていない場合
+        // ID1-3　パスワードが入力されていない場合
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'valid.email@example.com',
@@ -63,7 +62,7 @@ class Id01Test extends TestCase
 
 
 
-                // ID1-4　パスワードが７文字以下の場合
+        // ID1-4　パスワードが７文字以下の場合
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'valid.email@example.com',
@@ -77,7 +76,7 @@ class Id01Test extends TestCase
 
 
 
-                // ID1-5　パスワードと確認パスワードが違う場合
+        // ID1-5　パスワードと確認パスワードが違う場合
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'valid.email@example.com',
@@ -93,10 +92,7 @@ class Id01Test extends TestCase
     }
 
 
-
-
-    // 有効なデータで登録が成功するテスト
-    // 入力正常用のアクション
+    // ID1-６　入力正常用のアクション
     public function test_registration_with_valid_data_is_successful()
     {
                 // ID1-6　全ての項目を入力して次の画面に移動する場合

@@ -233,6 +233,30 @@ class ItemController extends Controller
     }
 
 
+
+    public function comment_create(CommentRequest $request)
+    {
+        // リクエストから必要なデータを取得
+        $comment = $request->input('comment');
+        $itemId = $request->input('item_id');
+        $userId = auth()->id();
+
+        // データベースに挿入するデータを整理
+        $word = [
+            'comment' => $comment,
+            'user_id' => $userId,
+            'item_id' => $itemId,
+        ];
+
+        // コメントを保存
+        Comment::create($word);
+
+        // 明示的に商品詳細ページにリダイレクト
+        return redirect()->route('item_detail', ['item_id' => $itemId])->with('success', 'コメントが送信されました。');
+    }
+
+
+
         public function favorite(Request $request, Item $item)
     {
             $user = Auth::user();
@@ -517,6 +541,11 @@ class ItemController extends Controller
 
 
 
+
+
+
+
+
     public function thanks_buy_create(Request $request)
     {
         $item = Item::find($request->item_id);
@@ -551,7 +580,7 @@ class ItemController extends Controller
                 'user_id' => $user->id,
                 'item_id' => $item->id,
                 'status' => '購入済み',
-                'buy_address' => $buyAddress, // 修正: 'address'ではなく'buy_address'に保存
+                'buy_address' => $buyAddress,
                 'payment' => 'コンビニ払い'
             ]);
 
@@ -560,6 +589,7 @@ class ItemController extends Controller
             return redirect()->route('thanks_buy');
 
         } elseif ($request->input('payment') === 'カード支払い') {
+
             Stripe::setApiKey(env('STRIPE_SECRET'));
             $session = Session::create([
                 'payment_method_types' => ['card'],
@@ -593,11 +623,18 @@ class ItemController extends Controller
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
+            // 認証済みユーザーの情報を取得
+            $user = Auth::user();
+
+            // ユーザー情報をまとめて一つの文字列としてbuy_addressカラムに保存
+            $buyAddress = "{$user->name}\n{$user->post_number}\n{$user->address}\n{$user->building}";
+
+//  dd($request);
         OrderHistory::create([
             'user_id' => Auth::id(),
             'item_id' => $request->item_id,
-            'status' => '購入済み',
-            'address' => $request->address,
+            // 'status' => '購入済み',
+            'buy_address' => $buyAddress,
             'payment' => 'カード支払い'
         ]);
 
@@ -608,24 +645,16 @@ class ItemController extends Controller
     }
 
 
-    public function comment_create(CommentRequest $request)
+        /**
+     * 決済完了ページを表示する
+     */
+    public function thanks_buy_show()
     {
-        // リクエストから必要なデータを取得
-        $comment = $request->input('comment');
-        $itemId = $request->input('item_id');
-        $userId = auth()->id();
-
-        // データベースに挿入するデータを整理
-        $word = [
-            'comment' => $comment,
-            'user_id' => $userId,
-            'item_id' => $itemId,
-        ];
-
-        // コメントを保存
-        Comment::create($word);
-
-        // 明示的に商品詳細ページにリダイレクト
-        return redirect()->route('item_detail', ['item_id' => $itemId])->with('success', 'コメントが送信されました。');
+        return view('thanks_buy');
     }
+
+
+
+
+
 }

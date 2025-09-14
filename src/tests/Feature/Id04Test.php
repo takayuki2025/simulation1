@@ -1,5 +1,7 @@
 <?php
 
+// 商品一覧取得のテスト
+
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,8 +13,6 @@ class Id04Test extends TestCase
 {
     use RefreshDatabase;
 
-
-        //  * フロントページで全商品が正しく表示されることをテストします。
 
     //ID4-1全商品を取得できるテスト
     public function test_all_items_are_displayed_on_front_page()
@@ -40,7 +40,6 @@ class Id04Test extends TestCase
     }
 
 
-        //  * 在庫がない商品（remain=0）に'sold'が表示されることをテストします。
 
     //ID4-2購入済みの商品はsoldと表示されるテスト
     public function test_sold_item_is_displayed_correctly()
@@ -65,7 +64,6 @@ class Id04Test extends TestCase
     }
 
 
-        //  * ログインしたユーザーが出品した商品が、フロントページに表示されないことをテストします。
 
     //ID4-3自分の出品した商品は表示されないテスト
     public function test_user_is_not_displayed_their_own_items_on_all_tab()

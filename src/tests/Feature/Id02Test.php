@@ -1,5 +1,7 @@
 <?php
 
+// ログイン機能のテスト
+
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,7 +14,7 @@ class Id02Test extends TestCase
 {
     use RefreshDatabase;
 
-        //  * 有効な資格情報でログインが成功するテスト
+    //　ID02有効な資格情報でログインが成功するテスト
     public function test_login_validation_with_specific_message()
     {
         // テスト用のユーザーを事前にデータベースに作成

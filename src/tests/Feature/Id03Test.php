@@ -1,5 +1,7 @@
 <?php
 
+// ログアウト機能のテスト
+
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,11 +12,8 @@ class Id03Test extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * ログインしているユーザーが正常にログアウトできることをテスト
-     *
-     * @return void
-     */
+
+ //ID03-１（１）ログインしているユーザーが正常にログアウトできることをテスト
     public function test_authenticated_user_can_logout()
     {
 
@@ -29,7 +28,7 @@ class Id03Test extends TestCase
 
         // 2. ログアウト用のルートにPOSTリクエストを送信
 
-    //ID03-1ログイン中のユーザーがログアウトできるかのテスト
+    //ID03-１（２）ログイン中のユーザーがログアウトできるかのテスト
         $response = $this->post('/logout');
 
         // 3. ログアウトが成功し、リダイレクトされることを検証

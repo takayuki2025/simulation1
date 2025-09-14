@@ -146,7 +146,7 @@ Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
 // Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('buy_create');
 
 
-Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('thanks_buy_create');
+
 
 
 Route::post('/comment_read', [ItemController::class, 'comment_create'])->name('comment_create');
@@ -155,16 +155,20 @@ Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name
 
 
 
+
+
+//購入処理（コンビニ払い完了処理まで/カード支払いstripe決済に繋げる処理）のルード
+Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('thanks_buy_create');
+
 // 購入処理のルートを正しく修正
-Route::post('create/purchase/', [BuyController::class, 'create'])->name('buy_create_stripe');
-
-Route::get('/thanks_buy', [BuyController::class, 'thanks_buy_show'])->name('thanks_buy');
-
+// Route::post('create/purchase/', [BuyController::class, 'create'])->name('buy_create_stripe');
 
 // Stripe決済ページへの新しいルート
-Route::get('/stripe_payment/{item_id}', [BuyController::class, 'showStripePaymentForm'])->name('stripe_payment');
+// Route::get('/stripe_payment/{item_id}', [BuyController::class, 'showStripePaymentForm'])->name('stripe_payment');
 Route::get('/stripe_success', [ItemController::class, 'stripeSuccess'])->name('stripe_success');
 
+// コンビニ/カード支払い共に処理完了後のページ移動のルード
+Route::get('/thanks_buy', [ItemController::class, 'thanks_buy_show'])->name('thanks_buy');
 
 
 // Route::get('/profile/first-time-setup', [ExhibitionController::class, 'showFirstTimeForm'])->name('first_time_profile');

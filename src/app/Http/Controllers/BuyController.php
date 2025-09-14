@@ -22,62 +22,70 @@ class BuyController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function create(Request $request)
-    {
-        // 支払い方法を取得
-        $paymentMethod = $request->input('payment');
-        $itemId = $request->input('item_id');
-        $item = Item::findOrFail($itemId);
-        $address = $request->input('address');
+    // public function create(Request $request)
+    // {
+    //      dd($request1);
+    //     // 支払い方法を取得
+    //     $paymentMethod = $request->input('payment');
+    //     $itemId = $request->input('item_id');
+    //     $item = Item::findOrFail($itemId);
+    //     $address = $request->input('address');
 
-        // 価格を整数に変換
-        $priceInYen = (int) $item->price;
+    //     // 価格を整数に変換
+    //     $priceInYen = (int) $item->price;
 
-        // 価格がStripeの最小支払い額(50円)未満でないかチェック
-        if ($priceInYen < 50) {
-            return response()->json(['message' => 'お支払い金額は¥50以上である必要があります。'], 400);
-        }
+    //     // 価格がStripeの最小支払い額(50円)未満でないかチェック
+    //     if ($priceInYen < 50) {
+    //         return response()->json(['message' => 'お支払い金額は¥50以上である必要があります。'], 400);
+    //     }
 
-        // バリデーションチェック
-        if ($item->remain < 1) {
-            return response()->json(['message' => 'この商品は在庫がありません。'], 400);
-        }
+    //     // バリデーションチェック
+    //     if ($item->remain < 1) {
+    //         return response()->json(['message' => 'この商品は在庫がありません。'], 400);
+    //     }
         
-        if (empty($address)) {
-            return response()->json(['message' => '配送先住所が入力されていません。'], 400);
-        }
+    //     if (empty($address)) {
+    //         return response()->json(['message' => '配送先住所が入力されていません。'], 400);
+    //     }
         
-        // Stripe決済の場合の処理
-        try {
-            Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+    //     // Stripe決済の場合の処理
+    //     try {
+    //         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+ 
+    //         $paymentIntent = PaymentIntent::create([
+    //             'amount' => $priceInYen, // 整数に変換した価格を使用
+    //             'currency' => 'jpy',
+    //             'payment_method' => $request->input('payment_method_id'),
+    //             'confirmation_method' => 'manual',
+    //             'confirm' => true,
+    //         ]);
 
-            $paymentIntent = PaymentIntent::create([
-                'amount' => $priceInYen, // 整数に変換した価格を使用
-                'currency' => 'jpy',
-                'payment_method' => $request->input('payment_method_id'),
-                'confirmation_method' => 'manual',
-                'confirm' => true,
-            ]);
 
-            // 決済成功時にデータベースに購入情報を保存
-            OrderHistory::create([
-                'payment' => 'カード支払い',
-                'user_id' => Auth::id(),
-                'item_id' => $itemId,
-                'address' => $request->input('address') // 配送先情報を保存
-            ]);
+    //                     // 認証済みユーザーの情報を取得
+    //         $user = Auth::user();
+            
+    //         // ユーザー情報をまとめて一つの文字列としてbuy_addressカラムに保存
+    //         $buyAddress = "{$user->name}\n{$user->post_number}\n{$user->address}\n{$user->building}";
 
-            // 在庫を減らす
-            $item->remain = $item->remain - 1;
-            $item->save();
+    //         // 決済成功時にデータベースに購入情報を保存
+    //         OrderHistory::create([
+    //             'payment' => 'カード支払い',
+    //             'user_id' => Auth::id(),
+    //             'item_id' => $itemId,
+    //             'buy_address' => $buyAddress
+    //         ]);
 
-            return response()->json(['success' => true]);
+    //         // 在庫を減らす
+    //         $item->remain = $item->remain - 1;
+    //         $item->save();
 
-        } catch (\Exception $e) {
-            return response()->json(['message' => '決済エラー: ' . $e->getMessage()], 500);
-        }
+    //         return response()->json(['success' => true]);
+
+    //     } catch (\Exception $e) {
+    //         return response()->json(['message' => '決済エラー: ' . $e->getMessage()], 500);
+    //     }
     
-    }
+    // }
 
     /**
      * 決済成功後の共通処理
@@ -85,38 +93,39 @@ class BuyController extends Controller
      * @param Request $request
      * @return void
      */
-    private function handleSuccessfulPayment(Request $request)
-    {
-        $paymentMethod = $request->input('payment');
-        $itemId = $request->input('item_id');
-        $userId = auth()->id();
+    // private function handleSuccessfulPayment(Request $request)
+    // {
+    //      dd($request2);
+    //     $paymentMethod = $request->input('payment');
+    //     $itemId = $request->input('item_id');
+    //     $userId = auth()->id();
 
-        $order = [
-            'payment' => $paymentMethod,
-            'user_id' => $userId,
-            'item_id' => $itemId,
-        ];
+    //     $order = [
+    //         'payment' => $paymentMethod,
+    //         'user_id' => $userId,
+    //         'item_id' => $itemId,
+    //     ];
 
-        OrderHistory::create($order);
+    //     OrderHistory::create($order);
 
-        $item = Item::findOrFail($itemId);
+    //     $item = Item::findOrFail($itemId);
 
-        if ($item->remain > 0) {
-            $item->remain = $item->remain - 1;
-            $item->save();
-        } else {
-            // 在庫がない場合の処理
-            // このケースはフロントエンドで制御することが望ましい
-        }
-    }
+    //     if ($item->remain > 0) {
+    //         $item->remain = $item->remain - 1;
+    //         $item->save();
+    //     } else {
+    //         // 在庫がない場合の処理
+    //         // このケースはフロントエンドで制御することが望ましい
+    //     }
+    // }
 
     /**
      * 決済完了ページを表示する
      */
-    public function thanks_buy_show()
-    {
-        return view('thanks_buy');
-    }
+    // public function thanks_buy_show()
+    // {
+    //     return view('thanks_buy');
+    // }
 
     /**
      * Stripe決済フォームページを表示する
@@ -124,11 +133,12 @@ class BuyController extends Controller
      * @param int $item_id
      * @return \Illuminate\View\View
      */
-    public function showStripePaymentForm($item_id)
-    {
-        $item = Item::findOrFail($item_id);
-        $user = Auth::user();
+    // public function showStripePaymentForm($item_id)
+    // {
+    //      dd($request3);
+    //     $item = Item::findOrFail($item_id);
+    //     $user = Auth::user();
 
-        return view('stripe_payment', compact('item', 'user'));
-    }
+    //     return view('stripe_payment', compact('item', 'user'));
+    // }
 }
