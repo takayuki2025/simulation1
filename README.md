@@ -92,7 +92,7 @@ laravel環境構築
 <br>
 
 # 修正履歴（模擬案件の時だけ掲載）<br>
-- githubでmainブランチに直悦プッシュしないように他ブランチで作業してマージするようにしたのですが、mysql関係のデーターが不具合を起こしたので、gitignoreファイルに　docker/mysql/data/　を追記しました。
+- githubでmainブランチに直接プッシュしないように他ブランチで作業してマージしていたのですが、mysql関係のデーターが不具合を起こしたので、gitignoreファイルに　docker/mysql/data/　を追記しました。
 - PHPUnitでイメージファイル関係のテストのため、Dockerfileに、libpng-dev libjpeg-dev libwebp-dev　 && docker-php-ext-configure gd --with-jpeg --with-webp　 && docker-php-ext-install -j$(nproc) gdを追記してビルドしました。
 
 
