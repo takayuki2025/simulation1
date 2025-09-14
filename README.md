@@ -33,10 +33,29 @@ laravel環境構築
 <br>
 
 # 伝えること<br>
-- テストカード決済のカード番号は、4242 4242 4242 4242　で有効期限日は未来の日にち、セキュリティー番号とメールアドレスと名前はなんでも大丈夫です。<br>
-- COACHTECHのロゴをクリックするとトップページに戻ります<br>
+-  テストカード決済のカード番号は、4242 4242 4242 4242　で有効期限日は未来の日にち、セキュリティー番号とメールアドレスと名前はなんでも大丈夫です。<br>
+-  COACHTECHのロゴをクリックするとトップページに、ログインユーザーが商品詳細画面で自分が出品した商品の購入手続きをクリックするとプロフィールページに、ゲストユーザーが購入手続きへ・ヘッダーのマイページ・出品・コメントを送信するをクリックするとログインページに移動するようになっています。<br>
 - 
 
+<br>
+<br>
+
+# スプレットシートの基本設計書にある項目で追加した内容（模擬案件の時だけ掲載）<br>
+- Route,Controller関係<br>
+　　出品完了処理画面：パス・/thanks_sell　アクション・thanks_sell_create<br>
+　　購入完了処理画面：パス・/thanks_buy　アクション・thanks_buy_create<br>
+　　email認証前再送信ページ前までの処理:パス・email/verify　アクション名・<br>
+　　追加コントローラー名：EmailVerificationController（認証メール関係のコントローラー）<br>
+- View関係<br>
+　　出品完了画面：thanks_sell.blade.php<br>
+　　購入完了画面：thanks_buy.blade.php<br>
+　　email認証前ページ：verify-email.blade.php<br>
+　　カード支払い決済画面：stripe_payment.blade<br>
+- バリデーション関係<br>
+　　ファイル名：ProfileImageRequest.php　内容・ユーザー画像アップロード　ルール・拡張子が.jpegもしくは.png<br>
+
+
+<br>
 <br>
 
 # これからすること、課題（模擬案件の時だけ掲載）<br>
@@ -53,8 +72,9 @@ laravel環境構築
 - 　完了　新規ユーザ情報登録、プロフィール変更時のバリデーションがかかった時そのページにbackするようにする<br>
 - 　完了　サーチ機能実行後マイリストに移っても継続サーチできるようにする<br>
 - 　完了　mailhogを使用してメール認証の実装<br>
-- 　完了　PHPUnitを使用してテスト作成
+- 　完了　PHPUnitを使用してテスト作成、vendor/bin/phpunitコマンドの実行（全てOK）<br>
 - 　アイテム・ユーザイメージ名をユニークにするためのイメージ名保存<br>
+- 　制作後の調整
 - <br>
 
 課題<br>
@@ -72,7 +92,8 @@ laravel環境構築
 <br>
 
 # 修正履歴（模擬案件の時だけ掲載）<br>
-
+- githubでmainブランチに直悦プッシュしないように他ブランチで作業してマージするようにしたのですが、mysql関係のデーターが不具合を起こしたので、gitignoreファイルに　docker/mysql/data/　を追記しました。
+- PHPUnitでイメージファイル関係のテストのため、Dockerfileに、libpng-dev libjpeg-dev libwebp-dev　 && docker-php-ext-configure gd --with-jpeg --with-webp　 && docker-php-ext-install -j$(nproc) gdを追記してビルドしました。
 
 
 
@@ -90,4 +111,4 @@ laravel環境構築
   - フリマアプリトップページ： http://localhost/
   - ユーザー登録： http://localhost/register/
   - phpMyAdmin:http://localhost:8080/
-  - meilhog： http://localhost:8025/     アクセスできなかったらこちらでコピペしてください。　localhost:8025
+  - meilhog： http://localhost:8025/
