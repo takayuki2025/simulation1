@@ -32,28 +32,30 @@
     @endif
 </div>
             <div class="item_detail_icon">
-                <p>いいね</p>
+                <p class="favorites_count">{{ $favoritesCount }}</p>
                 @if(Auth::check() && Auth::id() != $item->user_id)
                     <form action="{{ route('item.favorite', ['item' => $item->id]) }}" method="POST">
                         @csrf
                         <button type="submit" class="favorite_button">
-                            <span class="heart_icon">
+                            <div class="ster_icon">
                                 @if ($isFavorited)
-                                    &#x2665;
+                                    <span class="ster_icon_1">★</span>
                                 @else
-                                    &#x2661;
+                                    <span class="ster_icon_2">⭐︎</span>
                                 @endif
-                            </span>
+                            </div>
                         </button>
-                    <span class="favorites_count">{{ $favoritesCount }}</span>
+                    <!-- <span class="favorites_count">{{ $favoritesCount }}</span> -->
                     </form>
                 @endif
                 @if(Auth::check() && Auth::id() == $item->user_id)
                     <span class="favorites_count">{{ $favoritesCount }}</span>
                 @endif
                 {{-- ここにコメント数を追加 --}}
-                <p>コメント</p>
-                <span class="comments_count">{{ $comments->count() }}</span>
+    <p class="comments_count0">{{ $comments->count() }}</p>
+                <span class="comments_icon">&#128172;</span>
+                
+
             </div>
             <div class="item_detail_form">
 <form action="{{ route('item_buy', ['item_id' => $item->id]) }}" method="get">
@@ -105,7 +107,7 @@
         <div class="item_detail_comment_history">
             <div class="comment_count_flex">
             <h2>コメント</h2>
-            <span class="comments_count2">({{ $comments->count() }})</span>
+            <span class="comments_count">({{ $comments->count() }})</span>
         </div>
 @forelse($comments as $comment)
     <div class="comment">

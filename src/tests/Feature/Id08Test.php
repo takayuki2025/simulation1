@@ -132,7 +132,7 @@ class Id08Test extends TestCase
     }
 
 
-    //ID08-２(１)いいね登録後に塗りつぶされたハートが表示されるかテストします。
+    //ID08-２(１)いいね登録後に塗りつぶされた星が表示されるかテストします。
     public function test_favorited_item_shows_filled_heart()
     {
         // 準備
@@ -148,15 +148,14 @@ class Id08Test extends TestCase
         $this->actingAs($user);
 
         // 実行
-        // ルート名を 'item_detail' に、パラメータ名を 'item_id' に修正
         $response = $this->get(route('item_detail', ['item_id' => $item->id]));
 
         // 検証
-        $response->assertSee('&#x2665;', false);
-        $response->assertDontSee('&#x2661;');
+        $response->assertSee('★', false);
+        $response->assertDontSee('⭐︎');
     }
     
-    //ID08-２(２)いいねしていないときに中抜きのハートが表示されるかテストします。
+    //ID08-２(２)いいねしていないときに中抜きの星が表示されるかテストします。
     public function test_unfavorited_item_shows_empty_heart()
     {
         // 準備
@@ -165,12 +164,11 @@ class Id08Test extends TestCase
         $this->actingAs($user);
 
         // 実行
-        // ルート名を 'item_detail' に、パラメータ名を 'item_id' に修正
         $response = $this->get(route('item_detail', ['item_id' => $item->id]));
 
         // 検証
-        $response->assertSee('&#x2661;', false);
-        $response->assertDontSee('&#x2665;');
+        $response->assertSee('⭐︎', false);
+        $response->assertDontSee('★');
     }
 
 
