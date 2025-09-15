@@ -100,10 +100,10 @@
                 <button type="submit" class="resend-button">認証メールを再送する</button>
             </form>
 
-            <form method="POST" action="{{ route('logout') }}" class="logout-form">
+            <!-- <form method="POST" action="{{ route('logout') }}" class="logout-form">
                 @csrf
                 <button type="submit" class="logout-link">認証しないでフロントページに戻る一応つけておきました。</button>
-            </form>
+            </form> -->
         </div>
     </div>
 </body>

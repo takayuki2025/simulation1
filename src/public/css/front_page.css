@@ -1,3 +1,9 @@
+    .item-details {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+
 .items_select {
     display: flex;
 
@@ -25,36 +31,58 @@
     height: 80px;
     border-bottom: 3px solid #afafaf;
     position: relative;
-    right: 70px;
+    /* right: 70px; */
 }
 
 .recs {
     text-decoration: none;
     position: absolute;
-    bottom: 13px;
-    left: 170px;
+    top: 30px;
+    left: 100px;
     font-weight: bold;
 }
 
 .mylists {
     text-decoration: none;
     position: absolute;
-    bottom: 13px;
-    left: 320px;
+    top: 30px;
+    left: 250px;
     font-weight: bold;
 }
 
-a:hover {
+/* a:hover {
     color: #ff0600;
-}
+} */
 
-.sold_view {
+/* .sold_view {
     display: flex;
-}
+} */
 
-.sold_view1 {
+/* .sold_view1 {
     position: relative;
     left: 20px;
     font-size: 14px;
     color: rgb(250, 103, 77)
+} */
+
+.recs,
+.mylists {
+    text-decoration: none;
+    color: #999;
+font-size: 1.2rem;
+font-weight: bold;
+padding: 10px 20px;
+border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.recs:hover,
+.mylists:hover {
+    color: #666;
+}
+
+
+.recs.active, .mylists.active {
+color: #ff4041;
+/* border-color: #007bff; */
 }

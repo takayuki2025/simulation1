@@ -38,7 +38,7 @@ class ItemsTableSeeder extends Seeder
                 'remain' => 1,
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'name' => '玉ねぎ３束',
                 'price' => 300,
                 'brand' => 'なし',
@@ -49,7 +49,7 @@ class ItemsTableSeeder extends Seeder
                 'remain' => 1,
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'name' => '革靴',
                 'price' => 4000,
                 'brand' => '',
@@ -60,7 +60,7 @@ class ItemsTableSeeder extends Seeder
                 'remain' => 1,
             ],
             [
-                'user_id' => 1,
+                'user_id' => 3,
                 'name' => 'ノートPC',
                 'price' => 45000,
                 'brand' => '',
@@ -71,7 +71,7 @@ class ItemsTableSeeder extends Seeder
                 'remain' => 1,
             ],
             [
-                'user_id' => 1,
+                'user_id' => 3,
                 'name' => 'マイク',
                 'price' => 8000,
                 'brand' => 'なし',
@@ -82,7 +82,7 @@ class ItemsTableSeeder extends Seeder
                 'remain' => 1,
             ],
             [
-                'user_id' => 1,
+                'user_id' => 3,
                 'name' => 'ショルダーバッグ',
                 'price' => 3500,
                 'brand' => '',
@@ -93,7 +93,7 @@ class ItemsTableSeeder extends Seeder
                 'remain' => 1,
             ],
             [
-                'user_id' => 1,
+                'user_id' => 4,
                 'name' => 'ダンブラー',
                 'price' => 500,
                 'brand' => 'なし',
@@ -104,7 +104,7 @@ class ItemsTableSeeder extends Seeder
                 'remain' => 1,
             ],
             [
-                'user_id' => 1,
+                'user_id' => 4,
                 'name' => 'コーヒーミル',
                 'price' => 4000,
                 'brand' => 'slarbacks',
@@ -115,7 +115,7 @@ class ItemsTableSeeder extends Seeder
                 'remain' => 1,
             ],
             [
-                'user_id' => 1,
+                'user_id' => 4,
                 'name' => 'メイクセット',
                 'price' => 2500,
                 'brand' => '',

@@ -80,9 +80,9 @@
     left: 120px;
 }
 
-a:hover {
+/* a:hover {
     color: #ff5555;
-}
+} */
 
 
 
@@ -118,6 +118,15 @@ a:hover {
     padding: 0;
     color: #721c24;
 }
+
+
+/* アクティブなタブのスタイル */
+.sell_items.active,
+.buy_items.active {
+    color: #ff5555;
+    border-color: #ff5555;
+}
+
 
 /*
     エラーメッセージを包含する要素

@@ -234,7 +234,7 @@ class ItemController extends Controller
 
             // first_time_accessをtrueに設定するための更新
             $updateData = $request->only('name', 'post_number', 'address', 'building');
-            $updateData['first_time_access'] = true;
+            // $updateData['first_time_access'] = true;
 
             $user->user_image = $request->input('user_image');
             $user->update($updateData);
@@ -289,7 +289,7 @@ class ItemController extends Controller
             // アップデート処理
             $user = Auth::user();
             $user->update([
-                'first_time_access' => 0,
+                // 'first_time_access' => 0,
                 'user_image' => 'storage/' . $dbPath // データベースにはstorage/からのパスを保存
             ]);
 

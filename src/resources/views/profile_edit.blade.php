@@ -44,28 +44,28 @@
         @csrf
 
           <label class="label_form_1">ユーザー名</label>
-              <input type="text" class="name_form" name="name" value="{{ $user->name ?? '' }}"/>
+              <input type="text" class="name_form" name="name" value="{{ old('name' , $user->name ?? '') }}"/>
                 <div class="profile__error">
                   @error('name')
                   {{ $message }}
                   @enderror
                 </div>
               <label class="label_form_2">郵便番号</label>
-                <input type="text" class="email_form" name="post_number" value="{{ $user->post_number ?? '' }}"/>
+                <input type="text" class="email_form" name="post_number" value="{{ old('post_number' , $user->post_number ?? '') }}"/>
                   <div class="profile__error">
                     @error('post_number')
                     {{ $message }}
                     @enderror
                   </div>
               <label class="label_form_3">住所</label>
-                <input type="text" class="password_form" name="address" value="{{ $user->address ?? '' }}"/>
+                <input type="text" class="password_form" name="address" value="{{ old('address' , $user->address ?? '') }}"/>
                   <div class="profile__error">
                     @error('address')
                     {{ $message }}
                     @enderror
                 </div>
               <label class="label_form_4">建物名</label>
-                <input type="text" class="password_form" name="building" value="{{ $user->building ?? '' }}"/>
+                <input type="text" class="password_form" name="building" value="{{ old('building' , $user->building ?? '') }}"/>
                   <div class="profile__error">
                     @error('building')
                     {{ $message }}

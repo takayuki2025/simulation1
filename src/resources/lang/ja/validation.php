@@ -134,7 +134,8 @@ return [
             'rule-name' => 'custom-message',
         ],
         'name' => [
-            'required' => 'お名前を入力してください。'
+            'required' => 'お名前を入力してください。',
+            'max' => '名前は20文字以内で入力してください',
         ],
         'email' => [
             'required' => 'メールアドレスを入力してください。',
