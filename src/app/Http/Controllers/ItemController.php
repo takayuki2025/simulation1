@@ -26,15 +26,12 @@ use Stripe\Checkout\Session;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
     // use VerifiesEmails;
+use Illuminate\Support\Str;
 
 class ItemController extends Controller
 {
-    /**
-     * フロントページを表示し、検索とタブの切り替えを処理します。
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
-     */
+
+// フロントページを表示し、持続検索機能とタブの切り替えを処理します。
     public function index(Request $request)
     {
         // URLのGETパラメータ'tab'を取得。デフォルトは'all'
@@ -88,57 +85,6 @@ class ItemController extends Controller
     }
 
 
-
-
-    public function profile_show(Request $request)
-    {
-        $user = Auth::user();
-
-        // ログイン状態を確認
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'ログインしてください。');
-        }
-
-        // URLのGETパラメータ'page'を取得。デフォルトは'sell'
-        $page = $request->input('page', 'sell');
-        $items = collect();
-
-        // pageの値に応じてデータを取得
-        if ($page === 'sell') {
-            $items = Item::where('user_id', $user->id)->get();
-        } elseif ($page === 'buy') {
-            $items = OrderHistory::where('user_id', $user->id)->with('item')->get();
-        }
-        return view('profile', compact('user', 'items', 'page'));
-    }
-
-
-        public function item_sell_show(Request $request)
-    {
-            if (Auth::check()) {
-            $items = Item::all();
-            }
-            return view('item_sell',compact('items'));
-    }
-
-
-        public function item_buy_show($item_id)
-    {
-
-            $user = Auth::user();
-            $item = Item::find($item_id);
-            if (!$item) {
-                abort(404);
-            }
-
-        return view('item_buy',[
-            'item' => $item,
-            'item_id' => $item->id,
-            'user' => $user,
-        ]);
-    }
-
-
         public function item_detail_show($item_id)
     {
             $item = Item::findOrFail($item_id);
@@ -171,59 +117,21 @@ class ItemController extends Controller
     }
 
 
-
-    public function comment_create(CommentRequest $request)
+        public function item_buy_show($item_id)
     {
-        // リクエストから必要なデータを取得
-        $comment = $request->input('comment');
-        $itemId = $request->input('item_id');
-        $userId = auth()->id();
 
-        // データベースに挿入するデータを整理
-        $word = [
-            'comment' => $comment,
-            'user_id' => $userId,
-            'item_id' => $itemId,
-        ];
-
-        // コメントを保存
-        Comment::create($word);
-
-        // 明示的に商品詳細ページにリダイレクト
-        return redirect()->route('item_detail', ['item_id' => $itemId])->with('success', 'コメントが送信されました。');
-    }
-
-
-        public function favorite(Request $request, Item $item)
-    {
             $user = Auth::user();
+            $item = Item::find($item_id);
+            if (!$item) {
+                abort(404);
+            }
 
-            if (!$user) {
-                // ログインしていない場合はログインページにリダイレクト
-            return redirect()->route('login')->with('error', 'いいね機能を利用するにはログインが必要です。');
-        }
-
-                // 既にいいねしているかチェック
-                $existingGood = Good::where('item_id', $item->id)
-                    ->where('user_id', $user->id)
-                    ->first();
-
-                if ($existingGood) {
-                // 既にいいねしている場合は、いいねを削除
-                $existingGood->delete();
-                } else {
-                // いいねしていない場合は、新しく作成
-                Good::create([
-                    'item_id' => $item->id,
-                    'user_id' => $user->id,
-                ]);
-        }
-                // 元のページに戻る（リダイレクト）
-                return back();
+        return view('item_buy',[
+            'item' => $item,
+            'item_id' => $item->id,
+            'user' => $user,
+        ]);
     }
-
-
-
 
 
         public function item_purchase_edit($item_id,$user_id)
@@ -243,65 +151,42 @@ class ItemController extends Controller
     }
 
 
-    public function update(AddressRequest $request, $itemId, $userId)
+
+        public function item_sell_show(Request $request)
     {
-        // ユーザーIDを使ってユーザーを取得します。
-        $user = User::find($userId);
-
-        // ユーザーが存在しない場合はエラーを返します。
-        if (!$user) {
-            return redirect()->back()->with('error', 'ユーザーが見つかりません。');
-        }
-
-        // リクエストから新しい住所情報を取得してユーザーを更新します。
-        // AddressRequestでバリデーション済みのため、直接アクセスします。
-        $user->update([
-            'post_number' => $request->post_number,
-            'address' => $request->address,
-            'building' => $request->building,
-        ]);
-
-        // 住所更新後に購入処理へリダイレクト
-        return redirect()->route('item_buy', ['item_id' => $itemId]);
-    }
-
-
-            public function profile_revise(Request $request)
-    {
-        // dd($request);
-        if (Auth::check()) {
-        $user = Auth::user();
-        }
-        return view('profile_edit',compact('user'));
-    }
-
-
-    public function profile_update(ProfileRequest $request)
-    {
-        if (Auth::check()) {
-            $user = Auth::user();
-
-            if (!$user) {
-                // セキュリティ上のチェック
-                return redirect()->route('login')->with('error', 'ログインしてください。');
+            if (Auth::check()) {
+            $items = Item::all();
             }
-
-            // first_time_accessをtrueに設定するための更新
-            $updateData = $request->only('name', 'post_number', 'address', 'building');
-            $updateData['first_time_access'] = true;
-
-            $user->user_image = $request->input('user_image');
-            $user->update($updateData);
-
-            // update()の後の$userオブジェクトは、更新された最新の状態を反映しています。
-        }
-        return redirect()->route('front_page')->with('success', 'プロフィールを更新しました');
+            return view('item_sell',compact('items'));
     }
 
 
 
-    //  * '/onetime'へのアクセスを処理し、認証状態に応じてリダイレクトする
-    //  */
+    public function profile_show(Request $request)
+    {
+        $user = Auth::user();
+
+        // ログイン状態を確認
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'ログインしてください。');
+        }
+
+        // URLのGETパラメータ'page'を取得。デフォルトは'sell'
+        $page = $request->input('page', 'sell');
+        $items = collect();
+
+        // pageの値に応じてデータを取得
+        if ($page === 'sell') {
+            $items = Item::where('user_id', $user->id)->get();
+        } elseif ($page === 'buy') {
+            $items = OrderHistory::where('user_id', $user->id)->with('item')->get();
+        }
+        return view('profile', compact('user', 'items', 'page'));
+    }
+
+
+
+///onetime'へのアクセスを処理し、認証状態に応じてリダイレクトする
     public function handleOnetimeRedirect(): RedirectResponse
     {
         // ユーザーが認証済みかどうかを確認
@@ -325,53 +210,90 @@ class ItemController extends Controller
 
 
 
-        public function item_image_upload(Request $request){
+// ユーザー関係の処理
 
-                    $rules = [
-            'item_image' => 'required|mimes:jpeg,png' ,
-        ];
-
-                    $messages = [
-            'item_image.required' => '商品画像ファイルをアップロードしてください。',
-            'item_image.mimes' => '商品画像ファイルは.jpegまたは.png形式でアップロードしてください。',
-        ];
-
-                    $validator = Validator::make($request->all(), $rules, $messages);
-
-                            if ($validator->fails()) {
-            return redirect()->back()
-                    ->withErrors($validator)
-                    ->withInput();
+        public function profile_revise(Request $request)
+    {
+        // dd($request);
+        if (Auth::check()) {
+        $user = Auth::user();
         }
-
-            //  $img=$request->imgpath;  //formで設置したname名
-            $filename=$request->item_image->getClientOriginalName();
-            $img=$request->item_image->storeAs('public/item_images',$filename);
-            $img = str_replace('public/', '', $img);
-
-        return redirect()->back()->with('success', '商品画像アップロードできました！')->with('image_path', 'storage/' .$img);
+        return view('profile_edit',compact('user'));
     }
 
 
+        public function profile_update(ProfileRequest $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if (!$user) {
+                // セキュリティ上のチェック
+                return redirect()->route('login')->with('error', 'ログインしてください。');
+            }
+
+            // first_time_accessをtrueに設定するための更新
+            $updateData = $request->only('name', 'post_number', 'address', 'building');
+            $updateData['first_time_access'] = true;
+
+            $user->user_image = $request->input('user_image');
+            $user->update($updateData);
+
+            // update()の後の$userオブジェクトは、更新された最新の状態を反映しています。
+        }
+        return redirect()->route('front_page')->with('success', 'プロフィールを更新しました');
+    }
+
+
+        public function update(AddressRequest $request, $itemId, $userId)
+    {
+        // ユーザーIDを使ってユーザーを取得します。
+        $user = User::find($userId);
+
+        // ユーザーが存在しない場合はエラーを返します。
+        if (!$user) {
+            return redirect()->back()->with('error', 'ユーザーが見つかりません。');
+        }
+
+        // リクエストから新しい住所情報を取得してユーザーを更新します。
+        // AddressRequestでバリデーション済みのため、直接アクセスします。
+        $user->update([
+            'post_number' => $request->post_number,
+            'address' => $request->address,
+            'building' => $request->building,
+        ]);
+
+        // 住所更新後に購入処理へリダイレクト
+        return redirect()->route('item_buy', ['item_id' => $itemId]);
+    }
+
+
+    // プロフィール編集画面からユーザーイメージのアップロード処理
     public function user_image_upload(ProfileImageRequest $request)
     {
         // アップロードされたファイルが存在するか、かつ有効なファイルかを確認
         if ($request->hasFile('user_image') && $request->file('user_image')->isValid()) {
-            $filename = $request->user_image->getClientOriginalName();
-            // ここを修正：'public/' を削除して、パスをシンプルにする
-            $path = $request->user_image->storeAs('user_images', $filename, 'public');
+            // ランダムなファイル名を作成（user_image_ + ランダムな文字列 + 元の拡張子）
+            $originalName = $request->user_image->getClientOriginalName();
+            $extension = $request->user_image->getClientOriginalExtension();
+            $randomName = 'user_image_' . Str::random(30) . '.' . $extension;
 
-            // パスから 'public/' を除去してデータベースに保存する形式に変換
+            // `storeAs`メソッドで指定したファイル名で保存
+            // 'public'ディスクを使用
+            $path = $request->user_image->storeAs('public/user_images', $randomName);
+
+            // データベースに保存するパスを生成
+            // 'public/' プレフィックスを削除
             $dbPath = str_replace('public/', '', $path);
 
             // アップデート処理
             $user = Auth::user();
             $user->update([
                 'first_time_access' => 0,
-                'user_image' => 'storage/' . $dbPath // データベースに保存
+                'user_image' => 'storage/' . $dbPath // データベースにはstorage/からのパスを保存
             ]);
 
-            return redirect()->route('profile_edit')->with('success', 'ユーザイメージをアップロードしました。')->with('image_path2', 'storage/' .$dbPath);
+            return redirect()->route('profile_edit')->with('success', 'ユーザーイメージをアップロードしました。')->with('image_path2', 'storage/' . $dbPath);
         }
 
         // ファイルが存在しない、または無効な場合
@@ -380,37 +302,9 @@ class ItemController extends Controller
 
 
 
-    public function thanks_sell_create(ExhibitionRequest $request)
-    {
-        // リクエストから必要なデータを取得
-        $item = $request->only([
-            'name',
-            'price',
-            'brand',
-            'explain',
-            'condition',
-            'item_image',
-        ]);
-        
-        // カテゴリーデータを明示的に取得し、JSON形式に変換
-        $selectedCategories = $request->input('category');
-        $item['category'] = json_encode($selectedCategories);
-        
-        // ログインユーザーIDとremainを付与
-        $item['user_id'] = auth()->id();
-        $item['remain'] = 1;
+// 購入商品・出品商品関係の処理
 
-        // データベースに商品を保存
-        Item::create($item);
-
-        // 商品出品後のリダイレクトと成功メッセージの設定
-        return view('thanks_sell');
-    }
-
-
-
-
-    public function thanks_buy_create(Request $request)
+        public function thanks_buy_create(Request $request)
     {
         $item = Item::find($request->item_id);
 
@@ -480,9 +374,127 @@ class ItemController extends Controller
         }
     }
 
-    /**
-     * Stripe決済成功後の処理
-     */
+
+        public function thanks_sell_create(ExhibitionRequest $request)
+    {
+        // リクエストから必要なデータを取得
+        $item = $request->only([
+            'name',
+            'price',
+            'brand',
+            'explain',
+            'condition',
+            'item_image',
+        ]);
+
+        // カテゴリーデータを明示的に取得し、JSON形式に変換
+        $selectedCategories = $request->input('category');
+        $item['category'] = json_encode($selectedCategories);
+
+        // ログインユーザーIDとremainを付与
+        $item['user_id'] = auth()->id();
+        $item['remain'] = 1;
+
+        // データベースに商品を保存
+        Item::create($item);
+
+        // 商品出品後のリダイレクトと成功メッセージの設定
+        return view('thanks_sell');
+    }
+
+
+    //  出品商品のイメージのアップロード
+    public function item_image_upload(Request $request)
+    {
+        // バリデーションルール
+        $rules = [
+            'item_image' => 'required|mimes:jpeg,png',
+        ];
+
+        // バリデーションメッセージ
+        $messages = [
+            'item_image.required' => '商品画像ファイルをアップロードしてください。',
+            'item_image.mimes' => '商品画像ファイルは.jpegまたは.png形式でアップロードしてください。',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        // バリデーション失敗時の処理
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // ファイル名にランダムな文字列を付与
+        $extension = $request->file('item_image')->getClientOriginalExtension();
+        $randomName = 'item_image_' . Str::random(30) . '.' . $extension;
+
+        // 画像を保存
+        $path = $request->item_image->storeAs('public/item_images', $randomName);
+        $dbPath = str_replace('public/', '', $path);
+
+        return redirect()->back()->with('success', '商品画像アップロードできました！')->with('image_path', 'storage/' . $dbPath);
+    }
+
+
+
+// いいね・コメント機能関係
+
+        public function favorite(Request $request, Item $item)
+    {
+            $user = Auth::user();
+
+            if (!$user) {
+                // ログインしていない場合はログインページにリダイレクト
+            return redirect()->route('login')->with('error', 'いいね機能を利用するにはログインが必要です。');
+        }
+
+                // 既にいいねしているかチェック
+                $existingGood = Good::where('item_id', $item->id)
+                    ->where('user_id', $user->id)
+                    ->first();
+
+                if ($existingGood) {
+                // 既にいいねしている場合は、いいねを削除
+                $existingGood->delete();
+                } else {
+                // いいねしていない場合は、新しく作成
+                Good::create([
+                    'item_id' => $item->id,
+                    'user_id' => $user->id,
+                ]);
+        }
+                // 元のページに戻る（リダイレクト）
+                return back();
+    }
+
+
+        public function comment_create(CommentRequest $request)
+    {
+        // リクエストから必要なデータを取得
+        $comment = $request->input('comment');
+        $itemId = $request->input('item_id');
+        $userId = auth()->id();
+
+        // データベースに挿入するデータを整理
+        $word = [
+            'comment' => $comment,
+            'user_id' => $userId,
+            'item_id' => $itemId,
+        ];
+
+        // コメントを保存
+        Comment::create($word);
+
+        // 明示的に商品詳細ページにリダイレクト
+        return redirect()->route('item_detail', ['item_id' => $itemId])->with('success', 'コメントが送信されました。');
+    }
+
+
+
+// stripe・共通購入完了画面処理
+
     public function stripeSuccess(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -507,11 +519,11 @@ class ItemController extends Controller
         return redirect()->route('thanks_buy');
     }
 
-        /**
-     * 決済完了ページを表示する
-     */
+
+    // 決済完了ページを表示する
     public function thanks_buy_show()
     {
         return view('thanks_buy');
     }
+
 }

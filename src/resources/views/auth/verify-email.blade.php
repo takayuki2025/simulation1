@@ -101,7 +101,7 @@
 
             <form method="POST" action="{{ route('logout') }}" class="logout-form">
                 @csrf
-                <button type="submit" class="logout-link">ログアウト</button>
+                <button type="submit" class="logout-link">ログアウト一応つけておきました。</button>
             </form>
         </div>
     </div>
