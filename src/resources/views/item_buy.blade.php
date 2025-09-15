@@ -17,7 +17,7 @@
                             <img src="{{ asset($item->item_image) }}" alt="商品の画像">
                         </div>
                         <h3 class="item_name">{{ $item->name }}</h3>
-                        <h2 class="item_price">¥{{ $item->price }}</h2>
+                        <h2 class="item_price">¥{{ number_format($item->price) }}</h2>
                     </div>
 
                     <div class="item_buy_content2">
