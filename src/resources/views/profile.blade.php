@@ -11,7 +11,7 @@
     <div class="profile_header">
         <div class="profile_header_1">
             <!-- プロフィール画像の表示。画像がない場合はデフォルト画像を表示 -->
-            <img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile.jpg') }}" alt="プロフィール画像" class="user_image_css">
+            <img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile2.jpg') }}" alt="プロフィール画像" class="user_image_css">
             <h2 class="user_name_css">{{ $user['name'] }}</h2>
 
         <form action="{{ route('profile_edit') }}" method="get" class="user_edit_css1">

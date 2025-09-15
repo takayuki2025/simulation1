@@ -103,16 +103,23 @@
                 <h3 class="item_detail_condition_2">{{ $item->condition }}</h3>
         </div>
         <div class="item_detail_comment_history">
+            <div class="comment_count_flex">
             <h2>コメント</h2>
+            <span class="comments_count2">({{ $comments->count() }})</span>
+        </div>
+@forelse($comments as $comment)
+    <div class="comment">
+        <div class="comment_name_image">
+             <!-- プロフィール画像の表示。画像がない場合はデフォルト画像を表示 -->
+            <img src="{{ isset($comment->user->user_image) && $comment->user->user_image ? asset($comment->user->user_image) : asset('/storage/images/default-profile2.jpg') }}" alt="プロフィール画像" class="user_image_css">
+            <p>{{ $comment->user->name }}</p>
+        </div>
+        <p class="comment-text">{{ $comment->comment }}</p>
 
-            @forelse($comments as $comment)
-                <div class="comment">
-                    <p class="comment-text">{{ $comment->comment }}</p>
-                    <small>投稿者: {{ $comment->user->name }}</small>
-                    <small>投稿日時: {{ $comment->created_at->format('Y/m/d H:i') }}</small>
-                </div>
-            @empty
-                <p>まだコメントはありません。</p>
+        <small style="font-size:11px">投稿日時: {{ $comment->created_at->format('Y/m/d H:i') }}</small>
+    </div>
+@empty
+    <p>まだコメントはありません。</p>
 @endforelse
 
         </div>

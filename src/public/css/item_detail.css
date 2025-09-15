@@ -52,6 +52,9 @@
     color: aliceblue;
     border: #ff5555;
     background-color: #ff5555;
+        text-decoration: none;
+            text-align: center;
+            font-weight: 700;
 }
 
 h3 {
@@ -74,6 +77,7 @@ p {
 
 .error_massage {
     color: red;
+    list-style-type: none;
 }
 
 .info_submit {
@@ -81,11 +85,11 @@ p {
     text-align: center;
 }
 
-.comment_submit {
+/* .comment_submit {
     text-decoration: none;
     text-align: center;
     font-weight: 700;
-}
+} */
 
 .category_views {
     display: flex;
@@ -139,6 +143,28 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
+.comment_count_flex {
+    display: flex;
+}
 
+.comments_count2 {
+    position: relative;
+    top: 25px;
+    left: 20px;
+    font-size:18px;
+}
+
+.comment_name_image {
+    display: flex;
+}
+
+.user_image_css {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
 }
