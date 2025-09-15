@@ -71,13 +71,14 @@
     .logout-link {
         background-color: #dfd0a3ff;
         color: white;
-        opacity: 0.3; /* ここで透明度を調整 */
+
+        opacity: 0.5; /* ここで透明度を調整 */
     }
     
-    /* ログアウトボタンを左寄せにするスタイル */
+    /* ログアウトボタンのスタイル */
     .logout-form {
         width: 100%;
-        text-align: left;
+        /* text-align: left; */
     }
 </style>
 <body>
@@ -101,7 +102,7 @@
 
             <form method="POST" action="{{ route('logout') }}" class="logout-form">
                 @csrf
-                <button type="submit" class="logout-link">ログアウト一応つけておきました。</button>
+                <button type="submit" class="logout-link">認証しないでフロントページに戻る一応つけておきました。</button>
             </form>
         </div>
     </div>
