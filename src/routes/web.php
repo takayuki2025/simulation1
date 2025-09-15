@@ -43,8 +43,6 @@ Route::get('/onetime', [ItemController::class, 'handleOnetimeRedirect'])->name('
 
 
 
-
-
 // Fortifyが提供するデフォルトのログアウト処理
 Route::post('/logout', function (Request $request) {
     Auth::logout();
@@ -72,63 +70,44 @@ Route::post('/email/verification-notification', [EmailVerificationController::cl
 
 
 
-
-
-
-// その他のルート...
-
-Route::patch('/profile_update', [ItemController::class, 'profile_update']);
-
-
-
-
-Route::get('/mypage', [ItemController::class, 'profile_show'])->middleware(['auth'])->name('profile');
-Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['auth'])->name('item_sell');
-
 Route::get('/item/{item_id}', [ItemController::class, 'item_detail_show'])->name('item_detail');
 
 Route::get('/purchase/{item_id}', [ItemController::class, 'item_buy_show'])->name('item_buy');
 
 
 // POSTルートの名前を'item.purchase.update'に変更し、パラメータの順序を修正
-Route::post('/purchase/address/{item_id}/{user_id}', [ItemController::class, 'update'])->name('item.purchase.update');
-
+Route::post('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'update'])->name('item.purchase.update');
 // GETルートの名前を'item.purchase.edit'に変更し、パラメータの順序を修正
-Route::get('/purchase/address/{item_id}/{user_id}', [ItemController::class, 'item_purchase_edit'])->name('item.purchase.edit');
+Route::get('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'item_purchase_edit'])->name('item.purchase.edit');
 
-Route::post('/upload', [ItemController::class, 'item_image_upload']);
+Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['auth'])->name('item_sell');
 
-Route::post('/upload2', [ItemController::class, 'user_image_upload']);
-// Route::match(['get','post'],'/upload2', [ItemController::class, 'user_image_upload']);
+
+Route::get('/mypage', [ItemController::class, 'profile_show'])->middleware(['auth'])->name('profile');
 
 
 Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
-
-
-
-
-
-
-
-
-
-Route::post('/comment_read', [ItemController::class, 'comment_create'])->name('comment_create');
-
-Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name('item.favorite');
-
-
-
+Route::get('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
 
 
 //購入処理（コンビニ払い完了処理まで/カード支払いstripe決済に繋げる処理）のルード
 Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('thanks_buy_create');
-
-
+// カード支払いでの処理
 Route::get('/stripe_success', [ItemController::class, 'stripeSuccess'])->name('stripe_success');
-
 // コンビニ/カード支払い共に処理完了後のページ移動のルード
 Route::get('/thanks_buy', [ItemController::class, 'thanks_buy_show'])->name('thanks_buy');
 
+
+
+Route::patch('/profile_update', [ItemController::class, 'profile_update']);
+
+Route::post('/upload', [ItemController::class, 'item_image_upload']);
+
+Route::post('/upload2', [ItemController::class, 'user_image_upload']);
+
+Route::post('/comment_read', [ItemController::class, 'comment_create'])->name('comment_create');
+
+Route::post('/items/{item}/favorite', [ItemController::class, 'favorite'])->name('item.favorite');
 
 
 // mailhog受信テスト用

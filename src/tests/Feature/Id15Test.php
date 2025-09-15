@@ -65,12 +65,9 @@ class Id15Test extends TestCase
         // 商品出品フォームを送信
         $response = $this->post('/thanks_sell', $itemData);
 
-        // 正常にリダイレクトされることを確認
-        $response->assertStatus(302);
-        $response->assertRedirect('/');
-
-        // セッションに成功メッセージが含まれていることを確認
-        $response->assertSessionHas('success', '商品を出品しました。');
+        // 正常にビューが表示されることを確認
+        $response->assertStatus(200);
+        $response->assertViewIs('thanks_sell');
 
         // データベースに商品が正しく保存されていることを確認
         // categoryはJSON形式で保存されるため、エンコードして比較する

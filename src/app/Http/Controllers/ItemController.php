@@ -404,7 +404,7 @@ class ItemController extends Controller
         Item::create($item);
 
         // 商品出品後のリダイレクトと成功メッセージの設定
-        return redirect('/')->with('success', '商品を出品しました。');
+        return view('thanks_sell');
     }
 
 
