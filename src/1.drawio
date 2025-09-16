@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="ZzjBcrXDq0E0y4njEQ4D" name="ページ1">
-        <mxGraphModel dx="1096" dy="839" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="757" dy="540" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -154,22 +154,19 @@
                     <mxGeometry x="605" y="260" width="90" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="43" value="address" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="610" y="290" width="70" height="30" as="geometry"/>
+                    <mxGeometry x="605" y="280" width="70" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="44" value="building" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="610" y="320" width="60" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="45" value="first_time_access" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="605" y="340" width="120" height="30" as="geometry"/>
+                    <mxGeometry x="610" y="300" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="47" value="password" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="605" y="230" width="70" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="48" value="created_at" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="610" y="370" width="80" height="30" as="geometry"/>
+                    <mxGeometry x="605" y="350" width="80" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="49" value="updated_at" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="615" y="390" width="80" height="30" as="geometry"/>
+                    <mxGeometry x="605" y="380" width="80" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="50" value="" style="endArrow=none;html=1;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -451,9 +448,9 @@
                     <mxGeometry x="150" y="410" width="60" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="116" value="user_image" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="605" y="350" width="90" height="30" as="geometry"/>
+                    <mxGeometry x="600" y="320" width="90" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="117" value="&lt;div style=&quot;line-height: 18px; white-space-collapse: preserve;&quot;&gt;&lt;span style=&quot;line-height: 120%;&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;buy_address&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="1">
+                <mxCell id="117" value="&lt;div style=&quot;line-height: 18px; white-space-collapse: preserve;&quot;&gt;&lt;span style=&quot;line-height: 120%;&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;buy_address&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" parent="1" vertex="1">
                     <mxGeometry x="395" y="720" width="90" height="30" as="geometry"/>
                 </mxCell>
             </root>

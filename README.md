@@ -3,7 +3,7 @@
 Dockerビルド
 <br>
 <br>
-　1\. git cloneリンク（ターミナルコマンド） git clone https://github.com/takayuki2025/simulation1.git  の実行
+　1\. 　git cloneリンク（ターミナルコマンド） git clone https://github.com/takayuki2025/simulation1.git  の実行
 <br>
 　2\. （ターミナルコマンド）cd simulation1　の実行。
 <br>
@@ -18,7 +18,7 @@ laravel環境構築
 <br>
 　2\. （PHPコンテナー）composer install　の実行
 <br>
-　3\. env.exampleファイルから.envを作成し、.envファイルの環境変数を変更（　cp .env.example .env　の実行後環境変数の変更）<br>
+　3\. 　env.exampleファイルから.envを作成し、.envファイルの環境変数を変更（　cp .env.example .env　の実行後環境変数の変更）<br>
 
 APP_KEY=　　　　　　　　　　を　APP_KEY=base64:KUoosogBL0QQaaukA2mxjGSicokkBKJ+dPItJHJ2MvQ=　に<br>
 
@@ -76,17 +76,17 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
 <br>
 
 # スプレットシートの基本設計書にある項目で追加した内容（模擬案件の時だけ掲載）<br><br>
-- Route,Controller関係<br>
-　　出品完了処理画面：パス・/thanks_sell　アクション名・thanks_sell_create<br>
-　　購入完了処理画面：パス・/thanks_buy　アクション名・thanks_buy_create<br>
-　　email認証前再送信ページ前までの処理:パス・/email/verify　アクション名・notice/verify/resend<br>
+- 画面関係のRoute,Controller<br>
+　　出品完了や画面や処理：パス・/thanks_sell　アクション名・thanks_sell_create<br>
+　　購入完了画面や処理：パス・/thanks_buy　アクション名・thanks_buy_create<br>
+　　email認証通知画面や処理:パス・/email/verify　アクション名・notice/verify/resend<br>
 　　stripe決済の処理：パス・/stripe_success　アクション名・stripeSuccess<br>
 　　追加コントローラー名：EmailVerificationController（認証メール関係のコントローラー）<br><br>
-- View関係<br>
+- Viewファイル<br>
 　　出品完了画面：thanks_sell.blade.php<br>
 　　購入完了画面：thanks_buy.blade.php<br>
-　　email認証前ページ：verify-email.blade.php<br>
-　　stripeカード支払い決済画面：stripe_payment.blade<br><br>
+　　email認証通知画面：verify-email.blade.php<br>
+　　stripeカード支払い決済画面：　stripe機能が提供<br><br>
 - バリデーション関係<br>
 　　ファイル名：ProfileImageRequest.php　内容・ユーザー画像アップロード　ルール・拡張子が.jpegもしくは.png<br>
 　　変更（RegisterRequest.phpは作成せずにlang/ja/validation.php）を修正してfortifyの機能でバリデーションしました。<br>
@@ -115,7 +115,7 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
 
 
 # ER図<br>
-<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/9fede595-ecf6-4482-8894-1336d41adf97" />
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/77cc71be-eb73-4a46-9a28-6dada2c46e4b" />
 
 # 使用技術<br>
   - PHP 8.1.33
