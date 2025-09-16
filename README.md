@@ -34,34 +34,37 @@ laravel環境構築
 
 # 伝えること<br>
 -  stripe決済のクレジットカード番号は、4242 4242 4242 4242　で有効期限日は未来の日にち、セキュリティー番号とメールアドレス(メール形式で)、名前はなんでも大丈夫です。<br>
--  stripe決済の都合上最低決済金額が50円なので少し余裕を持たせて出品商品の最低金額を100円以上にしてバリデーションを実装しました。<br>
--  COACHTECHのロゴをクリックするとトップページに、ログインユーザーが商品詳細画面で自分が出品した商品の購入手続きをクリックするとプロフィールページに、ゲストユーザーが購入手続きへ・ヘッダーのマイページ・出品・コメントを送信するをクリックするとログインページに移動するようになっています。<br>
--  PHPUnitのテストファイルはスプレットシートのテストケース一覧のID番号に沿ってFeatureディレクトリーに保存してあります。phpコンテナーで php artisan test を実行してテストをしてください。 <br>
--  Route,Controller共に基本設計書に沿ってプロジェクトのディレクトリーの中に基本並び替えしています。<br>
+-  stripe決済の都合上最低決済金額が50円なので少し余裕を持たせて出品商品の最低金額を100円以上にしてバリデーションを実装しました。<br><br>
+-  COACHTECHのロゴをクリックするとトップページに、ログインユーザーが商品詳細画面で自分が出品した商品の購入手続きをクリックするとプロフィールページに、ゲストユーザーが購入手続きへ・ヘッダーのマイページ・出品・コメントを送信するをクリックするとログインページに移動するようになっています。<br><br>
+-  PHPUnitのテストファイルはスプレットシートのテストケース一覧のID番号に沿ってFeatureディレクトリーに保存してあります。phpコンテナーで php artisan test を実行してテストをしてください。 <br><br>
+-  Route,Controllerは基本設計書に沿ってファイルの中に基本並び替えしています。<br><br>
 -  ダミーのユーザーデーターと出品商品データーをシーダーファイルで作りましたので、PHPコンテナーで　php artisan db:seed　を実行してください。<br>
    ダミーのユーザー情報です。<br>
-   １：名前:'テスト用のユーザ１'、アドレス:'valid.email@example.com'、パスワード:'testtest1'、<br>
-   ２：名前:'テスト用のユーザ2'、アドレス:'test@22'、パスワード:'testtest2'<br>
-   ３：名前:'テスト用のユーザ3'、アドレス:'test@33'、パスワード:'testtest3'<br>
-   ４：名前:'テスト用のユーザ4'、アドレス:'test@44'、パスワード:'testtest4'　　です。メール認証は登録済みでログイン後トップページに移動します。<br>
+   １：名前:'テスト用のユーザ１'、アドレス:'valid.email@example.com'、パスワード:'testtest1'、出品数：'２品'<br>
+   ２：名前:'テスト用のユーザ2'、アドレス:'test@22'、パスワード:'testtest2'、出品数：'２品'<br>
+   ３：名前:'テスト用のユーザ3'、アドレス:'test@33'、パスワード:'testtest3'、出品数：'３品'<br>
+   ４：名前:'テスト用のユーザ4'、アドレス:'test@44'、パスワード:'testtest4'、出品数：'３品'　　です。メール認証は登録済みでログイン後トップページに移動します。<br><br>
 -  プロフィールのユーザー画像を登録していない時は初期画面として、default-profile２.jpgファイルの画像を使っています。<br>
 
 
 <br>
 <br>
-# スプレットシートの基本設計書にある項目で追加した内容（模擬案件の時だけ掲載）<br>
+# スプレットシートの基本設計書にある項目で追加した内容（模擬案件の時だけ掲載）<br><br>
 - Route,Controller関係<br>
-　　出品完了処理画面：パス・/thanks_sell　アクション・thanks_sell_create<br>
-　　購入完了処理画面：パス・/thanks_buy　アクション・thanks_buy_create<br>
-　　email認証前再送信ページ前までの処理:パス・email/verify　アクション名・<br>
-　　追加コントローラー名：EmailVerificationController（認証メール関係のコントローラー）<br>
+　　出品完了処理画面：パス・/thanks_sell　アクション名・thanks_sell_create<br>
+　　購入完了処理画面：パス・/thanks_buy　アクション名・thanks_buy_create<br>
+　　email認証前再送信ページ前までの処理:パス・/email/verify　アクション名・notice/verify/resend<br>
+　　stripe決済の処理：パス・/stripe_success　アクション名・stripeSuccess<br>
+　　追加コントローラー名：EmailVerificationController（認証メール関係のコントローラー）<br><br>
 - View関係<br>
 　　出品完了画面：thanks_sell.blade.php<br>
 　　購入完了画面：thanks_buy.blade.php<br>
 　　email認証前ページ：verify-email.blade.php<br>
-　　カード支払い決済画面：stripe_payment.blade<br>
+　　stripeカード支払い決済画面：stripe_payment.blade<br><br>
 - バリデーション関係<br>
 　　ファイル名：ProfileImageRequest.php　内容・ユーザー画像アップロード　ルール・拡張子が.jpegもしくは.png<br>
+　　変更（RegisterRequest.phpは作成せずにlang/ja/validation.php）を修正してfortifyの機能でバリデーションしました。<br>
+　　変更（LoginRequest.phpは作成せずにlang/ja/validation.php）を修正してfortifyの機能でバリデーションしました。<br>
 
 
 <br>
@@ -74,8 +77,6 @@ laravel環境構築
 課題<br>
 - get引数、routeヘルパーを活用して効率を高めて品質を高める。<br>
 - javascriptを活用したのですが、今はできるだけ学習方針のHTML、CSS、Git,MySql,PHP,laravelでできることを深めるためそちらを活用することを考える。<br>
-- 
-<br>
 <br>
 <br>
 

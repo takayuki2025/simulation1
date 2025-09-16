@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 use Illuminate\Auth\Events\Verified;
-// use IlluminateAuthEventsVerified;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 

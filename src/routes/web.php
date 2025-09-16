@@ -2,24 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
-use App\Http\Controllers\ExhibitionController;
-use App\Http\Controllers\BuyController;
-
 use App\Http\Controllers\Auth\EmailVerificationController;
-
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Mail\Message;
-
-
-
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-
 use Illuminate\Support\Facades\Auth;
-// use App\Http\Controllers\Auth\EmailVerificationController;
-
-use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
-
 use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,22 +22,6 @@ Route::get('/', [ItemController::class, 'index'])->name('front_page');
 
 // onetime.show ルートをauthミドルウェアの外に定義
 Route::get('/onetime', [ItemController::class, 'handleOnetimeRedirect'])->name('onetime.show');
-
-
-    // 認証済みかつメール認証済みのユーザーのみアクセス可能にしたいルート
-    // handleOnetimeRedirectで認証をチェックするため、ここでは'verified'ミドルウェアを外します
-    Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
-
-
-
-// Fortifyが提供するデフォルトのログアウト処理
-Route::post('/logout', function (Request $request) {
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-    return redirect('/');
-})->name('logout');
-
 
 // メール認証関連のルート
 // メール認証通知ページを表示するルート
@@ -68,6 +39,18 @@ Route::post('/email/verification-notification', [EmailVerificationController::cl
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
+// 認証済みかつメール認証済みのユーザーのみアクセス可能にしたいルート
+ // handleOnetimeRedirectで認証をチェックするため、ここでは'verified'ミドルウェアを外します
+Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
+
+// Fortifyが提供するデフォルトのログアウト処理
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/');
+})->name('logout');
+
 
 
 Route::get('/item/{item_id}', [ItemController::class, 'item_detail_show'])->name('item_detail');
@@ -80,10 +63,12 @@ Route::post('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'u
 // GETルートの名前を'item.purchase.edit'に変更し、パラメータの順序を修正
 Route::get('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'item_purchase_edit'])->name('item.purchase.edit');
 
+
 Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['auth'])->name('item_sell');
 
 
 Route::get('/mypage', [ItemController::class, 'profile_show'])->middleware(['auth'])->name('profile');
+
 
 
 Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
