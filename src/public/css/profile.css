@@ -127,6 +127,10 @@
     border-color: #ff5555;
 }
 
+.mypage_item_ {
+    text-decoration: none;
+    color: black;
+}
 
 /*
     エラーメッセージを包含する要素

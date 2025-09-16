@@ -44,13 +44,13 @@
                 @foreach ($items as $item)
                     <div class="items_select_all">
                         @if ($page === 'sell')
-                            <a href="/item/{{ $item->id }}">
+                            <a href="/item/{{ $item->id }}" class="mypage_item_">
                                 <img src="{{ asset($item->item_image) }}" alt="商品写真">
                                 <label>{{ $item->name }}</label>
                             </a>
                         @elseif ($page === 'buy')
                             <!-- 購入履歴の場合は、関連する商品データにアクセス -->
-                            <a href="/item/{{ $item->item->id }}">
+                            <a href="/item/{{ $item->item->id }}" class="mypage_item_">
                                 <img src="{{ asset($item->item->item_image) }}" alt="商品写真">
                                 <label>{{ $item->item->name }}</label>
                             </a>

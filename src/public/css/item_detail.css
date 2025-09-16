@@ -179,11 +179,32 @@ p {
     padding: 0;
 }
 
+.star_text {
+    position: relative;
+    left: 56px;
+    bottom: 18px;
+    font-size: 30px;
+}
+
 .ster_icon {
     color: rgb(250, 253, 255);
     background-color: rgb(255, 255, 255);
     font-size: 30px;
     
+}
+
+.favorite_button {
+    position: relative;
+    left: 31px;
+    background-color: white;
+}
+
+.user_ster_icon {
+    position: relative;
+    left: 31px;
+    color: rgb(250, 253, 255);
+        background-color: rgb(255, 255, 255);
+        font-size: 30px;
 }
 
 .ster_icon_1 {
@@ -216,7 +237,7 @@ p {
 
 .comments_icon {
     position: relative;
-    left: 25px;
+    left: 90px;
     bottom: 15px;
     font-size: 28px;
     
