@@ -3,24 +3,42 @@
 Dockerビルド
 <br>
 <br>
-　1\. git cloneリンク git clone git@github.com:Estra-Coachtech/laravel-docker-template.git
+　1\. git cloneリンク（ターミナルコマンド） git clone https://github.com/takayuki2025/simulation1.git  の実行
 <br>
-　2\. docker-compose.ymlファイルの、mysql:image: mysql:8.3　に変更
+　2\. （ターミナルコマンド）cd simulation1　の実行。
 <br>
-　3\. docker-compose up -d --build
+　3\. （ターミナルコマンド）docker-compose up -d --build　の実行
 <br>
-　＊MySqlは、OSによって起動しない場合があるのでそれぞれのPCに合わせて、docker-compose.ymlファイルを編集
-<br>してください。
-  <br>
+　
   <br>
 laravel環境構築
 <br>
 <br>
-　1\. docker-compose exec php bash
+　1\. （ターミナルコマンド）docker-compose exec php bash　の実行
 <br>
-　2\. composer install
+　2\. （PHPコンテナー）composer install　の実行
 <br>
-　3\. env.exampleファイルから.envを作成し、環境変数を変更
+　3\. env.exampleファイルから.envを作成し、.envファイルの環境変数を変更（　cp .env.example .env　の実行後環境変数の変更）<br>
+
+APP_KEY=　　　　　　　　　　を　APP_KEY=base64:KUoosogBL0QQaaukA2mxjGSicokkBKJ+dPItJHJ2MvQ=　に<br>
+
+DB_HOST=127.0.0.1　　　　を　DB_HOST=mysql　に<br>
+
+DB_DATABASE=laravel　　　を　DB_DATABASE=laravel_db　に<br>
+DB_USERNAME=root     　　を　DB_USERNAME=laravel_user　に<br>
+DB_PASSWORD=         　　を　DB_PASSWORD=laravel_pass　に<br>
+
+MAIL_FROM_ADDRESS=null　を　MAIL_FROM_ADDRESS="hello@example.com"　に<br><br>
+
+　ここからは全て追加です(env.ファイルの一番下に追加してください。)<br><br>
+STRIPE_KEY="pk_test_51S4djbL5FmW737EdtTZZSncxQjYuIhaB4FxsBjg7Of1Lr7mYkT74ZU2yauWUY2t0aPPGyIIydYnx8VfxrLs755yl0028SjCRfD"
+STRIPE_SECRET="sk_test_51S4djbL5FmW737EdLMGqe36QaYF9cLb3QjIXfiEn8PDJkz6tnKFaJw7x3jKX97LNVLHX7dgJOlbvZ5MJhovqi5fp00QXOUV9Td"
+CASHIER_CURRENCY=ja_JP
+CASHIER_CURRENCY_LOCALE=ja_JP
+CASHIER_LOGGER=daily
+
+FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-passwords,two-factor-authentication,email-verification
+<br>
 <br>
 　4\. アプリケーションキーの作成<br>
 　　php artisan key:generate
@@ -30,6 +48,13 @@ laravel環境構築
 <br>
 　6\. シーディングの実行<br>
 　　php artisan db:seed
+<br>
+　7\. テスト用のデーターベース作成からPHPUnitテスト実行まで。<br>
+（ターミナルコマンドに戻ってから）docker-compose exec mysql bash　を実行<br>
+（mysqlコンテナー）mysql -u root -p   の実行後パスワード　root　と入力して実行<br>
+（mysql接続後）CREATE DATABASE coachtech1_test;　を実行 (実行後exitコマンドでターミナルまで戻る）<br>
+（ターミナルコマンドで　docker-compose exec php bash を実行した後PHPコンテナーにて）php artisan test　を実行してテストをしてください。<br>
+
 <br>
 
 # 伝えること<br>
@@ -49,6 +74,7 @@ laravel環境構築
 
 <br>
 <br>
+
 # スプレットシートの基本設計書にある項目で追加した内容（模擬案件の時だけ掲載）<br><br>
 - Route,Controller関係<br>
 　　出品完了処理画面：パス・/thanks_sell　アクション名・thanks_sell_create<br>
