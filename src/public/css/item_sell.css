@@ -133,6 +133,12 @@
     height: 30px;
 }
 
+.sell_item_form2 {
+    width: 600px;
+    height: 30px;
+    text-align: right;
+}
+
 .sell_item_form_textarea {
     width: 600px;
     height: 130px;
@@ -173,12 +179,16 @@ label {
     color: red;
 }
 
-.test {
+/* .test {
     display: flex;
-}
+} */
 
 .currency-symbol {
-    font-size: 30px;
+    position: relative;
+    right: 280px;
+    bottom: 35px;
+    font-size: 20px;
+    font-weight: 700;
 }
 
 
