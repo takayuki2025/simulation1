@@ -1,3 +1,10 @@
+.profile_page {
+    margin: 0 auto;
+        max-width: 1400px;
+}
+
+
+
 .profile_header {
         border-bottom: 2px solid #5f5f5f;
 }

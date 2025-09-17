@@ -94,11 +94,11 @@ body .alert-success {
         margin: 0 auto;
     }
 
-    .item-details {
+    /* .item-details {
         display: flex;
         flex-direction: row;
         gap: 40px;
-    }
+    } */
 
 }
 

@@ -11,6 +11,8 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
+            margin: 0 auto;
+    max-width: 1400px;
         }
     </style>
 </head>

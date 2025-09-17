@@ -2,6 +2,8 @@
     display: flex;
     border-bottom: 2px solid black;
     margin: 90px;
+    /* margin: 0 auto; */
+        max-width: 1400px;
 }
 
 .item_buy_image {
