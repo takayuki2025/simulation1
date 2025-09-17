@@ -18,7 +18,8 @@ laravel環境構築
 <br>
 　2\. （PHPコンテナー）composer install　の実行
 <br>
-　3\. 　env.exampleファイルから.envを作成し、.envファイルの環境変数を変更（　cp .env.example .env　の実行後環境変数の変更）<br>
+　3\. 　env.exampleファイルから.envを作成し、.envファイルの環境変数を変更<br>
+　(PHPコンテナー)  cp .env.example .env　の実行後.envの環境変数の変更<br>
 
 APP_KEY=　を　APP_KEY=base64:KUoosogBL0QQaaukA2mxjGSicokkBKJ+dPItJHJ2MvQ=　に<br>
 
@@ -70,7 +71,7 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
    ２：名前:'テスト用のユーザ2'、アドレス:'test@22'、パスワード:'testtest2'、出品数：'２品'<br>
    ３：名前:'テスト用のユーザ3'、アドレス:'test@33'、パスワード:'testtest3'、出品数：'３品'<br>
    ４：名前:'テスト用のユーザ4'、アドレス:'test@44'、パスワード:'testtest4'、出品数：'３品'　　です。メール認証は登録済みでログイン後トップページに移動します。<br><br>
--  プロフィールのユーザー画像を登録していない場合は初期画面として、default-profile２.jpgファイルの画像を使っています。それからユーザー、商品画像を登録した際は同じファイル名で保存にならないようにしました。<br>
+-  プロフィールのユーザー画像を登録していない場合は初期画面として、default-profile２.jpgファイルの画像を使っています。それからユーザー、商品画像を登録した際は同じファイル名にならないよう頭文字以外はランダムで生成するようにしました。<br>
 -  スプレットシートの機能要件一覧（US006 FN022.4）の商品を購入した後の還移先は商品一覧画面のところを一つ挟んで購入完了画面を追加しました。その後ページのトップページに戻るを押すと商品一覧画面に移動します。商品を出品した後は出品完了画面に移動してトップページに戻るを押すと商品一覧画面に移動します。
 
 <br>

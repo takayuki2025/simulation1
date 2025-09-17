@@ -7,6 +7,8 @@
         height: 100%;
         margin: 0; /* bodyのデフォルトマージンをリセット */
         padding: 0; /* bodyのデフォルトパディングをリセット */
+        margin: 0 auto;
+        max-width: 1400px;
     }
 
     /* Flexboxを使ってコンテナを中央に配置 */
@@ -17,6 +19,7 @@
         min-height: 100vh; /* 画面の最小高さを100%に設定 */
         width: 100%;
         box-sizing: border-box; /* パディングやボーダーを高さに含める */
+        
     }
 
     /* 中央寄せされた子要素のスタイル */
