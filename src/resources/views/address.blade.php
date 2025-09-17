@@ -6,28 +6,29 @@
 
 @section('content')
 <div class="login_page">
-    <h2 class="title">住所変更</h2>
+    <div class="register_box">
+    <h2 class="title">住所の変更</h2>
 
     <form action="{{ route('item.purchase.update', ['item_id' => $item_id, 'user_id' => $user_id]) }}" method="POST">
         <!-- @method('PATCH') -->
         @csrf
 
 
-        <label class="label_form_2">郵便番号</label>
+        <label class="label_form_5">郵便番号</label>
         <input type="text" class="email_form" name="post_number" value="{{ old('post_number' , $user['post_number']) }}"/>
             <div class="profile__error">
             @error('post_number')
             {{ $message }}
             @enderror
             </div>
-        <label class="label_form_3">住所</label>
+        <label class="label_form_6">住所</label>
         <input type="text" class="password_form" name="address" value="{{ old('address' , $user['address']) }}"/>
             <div class="profile__error">
             @error('address')
             {{ $message }}
             @enderror
             </div>
-        <label class="label_form_4">建物名</label>
+        <label class="label_form_7">建物名</label>
         <input type="text" class="password_form" name="building" value="{{ old('building' , $user['building']) }}"/>
             <div class="profile__error">
             @error('building')
@@ -38,6 +39,7 @@
             <input type="submit" class="submit_form" value="更新する">
         </div>
     </form>
+</div>
 </div>
 
 

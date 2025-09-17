@@ -32,9 +32,11 @@ text-align: center;
     background-color: #ff5555;
     border: #ff5555;
     color: white;
+    font-weight: 700;
 }
 
 .register_page {
+    color: #0173cc;
     text-decoration: none;
     display: block;
 }
@@ -42,14 +44,16 @@ text-align: center;
 .label_form_1 {
     display: block;
     position: relative;
-    right: 100px;
+    right: 150px;
+    font-weight: 700;
 }
 
 .label_form_2 {
     margin-top: 30px;
     display: block;
     position: relative;
-    right: 113px;
+    right: 163px;
+    font-weight: 700;
 }
 
 .error {

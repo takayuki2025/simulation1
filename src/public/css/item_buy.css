@@ -104,6 +104,7 @@
 }
 
 .price_view {
+    font-weight: 600;
     position: relative;
     top: 10px;
     right: 20px;
@@ -116,6 +117,7 @@
 }
 
 .pay_view  {
+    font-weight: 600;
     position: relative;
     top: 10px;
     left: 40px;
@@ -133,6 +135,12 @@
 
 .item_buy_submit {
     width: 315px;
+    height: 40px;
+    background-color: #ff5555;
+    color: white;
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
 }
 
 .item_buy_lr {

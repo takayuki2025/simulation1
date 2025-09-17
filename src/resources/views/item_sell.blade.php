@@ -137,7 +137,7 @@
                     </div>
 
                     <div class="sell_title2">
-                        <h2>商品と説明</h2>
+                        <h2>商品名と説明</h2>
                     </div>
 
                     <div class="sell_title2_1">

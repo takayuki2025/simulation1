@@ -49,7 +49,7 @@
                 <div class="item_buy_r">
                     <div class="item_buy_select">
                         <div class="buy_price">
-                            <p class="price_view"> 商品代金: 　　　￥{{ $item->price }}</p>
+                            <p class="price_view"> 商品代金: 　　　￥{{ number_format($item->price) }}</p>
                         </div>
                         <div class="buy_payment">
                             <p class="pay_view">支払い方法: <span id="selected_payment_text">なし</span></p>

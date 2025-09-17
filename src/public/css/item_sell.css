@@ -49,12 +49,13 @@
 
 .sell_title1  {
     margin-top: 30px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #5f5f5f;
+    color: #5f5f5f;
 }
 
 .sell_title1 h2 {
     position: relative;
-    right: 230px;
+    right: 240px;
 }
 
 .sell_title1_1 {
@@ -90,40 +91,41 @@
 
 .sell_title2 {
     margin-top: 40px;
-    border-bottom: 1px solid black;
+    color: #5f5f5f;
+    border-bottom: 1px solid #5f5f5f;
 }
 
 .sell_title2 h2{
     position: relative;
-    right: 220px;
+    right: 230px;
 }
 
 .sell_title2_1 label{
     display: block;
     margin-top: 30px;
     position: relative;
-    right: 270px;
+    right: 275px;
 }
 
 .sell_title2_2 label {
     display: block;
     margin-top: 30px;
     position: relative;
-    right: 270px;
+    right: 260px;
 }
 
 .sell_title2_3 label {
     display: block;
     margin-top: 30px;
     position: relative;
-    right: 270px;
+    right: 260px;
 }
 
 .sell_title2_4 label {
     display: block;
     margin-top: 30px;
     position: relative;
-    right: 270px;
+    right: 265px;
 }
 
 .sell_item_form {
@@ -184,7 +186,7 @@ label {
 /* 1. コンテナを Flexbox にする */
 .category-buttons-container {
     position: relative;
-    left: 250px;
+    left: 260px;
     display: flex;
     /* Flexbox を有効にする */
     flex-wrap: wrap;
@@ -194,6 +196,7 @@ label {
     /* 必要に応じて中央寄せなどを追加 */
     justify-content: center;
     align-items: center;
+
 }
 
 /* 2. チェックボックス本体を非表示にする */
@@ -204,18 +207,23 @@ label {
 /* 3. ラベルをボタンのように装飾する */
 .category-checkbox-label {
     /* これまでのスタイルを維持 */
+    width: 60px;
+    height: 8px;
+    font-size: 9px;
+    margin: 5px;
     display: inline-block;
     padding: 8px 16px;
-    border: 1px solid #ccc;
+    border: 2px solid #ff5655;
+    color: #ff5655;
     border-radius: 9999px;
     cursor: pointer;
-    background-color: #f7f7f7;
+    background-color: white;
     transition: background-color 0.2s, border-color 0.2s;
 }
 
 /* 4. チェックされたときのスタイル */
 .category-checkbox-input:checked+.category-checkbox-label {
-    background-color: #007bff;
+    background-color: #ff5655;
     color: #fff;
-    border-color: #007bff;
+    border-color: #ff5655;
 }
