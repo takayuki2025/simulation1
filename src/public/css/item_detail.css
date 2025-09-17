@@ -131,6 +131,7 @@ p {
     display: flex;
     justify-content: center;
     width: 70px;
+    font-size: 11px;
 }
 
 .item_detail_condition_1 {

@@ -20,13 +20,13 @@ laravel環境構築
 <br>
 　3\. 　env.exampleファイルから.envを作成し、.envファイルの環境変数を変更（　cp .env.example .env　の実行後環境変数の変更）<br>
 
-APP_KEY=　　　　　　　　　　を　APP_KEY=base64:KUoosogBL0QQaaukA2mxjGSicokkBKJ+dPItJHJ2MvQ=　に<br>
+APP_KEY=　を　APP_KEY=base64:KUoosogBL0QQaaukA2mxjGSicokkBKJ+dPItJHJ2MvQ=　に<br>
 
-DB_HOST=127.0.0.1　　　　を　DB_HOST=mysql　に<br>
+DB_HOST=127.0.0.1　を　DB_HOST=mysql　に<br>
 
-DB_DATABASE=laravel　　　を　DB_DATABASE=laravel_db　に<br>
-DB_USERNAME=root     　　を　DB_USERNAME=laravel_user　に<br>
-DB_PASSWORD=         　　を　DB_PASSWORD=laravel_pass　に<br>
+DB_DATABASE=laravel　を　DB_DATABASE=laravel_db　に<br>
+DB_USERNAME=root     　を　DB_USERNAME=laravel_user　に<br>
+DB_PASSWORD=         　を　DB_PASSWORD=laravel_pass　に<br>
 
 MAIL_FROM_ADDRESS=null　を　MAIL_FROM_ADDRESS="hello@example.com"　に<br><br>
 
@@ -50,10 +50,10 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
 　　php artisan db:seed
 <br>
 　7\. テスト用のデーターベース作成からPHPUnitテスト実行まで。<br>
-（ターミナルコマンドに戻ってから）docker-compose exec mysql bash　を実行<br>
+（exitでターミナルに戻ってから）docker-compose exec mysql bash　を実行<br>
 （mysqlコンテナー）mysql -u root -p   の実行後パスワード　root　と入力して実行<br>
-（mysql接続後）CREATE DATABASE coachtech1_test;　を実行 (実行後exitコマンドでターミナルまで戻る）<br>
-（ターミナルコマンドで　docker-compose exec php bash を実行した後PHPコンテナーにて）php artisan test　を実行してテストをしてください。<br>
+（mysql接続後）CREATE DATABASE coachtech1_test;　を実行 (実行後exitコマンドでターミナルまで戻る)<br>
+（ターミナルで　docker-compose exec php bash を実行した後のPHPコンテナーで）php artisan test　を実行してテストをしてください。<br>
 
 <br>
 
@@ -61,16 +61,17 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
 -  stripe決済のクレジットカード番号は、4242 4242 4242 4242　で有効期限日は未来の日にち、セキュリティー番号とメールアドレス(メール形式で)、名前はなんでも大丈夫です。<br>
 -  stripe決済の都合上最低決済金額が50円なので少し余裕を持たせて出品商品の最低金額を100円以上にしてバリデーションを実装しました。<br><br>
 -  COACHTECHのロゴをクリックするとトップページに、ログインユーザーが商品詳細画面で自分が出品した商品の購入手続きをクリックするとプロフィールページに、ゲストユーザーが購入手続きへ・ヘッダーのマイページ・出品・コメントを送信するをクリックするとログインページに移動するようになっています。<br><br>
--  PHPUnitのテストファイルはスプレットシートのテストケース一覧のID番号に沿ってFeatureディレクトリーに保存してあります。phpコンテナーで php artisan test を実行してテストをしてください。 <br><br>
+-  いいね機能はゲストユーザー、ログインユーザーの自分の出品した商品にはできないようになっています。<br><br>
+-  PHPUnitのテストファイルはスプレットシートのテストケース一覧のID番号に沿ってtests/Featureディレクトリーに保存してあります。上記に記したテスト用のデーターベースを作成した後phpコンテナーで php artisan test を実行してテストをしてください。 <br><br>
 -  Route,Controllerは基本設計書に沿ってファイルの中に基本並び替えしています。<br><br>
--  ダミーのユーザーデーターと出品商品データーをシーダーファイルで作りましたので、PHPコンテナーで　php artisan db:seed　を実行してください。<br>
+-  ダミーのユーザーデーターと出品商品データーのシーダーファイルで作りましたので、PHPコンテナーで上記の通り　php artisan db:seed　を実行してください。<br>
    ダミーのユーザー情報です。<br>
    １：名前:'テスト用のユーザ１'、アドレス:'valid.email@example.com'、パスワード:'testtest1'、出品数：'２品'<br>
    ２：名前:'テスト用のユーザ2'、アドレス:'test@22'、パスワード:'testtest2'、出品数：'２品'<br>
    ３：名前:'テスト用のユーザ3'、アドレス:'test@33'、パスワード:'testtest3'、出品数：'３品'<br>
    ４：名前:'テスト用のユーザ4'、アドレス:'test@44'、パスワード:'testtest4'、出品数：'３品'　　です。メール認証は登録済みでログイン後トップページに移動します。<br><br>
--  プロフィールのユーザー画像を登録していない時は初期画面として、default-profile２.jpgファイルの画像を使っています。<br>
-
+-  プロフィールのユーザー画像を登録していない場合は初期画面として、default-profile２.jpgファイルの画像を使っています。それからユーザー、商品画像を登録した際は同じファイル名で保存にならないようにしました。<br>
+-  スプレットシートの機能要件一覧（US006 FN022.4）の商品を購入した後の還移先は商品一覧画面のところを一つ挟んで購入完了画面を追加しました。その後ページのトップページに戻るを押すと商品一覧画面に移動します。商品を出品した後は出品完了画面に移動してトップページに戻るを押すと商品一覧画面に移動します。
 
 <br>
 <br>
@@ -81,37 +82,20 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
 　　購入完了画面や処理：パス・/thanks_buy　アクション名・thanks_buy_create<br>
 　　email認証通知画面や処理:パス・/email/verify　アクション名・notice/verify/resend<br>
 　　stripe決済の処理：パス・/stripe_success　アクション名・stripeSuccess<br>
-　　追加コントローラー名：EmailVerificationController（認証メール関係のコントローラー）<br><br>
+　　追加コントローラー名：EmailVerificationController（認証メール処理のコントローラー）<br><br>
 - Viewファイル<br>
 　　出品完了画面：thanks_sell.blade.php<br>
 　　購入完了画面：thanks_buy.blade.php<br>
 　　email認証通知画面：verify-email.blade.php<br>
 　　stripeカード支払い決済画面：　stripe機能が提供<br><br>
 - バリデーション関係<br>
-　　ファイル名：ProfileImageRequest.php　内容・ユーザー画像アップロード　ルール・拡張子が.jpegもしくは.png<br>
-　　変更（RegisterRequest.phpは作成せずにlang/ja/validation.php）を修正してfortifyの機能でバリデーションしました。<br>
+　　追加　ファイル名：ProfileImageRequest.php　内容・ユーザー画像アップロード　ルール・拡張子が.jpegもしくは.png<br>
+　　変更（RegisterRequest.phpは作成せずにCreateNewUser.phpとlang/ja/validation.php）を修正してfortifyの機能でバリデーションしました。<br>
 　　変更（LoginRequest.phpは作成せずにlang/ja/validation.php）を修正してfortifyの機能でバリデーションしました。<br>
 
 
 <br>
 <br>
-
-# これからすること、課題（模擬案件の時だけ掲載）<br>
-- 09/15 09/15の面談後更新
-- <br>
-
-課題<br>
-- get引数、routeヘルパーを活用して効率を高めて品質を高める。<br>
-- javascriptを活用したのですが、今はできるだけ学習方針のHTML、CSS、Git,MySql,PHP,laravelでできることを深めるためそちらを活用することを考える。<br>
-<br>
-<br>
-
-># 確認事項（模擬案件の時だけ掲載）<br>
-<br>
-
-# 修正履歴（模擬案件の時だけ掲載）<br>
-<br>
-
 
 
 # ER図<br>
