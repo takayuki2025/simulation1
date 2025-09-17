@@ -49,12 +49,14 @@
 }
 
 .label_form_1 {
+    font-weight: 700;
     display: block;
     position: relative;
     right: 160px;
 }
 
 .label_form_2 {
+    font-weight: 700;
     margin-top: 30px;
     display: block;
     position: relative;
@@ -62,6 +64,7 @@
 }
 
 .label_form_3 {
+    font-weight: 700;
     margin-top: 30px;
     display: block;
     position: relative;
@@ -69,6 +72,7 @@
 }
 
 .label_form_4 {
+    font-weight: 700;
     margin-top: 30px;
     display: block;
     position: relative;
@@ -84,8 +88,15 @@
 }
 
 .upload_submit {
+    position: relative;
+    right: 50px;
     margin: 60px 0 60px 0;
-
+    color: #ff5555;
+    font-weight: 700;
+    background-color: white;
+    border: 1px solid #ff5555;
+    border-radius: 5px;
+    
 }
 
 a .profile_header {
@@ -107,4 +118,21 @@ a .profile_header {
             position: relative;
             bottom: 20px;
             text-align: center;
+}
+
+.user_image_css {
+    position: relative;
+    right: 70px;
+    top: 35px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+}
+
+.alert-success2 {
+    position: relative;
+    top: 1px;
 }

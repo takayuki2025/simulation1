@@ -12,9 +12,13 @@
 
 <form action="/upload2" enctype="multipart/form-data" method="post" class="item_sell_contents_box_line">
     @csrf
+<div class="image_name">
+
+<img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile2.jpg') }}" alt="プロフィール画像" class="user_image_css">
 
           <button type="button" class="upload_submit" onclick="document.getElementById('fileInput').click()">画像を選択する</button>
           <input type="file" name="user_image" id="fileInput" style="display: none;">
+</div>
             @if (session('success'))
               <div class="alert-success2">
               {{ session('success') }}

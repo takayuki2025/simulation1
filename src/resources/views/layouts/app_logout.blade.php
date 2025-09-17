@@ -18,7 +18,7 @@
             </a>
         <form action="{{ route('front_page') }}" method="get">
             
-            <input type = "text" class="search_form" name="all_item_search" placeholder="何をお探しですか？">
+            <input type = "text" class="search_form" name="all_item_search" placeholder="　なにをお探しですか？">
         </form>
             @if (Auth::check())
                 <div class="login_page0">
