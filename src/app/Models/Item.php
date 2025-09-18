@@ -22,7 +22,7 @@ class Item extends Model
     ];
 
     protected $casts = [
-        'category' => 'array', // ここを追記
+        'category' => 'array',
     ];
 
     public function user()
@@ -36,9 +36,9 @@ class Item extends Model
 
     public function scopeItemSearch($query, $all_item_search)
 {
-  if (!empty($all_item_search)) {
+if (!empty($all_item_search)) {
     $query->where('name', 'like', '%' . $all_item_search . '%');
-  }
+}
 }
 
 }

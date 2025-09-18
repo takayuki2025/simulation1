@@ -8,11 +8,11 @@ Dockerビルド
 　2\. （ターミナルコマンド）cd simulation1　の実行。
 <br>
  　3\.   ダミーデーターの商品画像ファイルをstrageディレクトリーに作成してコピーする。<br>
-　　　　　（ターミナルコマンド）mkdir src/storage/app/public/item_images<br>
-　　　　　　　　　　　cp -r src/public/pictures/* src/storage/app/public/item_images<br>
+　　　（ターミナルコマンド）mkdir src/storage/app/public/item_images　の実行<br>
+　　　　　　　　　　　cp -r src/public/pictures/* src/storage/app/public/item_images　の実行<br>
  　4\.　　ダミーデーターのユーザー初期画像ファイルをstrageディレクトリーに作成してコピーする<br>
- 　　　（ターミナルコマンド）mkdir src/storage/app/public/images<br>
-　　　　　　　　　　　cp -r src/public/pictures_user/* src/storage/app/public/images<br>
+ 　　　（ターミナルコマンド）mkdir src/storage/app/public/images　の実行<br>
+　　　　　　　　　　　cp -r src/public/pictures_user/* src/storage/app/public/images　の実行<br>
 　5\. （ターミナルコマンド）docker-compose up -d --build　の実行
 <br>
 　

@@ -38,7 +38,6 @@ class CreateUsersTable extends Migration
      */
     public function down(): void
     {
-        // NULLを許容しない状態に戻す
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('first_time_access')->nullable(false)->default(false)->change();
         });
