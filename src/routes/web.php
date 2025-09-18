@@ -59,7 +59,7 @@ Route::get('/purchase/{item_id}', [ItemController::class, 'item_buy_show'])->nam
 
 
 // POSTルートの名前を'item.purchase.update'に変更し、パラメータの順序を修正
-Route::post('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'update'])->name('item.purchase.update');
+Route::patch('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'update'])->name('item.purchase.update');
 // GETルートの名前を'item.purchase.edit'に変更し、パラメータの順序を修正
 Route::get('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'item_purchase_edit'])->name('item.purchase.edit');
 

@@ -64,7 +64,7 @@ class Id12Test extends TestCase
         ]);
 
         // 住所変更エンドポイントにリクエスト
-        $response = $this->post(route('item.purchase.update', ['item_id' => $item->id, 'user_id' => $user->id]), [
+        $response = $this->patch(route('item.purchase.update', ['item_id' => $item->id, 'user_id' => $user->id]), [
             'post_number' => '123-4567',
             'address' => '東京都港区',
             'building' => 'レガシービル101',
@@ -101,7 +101,7 @@ class Id12Test extends TestCase
         ]);
 
         // 購入情報更新エンドポイントにリクエスト
-        $response = $this->postJson(route('item.purchase.update', ['item_id' => $item->id, 'user_id' => $user->id]), [
+        $response = $this->patchJson(route('item.purchase.update', ['item_id' => $item->id, 'user_id' => $user->id]), [
             'post_number' => '123-4567',
             'address' => '東京都港区',
             'building' => 'レガシービル101',

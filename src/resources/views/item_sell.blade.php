@@ -58,15 +58,6 @@
                         <label>カテゴリー</label>
                         <br>
                         <br>
-                        <!-- <select name="category" class="select_box">
-                            <option value="">選択してください</option>
-                            <option value="ファッション">ファッション</option>
-                        </select>
-                                @error('category')
-                                    <div class="error">{{ $message }}</div>
-                                @enderror -->
-
-
     <div class="category-buttons-container">
 
     <!-- ユニークなIDとラベル -->
@@ -111,12 +102,12 @@
 
     <input type="checkbox" id="cat14" name="category[]" value="キッズ:ベビー" class="category-checkbox-input" @if(is_array(old('category')) && in_array('キッズ:ベビー', old('category'))) checked @endif>
     <label for="cat14" class="category-checkbox-label">キッズ:ベビー</label>
-</div>
-    @error('category')
-        <div class="error">{{ $message }}</div>
-    @enderror
-        <br>
-</div>
+    </div>
+        @error('category')
+            <div class="error">{{ $message }}</div>
+        @enderror
+            <br>
+    </div>
 
                     <div class="sell_title1_2">
                         <label>商品の状態</label>
@@ -159,11 +150,8 @@
 
                     <div class="sell_title2_4">
                         <label>販売価格</label>
-                        <!-- <div class="test"> -->
-                        
                         <input type="text" name="price" class="sell_item_form2" value="{{ old('price') }}">
-<span class="currency-symbol">¥</span>
-                <!-- </div> -->
+                            <span class="currency-symbol">¥</span>
                                 @error('price')
                                     <div class="error">{{ $message }}</div>
                                 @enderror
@@ -178,4 +166,5 @@
             </div>
         </div>
     </div>
+
 @endsection

@@ -10,26 +10,24 @@
       <h2 class="title">プロフィール設定</h2>
       <label class="item_sell_contents_box_imagetitle"></label>
 
-<form action="/upload2" enctype="multipart/form-data" method="post" class="item_sell_contents_box_line">
-    @csrf
-<div class="image_name">
-
-<img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile2.jpg') }}" alt="プロフィール画像" class="user_image_css">
-
-          <button type="button" class="upload_submit" onclick="document.getElementById('fileInput').click()">画像を選択する</button>
-          <input type="file" name="user_image" id="fileInput" style="display: none;">
-</div>
-            @if (session('success'))
-              <div class="alert-success2">
+      <form action="/upload2" enctype="multipart/form-data" method="post" class="item_sell_contents_box_line">
+        @csrf
+          <div class="image_name">
+            <img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile2.jpg') }}" alt="プロフィール画像" class="user_image_css">
+              <button type="button" class="upload_submit" onclick="document.getElementById('fileInput').click()">画像を選択する</button>
+                <input type="file" name="user_image" id="fileInput" style="display: none;">
+          </div>
+              @if (session('success'))
+                <div class="alert-success2">
               {{ session('success') }}
             </div>
-          @endif
-          <div class="user_image_error_message">
-          @error('user_image')
-                  {{ $message }}
-                  @enderror
-</div>
-</form>
+              @endif
+                <div class="user_image_error_message">
+              @error('user_image')
+                {{ $message }}
+              @enderror
+            </div>
+      </form>
 
       <script>
           // JavaScriptでファイルが選択されたら自動でフォームを送信
@@ -43,10 +41,9 @@
             });
       </script>
 
-  <form action='/profile_update' method="POST">
+      <form action='/profile_update' method="POST">
         @method('PATCH')
         @csrf
-
           <label class="label_form_1">ユーザー名</label>
               <input type="text" class="name_form" name="name" value="{{ old('name' , $user->name ?? '') }}"/>
                 <div class="profile__error">
@@ -78,10 +75,9 @@
               <div class="submit">
                 <input type="submit" class="submit_form" value="更新する">
               </div>
-
                 <input type="hidden" name="user_image" value="{{ session('image_path2') ?? ($user->user_image ?? '') }}">
-    </form>
-  </div>
+      </form>
+    </div>
 
 
 @endsection
