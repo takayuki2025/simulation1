@@ -7,7 +7,7 @@
 @section('content')
 
     <div class="item_buy_contents">
-        <!-- フォームタグを全体を囲むように移動 -->
+
         <form action="{{ route('thanks_buy_create') }}" method="POST" class="test">
             @csrf
             <div class="item_buy_lr">
@@ -67,7 +67,7 @@
         </div>
     @endif
 </div>
-                    <!-- 在庫切れのエラーメッセージを個別に表示 -->
+
                     @error('item_id')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror

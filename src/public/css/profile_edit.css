@@ -1,7 +1,7 @@
 .login_page {
     text-align: center;
     margin: 0 auto;
-        max-width: 1400px;
+    max-width: 1400px;
 
 }
 
@@ -97,7 +97,6 @@
     background-color: white;
     border: 1px solid #ff5555;
     border-radius: 5px;
-    
 }
 
 a .profile_header {

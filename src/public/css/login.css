@@ -1,7 +1,7 @@
 .login_page {
 text-align: center;
     margin: 0 auto;
-        max-width: 1400px;
+    max-width: 1400px;
 }
 
 .login_box {
@@ -23,7 +23,6 @@ text-align: center;
     margin-top: 10px;
     display: block;
 }
-
 
 .submit_form {
     width: 400px;

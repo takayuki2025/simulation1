@@ -66,34 +66,34 @@
                                     <div class="error">{{ $message }}</div>
                                 @enderror -->
 
-                                    <!-- <label>カテゴリーを選択してください:</label> -->
-<div class="category-buttons-container">
+
+    <div class="category-buttons-container">
 
     <!-- ユニークなIDとラベル -->
     <input type="checkbox" id="cat1" name="category[]" value="ファッション" class="category-checkbox-input" @if(is_array(old('category')) && in_array('ファッション', old('category'))) checked @endif>
     <label for="cat1" class="category-checkbox-label">ファッション</label>
-    
+
     <input type="checkbox" id="cat2" name="category[]" value="家電" class="category-checkbox-input" @if(is_array(old('category')) && in_array('家電', old('category'))) checked @endif>
     <label for="cat2" class="category-checkbox-label">家電</label>
-    
+
     <input type="checkbox" id="cat3" name="category[]" value="インテリア" class="category-checkbox-input" @if(is_array(old('category')) && in_array('インテリア', old('category'))) checked @endif>
     <label for="cat3" class="category-checkbox-label">インテリア</label>
 
     <input type="checkbox" id="cat4" name="category[]" value="レディース" class="category-checkbox-input" @if(is_array(old('category')) && in_array('レディース', old('category'))) checked @endif>
     <label for="cat4" class="category-checkbox-label">レディース</label>
-    
+
     <input type="checkbox" id="cat5" name="category[]" value="メンズ" class="category-checkbox-input" @if(is_array(old('category')) && in_array('メンズ', old('category'))) checked @endif>
     <label for="cat5" class="category-checkbox-label">メンズ</label>
-    
+
     <input type="checkbox" id="cat6" name="category[]" value="コスメ" class="category-checkbox-input" @if(is_array(old('category')) && in_array('コスメ', old('category'))) checked @endif>
     <label for="cat6" class="category-checkbox-label">コスメ</label>
 
     <input type="checkbox" id="cat7" name="category[]" value="本" class="category-checkbox-input" @if(is_array(old('category')) && in_array('本', old('category'))) checked @endif>
     <label for="cat7" class="category-checkbox-label">本</label>
-    
+
     <input type="checkbox" id="cat8" name="category[]" value="ゲーム" class="category-checkbox-input" @if(is_array(old('category')) && in_array('ゲーム', old('category'))) checked @endif>
     <label for="cat8" class="category-checkbox-label">ゲーム</label>
-    
+
     <input type="checkbox" id="cat9" name="category[]" value="スポーツ" class="category-checkbox-input" @if(is_array(old('category')) && in_array('スポーツ', old('category'))) checked @endif>
     <label for="cat9" class="category-checkbox-label">スポーツ</label>
 
@@ -112,12 +112,11 @@
     <input type="checkbox" id="cat14" name="category[]" value="キッズ:ベビー" class="category-checkbox-input" @if(is_array(old('category')) && in_array('キッズ:ベビー', old('category'))) checked @endif>
     <label for="cat14" class="category-checkbox-label">キッズ:ベビー</label>
 </div>
-   @error('category')
-                            <div class="error">{{ $message }}</div>
-                        @enderror
-
-                        <br>
-                    </div>
+    @error('category')
+        <div class="error">{{ $message }}</div>
+    @enderror
+        <br>
+</div>
 
                     <div class="sell_title1_2">
                         <label>商品の状態</label>

@@ -2,8 +2,7 @@
     display: flex;
     border-bottom: 2px solid black;
     margin: 90px;
-    /* margin: 0 auto; */
-        max-width: 1400px;
+    max-width: 1400px;
 }
 
 .item_buy_image {
@@ -52,7 +51,6 @@
     position: relative;
     left: 50px;
     bottom: 50px;
-    /* margin-bottom: 30px; */
 }
 
 .item_buy_content3 {

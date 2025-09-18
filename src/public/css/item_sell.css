@@ -3,14 +3,14 @@
     text-align: center;
     justify-content: center;
     margin: 0 auto;
-        max-width: 1400px;
+    max-width: 1400px;
 }
 
 .item_sell_contents_box {
     display: flex;
     width: px;
     height: 1500px;
-        width: 600px;
+    width: 600px;
     text-align: center;
     justify-content: center;
 }
@@ -33,18 +33,13 @@
 
 .item_sell_contents_box_line {
     border: 1px dotted black;
-    /* text-align: center;
-    justify-content: center; */
-    /* position: relative;
-    left: 190px; */
-    /* width: 400px; */
     height: 100px
 }
 
 .small_box {
     width: 100%;
-        text-align: center;
-            justify-content: center;
+    text-align: center;
+    justify-content: center;
 }
 
 .sell_title1  {
@@ -179,10 +174,6 @@ label {
     color: red;
 }
 
-/* .test {
-    display: flex;
-} */
-
 .currency-symbol {
     position: relative;
     right: 280px;
@@ -191,25 +182,16 @@ label {
     font-weight: 700;
 }
 
-
-
-/* 1. コンテナを Flexbox にする */
 .category-buttons-container {
     position: relative;
     left: 260px;
     display: flex;
-    /* Flexbox を有効にする */
     flex-wrap: wrap;
-    /* ボタンが多すぎるときに次の行へ折り返す */
     gap: 8px;
-    /* ボタン同士の間に隙間を空ける */
-    /* 必要に応じて中央寄せなどを追加 */
     justify-content: center;
     align-items: center;
-
 }
 
-/* 2. チェックボックス本体を非表示にする */
 .category-checkbox-input {
     display: none;
 }

@@ -1,7 +1,7 @@
 .item_detail_contents {
     display: flex;
     margin: 0 auto;
-        max-width: 1400px;
+    max-width: 1400px;
 }
 
 .item_detail_image {
@@ -9,7 +9,6 @@
     aspect-ratio: 1 / 1;
     margin: 70px 150px 400px 150px;
 }
-
 
 .information {
     width: 50%;
@@ -87,15 +86,8 @@ p {
     text-align: center;
 }
 
-/* .comment_submit {
-    text-decoration: none;
-    text-align: center;
-    font-weight: 700;
-} */
-
 .category_views {
     display: flex;
-
 }
 
 .item_detail_brand {
@@ -152,13 +144,6 @@ p {
     display: flex;
 }
 
-/* .comments_count2 {
-    position: relative;
-    top: 25px;
-    left: 20px;
-    font-size:30px;
-} */
-
 .comment_name_image {
     display: flex;
 }
@@ -193,7 +178,6 @@ p {
     color: rgb(250, 253, 255);
     background-color: rgb(255, 255, 255);
     font-size: 30px;
-    
 }
 
 .favorite_button {
@@ -214,7 +198,6 @@ p {
     position: relative;
     right: 7px;
     color: black;
-    
 }
 
 .ster_icon_2 {
@@ -222,8 +205,6 @@ p {
     right: 4px;
     font-size: 30px !important;
     color: rgb(0, 0, 0);
-    /* background-color: black; */
-    /* border: black; */
 }
 
 .comments_count0 {
@@ -243,5 +224,4 @@ p {
     left: 90px;
     bottom: 15px;
     font-size: 28px;
-    
 }

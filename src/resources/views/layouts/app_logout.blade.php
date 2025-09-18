@@ -17,7 +17,6 @@
             <img class="company" src="/image_icon/logo.svg" alt="会社名">
             </a>
         <form action="{{ route('front_page') }}" method="get">
-            
             <input type = "text" class="search_form" name="all_item_search" placeholder="　なにをお探しですか？">
         </form>
             @if (Auth::check())

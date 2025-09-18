@@ -77,7 +77,7 @@
 
         opacity: 0.5; /* ここで透明度を調整 */
     }
-    
+
     /* ログアウトボタンのスタイル */
     .logout-form {
         width: 100%;
@@ -103,10 +103,6 @@
                 <button type="submit" class="resend-button">認証メールを再送する</button>
             </form>
 
-            <!-- <form method="POST" action="{{ route('logout') }}" class="logout-form">
-                @csrf
-                <button type="submit" class="logout-link">認証しないでフロントページに戻る一応つけておきました。</button>
-            </form> -->
         </div>
     </div>
 </body>
