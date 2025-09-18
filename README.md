@@ -7,7 +7,13 @@ Dockerビルド
 <br>
 　2\. （ターミナルコマンド）cd simulation1　の実行。
 <br>
-　3\. （ターミナルコマンド）docker-compose up -d --build　の実行
+ 　3\.   ダミーデーターの商品画像ファイルをstrageディレクトリーに作成してコピーする。<br>
+      （ターミナルコマンド）mkdir src/storage/app/public/item_images<br>
+　　　　　　　　　　　cp -r src/public/pictures src/storage/app/public/item_images<br>
+ 　4\.　　ダミーデーターのユーザー初期画像ファイルをstrageディレクトリーに作成してコピーする<br>
+ 　　　（ターミナルコマンド）mkdir src/storage/app/public/images<br>
+　　　　　　　　　　　cp -r src/public/pictures_user src/storage/app/public/images<br>
+　5\. （ターミナルコマンド）docker-compose up -d --build　の実行
 <br>
 　
   <br>
@@ -21,15 +27,15 @@ laravel環境構築
 　3\. 　env.exampleファイルから.envを作成し、.envファイルの環境変数を変更<br>
 　(PHPコンテナー)  cp .env.example .env　の実行後.envの環境変数の変更<br>
 
-APP_KEY=　を　APP_KEY=base64:KUoosogBL0QQaaukA2mxjGSicokkBKJ+dPItJHJ2MvQ=　に<br>
+APP_KEY=　を　APP_KEY=base64:KUoosogBL0QQaaukA2mxjGSicokkBKJ+dPItJHJ2MvQ=　に（３行目）<br>
 
-DB_HOST=127.0.0.1　を　DB_HOST=mysql　に<br>
+DB_HOST=127.0.0.1　を　DB_HOST=mysql　に（１１行目）<br>
 
-DB_DATABASE=laravel　を　DB_DATABASE=laravel_db　に<br>
-DB_USERNAME=root     　を　DB_USERNAME=laravel_user　に<br>
-DB_PASSWORD=         　を　DB_PASSWORD=laravel_pass　に<br>
+DB_DATABASE=laravel　を　DB_DATABASE=laravel_db　に（１４行目）<br>
+DB_USERNAME=root     　を　DB_USERNAME=laravel_user　に（１５行目）<br>
+DB_PASSWORD=         　を　DB_PASSWORD=laravel_pass　に（１６行目）<br>
 
-MAIL_FROM_ADDRESS=null　を　MAIL_FROM_ADDRESS="hello@example.com"　に<br><br>
+MAIL_FROM_ADDRESS=null　を　MAIL_FROM_ADDRESS="hello@example.com"　に（３７行目）<br><br>
 
 　ここからは全て追加です(env.ファイルの一番下に追加してください。)<br><br>
 STRIPE_KEY="pk_test_51S4djbL5FmW737EdtTZZSncxQjYuIhaB4FxsBjg7Of1Lr7mYkT74ZU2yauWUY2t0aPPGyIIydYnx8VfxrLs755yl0028SjCRfD"<br>
