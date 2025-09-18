@@ -19,7 +19,7 @@ use App\Models\Comment;
 use App\Models\Good;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
-use Illuminate\View\View;
+// use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
 
@@ -299,28 +299,11 @@ class ItemController extends Controller
 
 // 購入商品・出品商品関係の処理
 
-        public function thanks_buy_create(Request $request)
+        public function thanks_buy_create(PurchaseRequest $request)
     {
         $item = Item::find($request->item_id);
 
-        $rules = [
-            'payment' => 'required',
-            'address' => 'required',
-        ];
-        $messages = [
-            'payment.required' => '支払い方法を選択してください。',
-            'address.required' => '配送先住所が入力されていません。',
-        ];
 
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($item->remain < 1) {
-            $validator->errors()->add('item_id', 'この商品は在庫がありません。');
-        }
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
 
         if ($request->input('payment') === 'コンビニ払い') {
             // 認証済みユーザーの情報を取得

@@ -46,7 +46,7 @@ class PurchaseRequest extends FormRequest
         public function messages()
     {
         return [
-            'address.required' => '配送先住所を入力してください。',
+            'address.required' => '配送先住所が入力されていません。',
             'payment.required' => '支払い方法を選択してください。',
         ];
     }

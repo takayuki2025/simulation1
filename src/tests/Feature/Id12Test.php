@@ -5,20 +5,21 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
-use App\Models\PrimaryCategory;
-use App\Models\SecondaryCategory;
-use App\Models\ThirdCategory;
-use App\Models\Condition;
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Facades\Route;
 
 class Id12Test extends TestCase
 {
     use RefreshDatabase;
+    
+    // 各テスト実行前にアプリケーションをリフレッシュして状態汚染を防ぐ
+    protected function setUp(): void
+    {
+        $this->refreshApplication();
+        parent::setUp();
+    }
 
 
     // ID12-1(1)購入ページにユーザーの住所が正しく表示されることをテスト
@@ -132,26 +133,32 @@ class Id12Test extends TestCase
         $this->actingAs($user);
 
         // テスト用の商品を作成
-        $item = Item::factory()->create();
+        $item = Item::factory()->create(['remain' => 1]);
 
         // ルートの存在確認
         $this->assertTrue(Route::has('thanks_buy_create'), 'Route with name thanks_buy_create does not exist.');
 
         // コンビニ払いをシミュレート
-        $response = $this->post(route('thanks_buy_create', ['user_id' => $user->id, 'item_id' => $item->id]), [
+        // from()メソッドを追加することで、リクエストのリファラーを設定し、リダイレクトが不安定になるのを防ぐ
+        $response = $this->from(route('item_buy', ['item_id' => $item->id]))
+                         ->post(route('thanks_buy_create', ['item_id' => $item->id]), [
             'item_id' => $item->id,
             'payment' => 'コンビニ払い',
-            'address' => 'ダミー住所' // バリデーションを通過させるためのダミーデータ
+            'name' => $user->name,
+            'post_number' => $user->post_number,
+            'address' => $user->address,
+            'building' => $user->building,
         ]);
 
+        $response->assertSessionHasNoErrors(); // バリデーションエラーがないことを確認
         $response->assertStatus(302); // リダイレクトを確認
-        $response->assertRedirect('/thanks_buy'); // 購入後のリダイレクト先を確認
+        $response->assertRedirect(route('thanks_buy')); // 購入後のリダイレクト先を確認
         
         // order_historiesテーブルにレコードが作成されたこと、および情報が正しく保存されたことを確認
         $this->assertDatabaseHas('order_histories', [
             'user_id' => $user->id,
             'item_id' => $item->id,
-            'payment' => 'コンビニ払い', 
+            'payment' => 'コンビニ払い',
             'buy_address' => "テストユーザー\n987-6543\n大阪府大阪市\nテストビル202",
         ]);
         
