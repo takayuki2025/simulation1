@@ -10,7 +10,6 @@
 <div class="profile_page">
     <div class="profile_header">
         <div class="profile_header_1">
-            <!-- プロフィール画像の表示。画像がない場合はデフォルト画像を表示 -->
             <img src="{{ isset($user->user_image) && $user->user_image ? asset($user->user_image) : asset('/storage/images/default-profile2.jpg') }}" alt="プロフィール画像" class="user_image_css">
             <h2 class="user_name_css">{{ $user['name'] }}</h2>
 
@@ -19,15 +18,6 @@
                 <input type="submit" class="user_edit_css2" value="プロフィールを編集">
         </form>
 
-            <!-- @if ($errors->any())
-                <div class="validation-errors">
-                    <ul class="error-list">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif -->
         </div>
 
         <div class="profile_header_2">

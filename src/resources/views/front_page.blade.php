@@ -15,14 +15,11 @@
     @endif
 
     <div class="main_select">
-        {{-- おすすめタブのリンクを修正 --}}
         {{-- 検索クエリが存在すればURLに付加する --}}
         <a href="/{{ request()->query('all_item_search') ? '?all_item_search=' . request()->query('all_item_search') : '' }}"
         class="recs {{ ($tab === 'all') ? 'active' : '' }}">
             おすすめ
         </a>
-
-        {{-- マイリストタブのリンクを修正 --}}
         {{-- tab=mylistと現在の検索クエリを両方付加する --}}
         <a href="/?tab=mylist{{ request()->query('all_item_search') ? '&all_item_search=' . request()->query('all_item_search') : '' }}" 
         class="mylists {{ ($tab === 'mylist') ? 'active' : '' }}">

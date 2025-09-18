@@ -25,13 +25,11 @@
                 @if ($item->remain < 1)
                     <h2>sold</h2>
                 @else
-                    {{-- ここを修正しました --}}
                     <h2>¥{{ number_format($item->price) }}<span class="price_after">(税込)</span></h2>
                 @endif
 
         </div>
         <div class="item_detail_icon">
-            {{-- ログインユーザーと出品者が異なる場合のみお気に入りボタンを表示 --}}
         @if(Auth::check() && Auth::id() != $item->user_id)
             <form action="{{ route('item.favorite', ['item' => $item->id]) }}" method="POST" class="favorite_form">
                 @csrf
@@ -46,27 +44,22 @@
                 </button>
             </form>
         @endif
-            {{-- ログインしていないユーザー、または出品者本人の場合はテキストで「⭐︎」といいね数を表示 --}}
         @if(!Auth::check() || Auth::id() == $item->user_id)
             <div class="star_text_container">
                 <span class="star_text">⭐︎</span>
             </div>
         @endif
             <p class="favorites_count">{{ $favoritesCount }}</p>
-                {{-- ここにコメント数を追加 --}}
                     <span class="comments_icon">&#128172;</span>
                     <p class="comments_count0">{{ $comments->count() }}</p>
             </div>
             <div class="item_detail_form">
                 <form action="{{ route('item_buy', ['item_id' => $item->id]) }}" method="get">
                     @csrf
-                        {{-- ログイン済みで、かつ自分が出品した商品ではない場合 --}}
                     @if(Auth::check() && Auth::id() != $item->user_id)
                         <input type="submit" value="購入手続きへ" class="info_submit" @if ($item->remain < 1) disabled style="opacity: 0.5; cursor: not-allowed;" @endif>
-                            {{-- ログイン済みで、かつ自分が出品した商品の場合 --}}
                     @elseif(Auth::check() && Auth::id() == $item->user_id)
                         <a href="/mypage" class="info_submit">マイページへ移動する</a>
-                            {{-- ゲストユーザーの場合 --}}
                     @else
                         <a href="{{ route('login') }}" class="info_submit">ログインして購入</a>
                     @endif
@@ -110,7 +103,6 @@
                     @forelse($comments as $comment)
                 <div class="comment">
                 <div class="comment_name_image">
-                    <!-- プロフィール画像の表示。画像がない場合はデフォルト画像を表示 -->
                     <img src="{{ isset($comment->user->user_image) && $comment->user->user_image ? asset($comment->user->user_image) : asset('/storage/images/default-profile2.jpg') }}" alt="プロフィール画像" class="user_image_css">
                     <p>{{ $comment->user->name }}</p>
                 </div>
