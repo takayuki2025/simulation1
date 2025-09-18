@@ -26,7 +26,7 @@
                     <h2>sold</h2>
                 @else
                     {{-- ここを修正しました --}}
-                    <h2>¥{{ number_format($item->price) }}</h2>
+                    <h2>¥{{ number_format($item->price) }}<span class="price_after">(税込)</span></h2>
                 @endif
 
         </div>
@@ -74,7 +74,7 @@
             </div>
             <div class="item_detail_explain">
                 <h2>商品説明</h2>
-                    <h3>{{ $item->explain }}</h3>
+                    <h3 class="explain_word">{{ $item->explain }}</h3>
             </div>
             <div class="item_detail_category">
             <div>
@@ -139,7 +139,7 @@
                 @endif
             <form action="{{ route('comment_create') }}" method="post" class="comment_form">
                 @csrf
-                    <textarea name="comment" rows="5" cols="40" placeholder="コメントを入力してください"></textarea>
+                    <textarea name="comment" rows="5" cols="47" placeholder="コメントを入力してください"></textarea>
                     <input type="submit" value="コメントを送信する" class="comment_submit">
                     <input type="hidden" name="item_id" value="{{ $item->id }}">
             </form>
