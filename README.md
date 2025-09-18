@@ -32,13 +32,13 @@ DB_PASSWORD=         　を　DB_PASSWORD=laravel_pass　に<br>
 MAIL_FROM_ADDRESS=null　を　MAIL_FROM_ADDRESS="hello@example.com"　に<br><br>
 
 　ここからは全て追加です(env.ファイルの一番下に追加してください。)<br><br>
-STRIPE_KEY="pk_test_51S4djbL5FmW737EdtTZZSncxQjYuIhaB4FxsBjg7Of1Lr7mYkT74ZU2yauWUY2t0aPPGyIIydYnx8VfxrLs755yl0028SjCRfD"
-STRIPE_SECRET="sk_test_51S4djbL5FmW737EdLMGqe36QaYF9cLb3QjIXfiEn8PDJkz6tnKFaJw7x3jKX97LNVLHX7dgJOlbvZ5MJhovqi5fp00QXOUV9Td"
-CASHIER_CURRENCY=ja_JP
-CASHIER_CURRENCY_LOCALE=ja_JP
-CASHIER_LOGGER=daily
+STRIPE_KEY="pk_test_51S4djbL5FmW737EdtTZZSncxQjYuIhaB4FxsBjg7Of1Lr7mYkT74ZU2yauWUY2t0aPPGyIIydYnx8VfxrLs755yl0028SjCRfD"<br>
+STRIPE_SECRET="sk_test_51S4djbL5FmW737EdLMGqe36QaYF9cLb3QjIXfiEn8PDJkz6tnKFaJw7x3jKX97LNVLHX7dgJOlbvZ5MJhovqi5fp00QXOUV9Td"<br>
+CASHIER_CURRENCY=ja_JP<br>
+CASHIER_CURRENCY_LOCALE=ja_JP<br>
+CASHIER_LOGGER=daily<br>
 
-FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-passwords,two-factor-authentication,email-verification
+FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-passwords,two-factor-authentication,email-verification<br>
 <br>
 <br>
 　4\. アプリケーションキーの作成<br>
