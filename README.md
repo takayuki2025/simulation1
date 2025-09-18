@@ -9,10 +9,10 @@ Dockerビルド
 <br>
  　3\.   ダミーデーターの商品画像ファイルをstrageディレクトリーに作成してコピーする。<br>
       （ターミナルコマンド）mkdir src/storage/app/public/item_images<br>
-　　　　　　　　　　　cp -r src/public/pictures src/storage/app/public/item_images<br>
+　　　　　　　　　　　cp -r src/public/pictures/* src/storage/app/public/item_images<br>
  　4\.　　ダミーデーターのユーザー初期画像ファイルをstrageディレクトリーに作成してコピーする<br>
  　　　（ターミナルコマンド）mkdir src/storage/app/public/images<br>
-　　　　　　　　　　　cp -r src/public/pictures_user src/storage/app/public/images<br>
+　　　　　　　　　　　cp -r src/public/pictures_user/* src/storage/app/public/images<br>
 　5\. （ターミナルコマンド）docker-compose up -d --build　の実行
 <br>
 　
@@ -29,7 +29,7 @@ laravel環境構築
 
 APP_KEY=　を　APP_KEY=base64:KUoosogBL0QQaaukA2mxjGSicokkBKJ+dPItJHJ2MvQ=　に（３行目）<br>
 
-DB_HOST=127.0.0.1　を　DB_HOST=mysql　に（１１行目）<br>
+DB_HOST=127.0.0.1　を　DB_HOST=mysql　に（１２行目）<br>
 
 DB_DATABASE=laravel　を　DB_DATABASE=laravel_db　に（１４行目）<br>
 DB_USERNAME=root     　を　DB_USERNAME=laravel_user　に（１５行目）<br>
@@ -48,7 +48,7 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
 <br>
 <br>
 　4\. アプリケーションキーの作成<br>
-　　php artisan key:generate
+　　（PHPコンテナー）php artisan key:generate
 <br>
 　5\. マイグレーションの実行<br>
 　　php artisan migrate
