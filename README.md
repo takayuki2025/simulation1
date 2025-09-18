@@ -8,7 +8,7 @@ Dockerビルド
 　2\. （ターミナルコマンド）cd simulation1　の実行。
 <br>
  　3\.   ダミーデーターの商品画像ファイルをstrageディレクトリーに作成してコピーする。<br>
-      （ターミナルコマンド）mkdir src/storage/app/public/item_images<br>
+　　　　　（ターミナルコマンド）mkdir src/storage/app/public/item_images<br>
 　　　　　　　　　　　cp -r src/public/pictures/* src/storage/app/public/item_images<br>
  　4\.　　ダミーデーターのユーザー初期画像ファイルをstrageディレクトリーに作成してコピーする<br>
  　　　（ターミナルコマンド）mkdir src/storage/app/public/images<br>
@@ -57,9 +57,9 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
 　　php artisan db:seed
 <br>
 　7\. テスト用のデーターベース作成からPHPUnitテスト実行まで。<br>
-（exitでターミナルに戻ってから）docker-compose exec mysql bash　を実行<br>
-（mysqlコンテナー）mysql -u root -p   の実行後パスワード　root　と入力して実行<br>
-（mysql接続後）CREATE DATABASE coachtech1_test;　を実行 (実行後exitコマンドでターミナルまで戻る)<br>
+　（exitでターミナルに戻ってから）docker-compose exec mysql bash　を実行<br>
+　（mysqlコンテナー）mysql -u root -p   の実行後パスワード　root　と入力して実行<br>
+　（mysql接続後）CREATE DATABASE coachtech1_test;　を実行 (実行後exitコマンドでターミナルまで戻る)<br>
 （ターミナルで　docker-compose exec php bash を実行した後のPHPコンテナーで）php artisan test　を実行してテストをしてください。<br>
 
 <br>
@@ -69,6 +69,7 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
 -  stripe決済の都合上最低決済金額が50円なので少し余裕を持たせて出品商品の最低金額を100円以上にしてバリデーションを実装しました。<br><br>
 -  COACHTECHのロゴをクリックするとトップページに、ログインユーザーが商品詳細画面で自分が出品した商品の購入手続きをクリックするとプロフィールページに、ゲストユーザーが購入手続きへ・ヘッダーのマイページ・出品・コメントを送信するをクリックするとログインページに移動するようになっています。<br><br>
 -  いいね機能はゲストユーザー、ログインユーザーの自分の出品した商品にはできないようになっています。<br><br>
+-  コメント機能はログインユーザーが商品を見てコメントする時と、出品者が出品後に追加でコメントした日時がわかるようにしました。<br><br>
 -  PHPUnitのテストファイルはスプレットシートのテストケース一覧のID番号に沿ってtests/Featureディレクトリーに保存してあります。上記に記したテスト用のデーターベースを作成した後phpコンテナーで php artisan test を実行してテストをしてください。 <br><br>
 -  Route,Controllerは基本設計書に沿ってファイルの中に基本並び替えしています。<br><br>
 -  ダミーのユーザーデーターと出品商品データーのシーダーファイルで作りましたので、PHPコンテナーで上記の通り　php artisan db:seed　を実行してください。<br>
