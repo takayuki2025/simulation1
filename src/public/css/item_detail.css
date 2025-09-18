@@ -53,9 +53,9 @@
     color: aliceblue;
     border: #ff5555;
     background-color: #ff5555;
-        text-decoration: none;
-            text-align: center;
-            font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 700;
 }
 
 h3 {
@@ -107,7 +107,6 @@ p {
     position: relative;
     right: 22px;
     font-weight: 700;
-    /* margin-right: 15px; */
     list-style: none;
 }
 

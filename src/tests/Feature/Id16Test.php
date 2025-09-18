@@ -31,16 +31,16 @@ class Id16Test extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);
-        
+
         // 登録されたユーザーを取得
         $user = User::where('email', 'test@example.com')->first();
-        
+
         // 認証メールが送信されたことをアサート
         Notification::assertSentTo(
             [$user], VerifyEmail::class
         );
     }
-    
+
 
     // ID16-1(２)未認証ユーザーが認証通知ページにリダイレクトされることをテストします。
     public function test_unverified_user_is_redirected_to_verification_notice()
@@ -50,8 +50,8 @@ class Id16Test extends TestCase
         ]);
 
         $this->actingAs($user)
-             ->get(route('verification.notice'))
-             ->assertStatus(200);
+            ->get(route('verification.notice'))
+            ->assertStatus(200);
     }
 
 
@@ -66,7 +66,7 @@ class Id16Test extends TestCase
         ]);
 
         $this->actingAs($user)
-             ->post(route('verification.send'));
+            ->post(route('verification.send'));
 
         // 通知が送信されたことをアサート
         Notification::assertSentTo(
@@ -87,7 +87,7 @@ class Id16Test extends TestCase
 
         // 作成したユーザーとして認証し、認証通知ページにアクセスします。
         $response = $this->actingAs($user)->get(route('verification.notice'));
-        
+
         // ページのコンテンツを検証します。
         // ここでは、指定されたHTMLのリンクが正しく存在し、MailHogのURLを指しているかを確認します。
         $response->assertSee('<a href="http://localhost:8025" target="_blank" class="verification-button">認証はこちらから</a>', false);
@@ -128,7 +128,7 @@ class Id16Test extends TestCase
         $this->assertNotNull($user->fresh()->email_verified_at);
     }
 
- 
+
     // ID16-1(６)認証済みユーザーが認証リンクにアクセスした場合、プロファイルページにリダイレクトされることをテストします。
     public function test_verified_user_redirects_to_profile_page()
     {

@@ -70,7 +70,7 @@ class Id10_02Test extends TestCase
             'remain' => 1,
             'price' => 1000,
         ]);
-        
+
         // 作成したユーザーとしてログイン状態をシミュレートする
         $this->actingAs($user);
 
@@ -94,7 +94,7 @@ class Id10_02Test extends TestCase
         // 検証（Assertion）
         // `order_histories`テーブルに新しい購入履歴が、期待通りのデータで作成されたか確認する
         $this->assertDatabaseHas('order_histories', $expectedOrderHistoryData);
-        
+
         // アイテムの在庫数が1つ減り、0になったか確認する
         $this->assertEquals(0, Item::find($item->id)->remain);
 

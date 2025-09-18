@@ -56,17 +56,17 @@
                         </div>
                     </div>
 
-<div class="item_buy_form">
-    @if($item->remain > 0)
-        <input type="hidden" name="item_id" value="{{ $item->id }}">
-        <input type="hidden" name="address" value="{{ $user->address }}">
-        <input type="submit" class="item_buy_submit" value="購入する">
-    @else
+        <div class="item_buy_form">
+            @if($item->remain > 0)
+                <input type="hidden" name="item_id" value="{{ $item->id }}">
+                <input type="hidden" name="address" value="{{ $user->address }}">
+                <input type="submit" class="item_buy_submit" value="購入する">
+            @else
         <div class="sold_out_message">
             <p>sold</p>
         </div>
-    @endif
-</div>
+            @endif
+        </div>
 
                     @error('item_id')
                         <div class="alert alert-danger">{{ $message }}</div>

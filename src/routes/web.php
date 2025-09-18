@@ -17,10 +17,9 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// フロントページ (認証不要)
+
 Route::get('/', [ItemController::class, 'index'])->name('front_page');
 
-// onetime.show ルートをauthミドルウェアの外に定義
 Route::get('/onetime', [ItemController::class, 'handleOnetimeRedirect'])->name('onetime.show');
 
 // メール認証関連のルート
@@ -39,10 +38,6 @@ Route::post('/email/verification-notification', [EmailVerificationController::cl
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
-// 認証済みかつメール認証済みのユーザーのみアクセス可能にしたいルート
- // handleOnetimeRedirectで認証をチェックするため、ここでは'verified'ミドルウェアを外します
-Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
-
 // Fortifyが提供するデフォルトのログアウト処理
 Route::post('/logout', function (Request $request) {
     Auth::logout();
@@ -52,28 +47,21 @@ Route::post('/logout', function (Request $request) {
 })->name('logout');
 
 
-
 Route::get('/item/{item_id}', [ItemController::class, 'item_detail_show'])->name('item_detail');
 
 Route::get('/purchase/{item_id}', [ItemController::class, 'item_buy_show'])->name('item_buy');
 
-
-// POSTルートの名前を'item.purchase.update'に変更し、パラメータの順序を修正
 Route::patch('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'update'])->name('item.purchase.update');
-// GETルートの名前を'item.purchase.edit'に変更し、パラメータの順序を修正
 Route::get('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'item_purchase_edit'])->name('item.purchase.edit');
-
 
 Route::get('/sell', [ItemController::class, 'item_sell_show'])->middleware(['auth'])->name('item_sell');
 
-
 Route::get('/mypage', [ItemController::class, 'profile_show'])->middleware(['auth'])->name('profile');
 
-
+Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middleware(['auth'])->name('profile_edit');
 
 Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
 Route::get('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
-
 
 //購入処理（コンビニ払い完了処理まで/カード支払いstripe決済に繋げる処理）のルード
 Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('thanks_buy_create');
@@ -83,12 +71,11 @@ Route::get('/stripe_success', [ItemController::class, 'stripeSuccess'])->name('s
 Route::get('/thanks_buy', [ItemController::class, 'thanks_buy_show'])->name('thanks_buy');
 
 
-
 Route::patch('/profile_update', [ItemController::class, 'profile_update']);
 
-Route::post('/upload', [ItemController::class, 'item_image_upload']);
-
 Route::post('/upload2', [ItemController::class, 'user_image_upload']);
+
+Route::post('/upload', [ItemController::class, 'item_image_upload']);
 
 Route::post('/comment_read', [ItemController::class, 'comment_create'])->name('comment_create');
 

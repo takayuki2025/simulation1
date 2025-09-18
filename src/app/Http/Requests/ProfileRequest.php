@@ -40,8 +40,6 @@ class ProfileRequest extends FormRequest
             'post_number.required' => '郵便番号を入力してください。',
             'post_number.regex' => 'ハイフンありの８桁で入力してください。',
             'address.required' => '住所を入力してください。',
-
-            // 'user_image.mimes' => '画像ファイルは.jpegまたは.png形式でアップロードしてください。',
         ];
     }
     protected $redirectRoute = 'profile_edit';

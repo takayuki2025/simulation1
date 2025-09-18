@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 class Id12Test extends TestCase
 {
     use RefreshDatabase;
-    
+
     // 各テスト実行前にアプリケーションをリフレッシュして状態汚染を防ぐ
     protected function setUp(): void
     {
@@ -141,7 +141,7 @@ class Id12Test extends TestCase
         // コンビニ払いをシミュレート
         // from()メソッドを追加することで、リクエストのリファラーを設定し、リダイレクトが不安定になるのを防ぐ
         $response = $this->from(route('item_buy', ['item_id' => $item->id]))
-                         ->post(route('thanks_buy_create', ['item_id' => $item->id]), [
+                        ->post(route('thanks_buy_create', ['item_id' => $item->id]), [
             'item_id' => $item->id,
             'payment' => 'コンビニ払い',
             'name' => $user->name,
@@ -153,7 +153,7 @@ class Id12Test extends TestCase
         $response->assertSessionHasNoErrors(); // バリデーションエラーがないことを確認
         $response->assertStatus(302); // リダイレクトを確認
         $response->assertRedirect(route('thanks_buy')); // 購入後のリダイレクト先を確認
-        
+
         // order_historiesテーブルにレコードが作成されたこと、および情報が正しく保存されたことを確認
         $this->assertDatabaseHas('order_histories', [
             'user_id' => $user->id,
@@ -161,11 +161,9 @@ class Id12Test extends TestCase
             'payment' => 'コンビニ払い',
             'buy_address' => "テストユーザー\n987-6543\n大阪府大阪市\nテストビル202",
         ]);
-        
+
         // 在庫が減っていることを確認
         $updatedItem = Item::find($item->id);
         $this->assertEquals($item->remain - 1, $updatedItem->remain);
     }
-    
-
 }

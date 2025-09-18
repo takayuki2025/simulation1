@@ -44,8 +44,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-        gap: 50px;
-        padding: 60px;
+    gap: 50px;
+    padding: 60px;
 }
 
 .items_select_all {

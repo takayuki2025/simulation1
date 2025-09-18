@@ -29,12 +29,11 @@ class PurchaseRequest extends FormRequest
             'payment' => 'required',
             'item_id' => [
                 'required',
-                'exists:items,id', // itemsテーブルに存在するitem_idであること
+                'exists:items,id',
                 function ($attribute, $value, $fail) {
-                    // Itemモデルを使って、対象の商品のremainカラムを取得
+
                     $item = Item::find($value);
 
-                    // 商品が存在し、かつremainが0以下の場合
                     if ($item && $item->remain <= 0) {
                         $fail('この商品は売り切れです。購入できません。');
                     }

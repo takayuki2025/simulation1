@@ -5,8 +5,8 @@
     /* bodyとコンテナに全画面の高さを指定 */
     body, html, #app {
         height: 100%;
-        margin: 0; /* bodyのデフォルトマージンをリセット */
-        padding: 0; /* bodyのデフォルトパディングをリセット */
+        margin: 0;
+        padding: 0;
         margin: 0 auto;
         max-width: 1400px;
     }
@@ -14,12 +14,11 @@
     /* Flexboxを使ってコンテナを中央に配置 */
     .verification-container {
         display: flex;
-        justify-content: center; /* 水平方向の中央寄せ */
-        align-items: center; /* 垂直方向の中央寄せ */
-        min-height: 100vh; /* 画面の最小高さを100%に設定 */
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
         width: 100%;
         box-sizing: border-box; /* パディングやボーダーを高さに含める */
-        
     }
 
     /* 中央寄せされた子要素のスタイル */
@@ -68,20 +67,18 @@
         background-color: transparent;
         color: #3182ce;
         text-decoration: none;
-        padding: 0; /* パディングを削除 */
+        padding: 0;
     }
 
     .logout-link {
         background-color: #dfd0a3ff;
         color: white;
-
-        opacity: 0.5; /* ここで透明度を調整 */
+        opacity: 0.5;
     }
 
     /* ログアウトボタンのスタイル */
     .logout-form {
         width: 100%;
-        /* text-align: left; */
     }
 </style>
 <body>

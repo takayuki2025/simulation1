@@ -87,11 +87,11 @@ class Id07Test extends TestCase
             '原田 裕樹',
             '購入を検討しています。',
         ]);
-        
+
         // コメントしたユーザー名が正しく表示されていることを確認
         $response->assertSeeText('加藤 結衣');
         $response->assertSeeText('原田 裕樹');
-        
+
         // コメントしたユーザーのプロフィール画像の存在を検証
         // asset()ヘルパが生成するURLを正規表現で検証
         $response->assertSee(asset($commentUser1->user_image), false);

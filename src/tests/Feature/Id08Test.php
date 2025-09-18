@@ -35,7 +35,7 @@ class Id08Test extends TestCase
             'user_id' => $user->id,
             'item_id' => $item->id,
         ]);
-        
+
         // 元のページに戻るリダイレクトを確認
         $response->assertRedirect();
 
@@ -49,11 +49,11 @@ class Id08Test extends TestCase
             'user_id' => $user->id,
             'item_id' => $item->id,
         ]);
-        
+
         // 再び元のページに戻るリダイレクトを確認
         $response->assertRedirect();
     }
-    
+
 
     // ID08-1(２) いいね登録時にgoodsテーブルにレコードが作成されることをテストします。
     public function test_good_is_created_for_new_favorite()
@@ -138,7 +138,7 @@ class Id08Test extends TestCase
         // 準備
         $user = User::factory()->create();
         $item = Item::factory()->create();
-        
+
         // いいねを事前に登録
         Good::create([
             'user_id' => $user->id,
@@ -154,7 +154,7 @@ class Id08Test extends TestCase
         $response->assertSee('★', false);
         $response->assertDontSee('⭐︎');
     }
-    
+
     //ID08-２(２)いいねしていないときに中抜きの星が表示されるかテストします。
     public function test_unfavorited_item_shows_empty_heart()
     {

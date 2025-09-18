@@ -28,7 +28,6 @@ class ExhibitionRequest extends FormRequest
             'price' => 'required|numeric|min:100',
             'explain' => 'required|max:255',
             'condition' => ['required'],
-                // この2つのルールを追加します
             'category' => ['required', 'array'],
             // 'category.*' => ['string'],
             'item_image' => 'required',
@@ -48,7 +47,6 @@ class ExhibitionRequest extends FormRequest
             'category.required' => 'カテゴリーを選択してください。',
             'category.*.string' => 'カテゴリーを選択してください。',
             'item_image.required' => '商品画像ファイルをアップロードしてください。',
-            // 'item_image.mimes' => '商品画像ファイルは.jpegまたは.png形式でアップロードしてください!!!',
         ];
     }
 

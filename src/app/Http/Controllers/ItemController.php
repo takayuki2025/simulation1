@@ -19,7 +19,6 @@ use App\Models\Comment;
 use App\Models\Good;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
-// use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
 
@@ -84,16 +83,15 @@ class ItemController extends Controller
     {
             $item = Item::findOrFail($item_id);
 
-                // --- ここから追加 ---
         // remainが0の場合、priceを'sold'という文字列に変更
         if ($item->remain == 0) {
             $item->price = 'sold';
         }
-        // --- ここまで追加 ---
+
             $item_id = $item->id;
             $comments = Comment::where('item_id',$item_id)->get();
 
-                // ログイン中のユーザー情報を取得
+
                     $user = Auth::user();
                     $isFavorited = false; // デフォルト値を`false`に設定
                 $favoritesCount = Good::where('item_id', $item->id)->count();
@@ -101,7 +99,7 @@ class ItemController extends Controller
                 if ($user) {
                     $isFavorited = Good::where('item_id', $item->id)
                         ->where('user_id', $user->id)
-                        ->exists(); // `exists()`は真偽値を返すため効率が良い
+                        ->exists();
                     }
                             // 商品が存在しない場合のエラー処理（推奨）
                         if (!$item) {
@@ -114,7 +112,6 @@ class ItemController extends Controller
 
         public function item_buy_show($item_id)
     {
-
             $user = Auth::user();
             $item = Item::find($item_id);
             if (!$item) {
@@ -131,15 +128,13 @@ class ItemController extends Controller
 
         public function item_purchase_edit($item_id,$user_id)
     {
-                // 重要なセキュリティチェック：
                 // URLのuser_idが認証済みユーザーのIDと一致することを確認する。
                 if (Auth::id() != $user_id) {
                 abort(403, 'Unauthorized action.');
                 }
 
+            $user = Auth::user();
 
-        $user = Auth::user();
-            // URLにIDがあるので、アイテムもビューに渡すべきです
             $item = Item::findOrFail($item_id);
 
         return view('address',compact('user','item_id','user_id','item'));
@@ -161,12 +156,10 @@ class ItemController extends Controller
     {
         $user = Auth::user();
 
-        // ログイン状態を確認
         if (!$user) {
             return redirect()->route('login')->with('error', 'ログインしてください。');
         }
 
-        // URLのGETパラメータ'page'を取得。デフォルトは'sell'
         $page = $request->input('page', 'sell');
         $items = collect();
 
@@ -180,11 +173,9 @@ class ItemController extends Controller
     }
 
 
-
-///onetime'へのアクセスを処理し、認証状態に応じてリダイレクトする
+    //onetime'へのアクセスを処理し、認証状態に応じてリダイレクトする
     public function handleOnetimeRedirect(): RedirectResponse
     {
-        // ユーザーが認証済みかどうかを確認
         if (Auth::check()) {
             $user = Auth::user();
 
@@ -209,7 +200,6 @@ class ItemController extends Controller
 
         public function profile_revise(Request $request)
     {
-        // dd($request);
         if (Auth::check()) {
         $user = Auth::user();
         }
@@ -223,18 +213,15 @@ class ItemController extends Controller
             $user = Auth::user();
 
             if (!$user) {
-                // セキュリティ上のチェック
+
                 return redirect()->route('login')->with('error', 'ログインしてください。');
             }
 
-            // first_time_accessをtrueに設定するための更新
             $updateData = $request->only('name', 'post_number', 'address', 'building');
-            // $updateData['first_time_access'] = true;
 
             $user->user_image = $request->input('user_image');
             $user->update($updateData);
 
-            // update()の後の$userオブジェクトは、更新された最新の状態を反映しています。
         }
         return redirect()->route('front_page')->with('success', 'プロフィールを更新しました');
     }
@@ -242,10 +229,8 @@ class ItemController extends Controller
 
         public function update(AddressRequest $request, $itemId, $userId)
     {
-        // ユーザーIDを使ってユーザーを取得します。
         $user = User::find($userId);
 
-        // ユーザーが存在しない場合はエラーを返します。
         if (!$user) {
             return redirect()->back()->with('error', 'ユーザーが見つかりません。');
         }
@@ -258,12 +243,10 @@ class ItemController extends Controller
             'building' => $request->building,
         ]);
 
-        // 住所更新後に購入処理へリダイレクト
         return redirect()->route('item_buy', ['item_id' => $itemId]);
     }
 
 
-    // プロフィール編集画面からユーザーイメージのアップロード処理
     public function user_image_upload(ProfileImageRequest $request)
     {
         // アップロードされたファイルが存在するか、かつ有効なファイルかを確認
@@ -284,7 +267,6 @@ class ItemController extends Controller
             // アップデート処理
             $user = Auth::user();
             $user->update([
-                // 'first_time_access' => 0,
                 'user_image' => 'storage/' . $dbPath // データベースにはstorage/からのパスを保存
             ]);
 
@@ -303,13 +285,10 @@ class ItemController extends Controller
     {
         $item = Item::find($request->item_id);
 
-
-
         if ($request->input('payment') === 'コンビニ払い') {
-            // 認証済みユーザーの情報を取得
+
             $user = Auth::user();
 
-            // ユーザー情報をまとめて一つの文字列としてbuy_addressカラムに保存
             $buyAddress = "{$user->name}\n{$user->post_number}\n{$user->address}\n{$user->building}";
 
             OrderHistory::create([
@@ -355,7 +334,6 @@ class ItemController extends Controller
 
         public function thanks_sell_create(ExhibitionRequest $request)
     {
-        // リクエストから必要なデータを取得
         $item = $request->only([
             'name',
             'price',
@@ -376,20 +354,16 @@ class ItemController extends Controller
         // データベースに商品を保存
         Item::create($item);
 
-        // 商品出品後のリダイレクトと成功メッセージの設定
         return view('thanks_sell');
     }
 
 
-    //  出品商品のイメージのアップロード
     public function item_image_upload(Request $request)
     {
-        // バリデーションルール
         $rules = [
             'item_image' => 'required|mimes:jpeg,png',
         ];
 
-        // バリデーションメッセージ
         $messages = [
             'item_image.required' => '商品画像ファイルをアップロードしてください。',
             'item_image.mimes' => '商品画像ファイルは.jpegまたは.png形式でアップロードしてください。',
@@ -397,7 +371,6 @@ class ItemController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        // バリデーション失敗時の処理
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -424,7 +397,7 @@ class ItemController extends Controller
             $user = Auth::user();
 
             if (!$user) {
-                // ログインしていない場合はログインページにリダイレクト
+
             return redirect()->route('login')->with('error', 'いいね機能を利用するにはログインが必要です。');
         }
 
@@ -443,29 +416,24 @@ class ItemController extends Controller
                     'user_id' => $user->id,
                 ]);
         }
-                // 元のページに戻る（リダイレクト）
                 return back();
     }
 
 
         public function comment_create(CommentRequest $request)
     {
-        // リクエストから必要なデータを取得
         $comment = $request->input('comment');
         $itemId = $request->input('item_id');
         $userId = auth()->id();
 
-        // データベースに挿入するデータを整理
         $word = [
             'comment' => $comment,
             'user_id' => $userId,
             'item_id' => $itemId,
         ];
 
-        // コメントを保存
         Comment::create($word);
 
-        // 明示的に商品詳細ページにリダイレクト
         return redirect()->route('item_detail', ['item_id' => $itemId])->with('success', 'コメントが送信されました。');
     }
 
@@ -477,16 +445,13 @@ class ItemController extends Controller
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-            // 認証済みユーザーの情報を取得
             $user = Auth::user();
 
-            // ユーザー情報をまとめて一つの文字列としてbuy_addressカラムに保存
             $buyAddress = "{$user->name}\n{$user->post_number}\n{$user->address}\n{$user->building}";
 
         OrderHistory::create([
             'user_id' => Auth::id(),
             'item_id' => $request->item_id,
-            // 'status' => '購入済み',
             'buy_address' => $buyAddress,
             'payment' => 'カード支払い'
         ]);
@@ -498,10 +463,9 @@ class ItemController extends Controller
     }
 
 
-    // 決済完了ページを表示する
+    // コンビニ・stripe決済完了ページを表示する
     public function thanks_buy_show()
     {
         return view('thanks_buy');
     }
-
 }

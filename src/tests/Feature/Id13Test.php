@@ -44,7 +44,7 @@ class Id13Test extends TestCase
         $response->assertSee($sellingItems[1]->name);
     }
 
- 
+
     // ID13-1マイページで「購入した商品」が正しく表示されることを確認するテスト。
     public function test_my_page_displays_purchased_items()
     {

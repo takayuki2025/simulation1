@@ -24,7 +24,7 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\RedirectAfterEmailVerified::class,
         ],
         Login::class => [
-            LogSuccessfulLogin::class, // この行を追加
+            LogSuccessfulLogin::class,
         ],
 
     ];

@@ -15,7 +15,7 @@
         <div class="header__inner">
             <a href="/">
             <img class="company" src="/image_icon/logo.svg" alt="会社名">
-</a>
+            </a>
         </div>
     </header>
 
