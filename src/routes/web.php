@@ -18,8 +18,10 @@ use Illuminate\Http\Request;
 |
 */
 
+// フロントページを表示し、持続検索機能とタブの切り替えを処理をするルーティング。
 Route::get('/', [ItemController::class, 'index'])->name('front_page');
 
+// 認証後のいろいろな処理を扱うルーティング
 Route::get('/onetime', [ItemController::class, 'handleOnetimeRedirect'])->name('onetime.show');
 
 // メール認証関連のルート
@@ -46,7 +48,7 @@ Route::post('/logout', function (Request $request) {
     return redirect('/');
 })->name('logout');
 
-
+// 主に基本設計書の順に並んでいます。
 Route::get('/item/{item_id}', [ItemController::class, 'item_detail_show'])->name('item_detail');
 
 Route::get('/purchase/{item_id}', [ItemController::class, 'item_buy_show'])->name('item_buy');
@@ -63,14 +65,16 @@ Route::get('/mypage/profile', [ItemController::class, 'profile_revise'])->middle
 Route::post('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
 Route::get('/thanks_sell', [ItemController::class, 'thanks_sell_create']);
 
+
 //購入処理（コンビニ払い完了処理まで/カード支払いstripe決済に繋げる処理）のルード
 Route::post('/thanks_buy', [ItemController::class, 'thanks_buy_create'])->name('thanks_buy_create');
-// カード支払いでの処理
+// カード支払いstripeでの処理
 Route::get('/stripe_success', [ItemController::class, 'stripeSuccess'])->name('stripe_success');
 // コンビニ/カード支払い共に処理完了後のページ移動のルード
 Route::get('/thanks_buy', [ItemController::class, 'thanks_buy_show'])->name('thanks_buy');
 
 
+// ユーザー情報の更新、出品商品登録、コメント投稿、いいね機能
 Route::patch('/profile_update', [ItemController::class, 'profile_update']);
 
 Route::post('/upload2', [ItemController::class, 'user_image_upload']);
