@@ -24,7 +24,8 @@ class Id05Test extends TestCase
         $this->actingAs($user);
 
         // 2. ログインユーザーがいいねした商品と、いいねしていない商品を作成
-        $likedItem = Item::factory()->create();
+        // データベースの文字数制限に収まるように、短くて一意な商品名を設定
+        $likedItem = Item::factory()->create(['name' => 'Liked Item']);
         Good::factory()->create([
             'user_id' => $user->id,
             'item_id' => $likedItem->id,
@@ -32,16 +33,19 @@ class Id05Test extends TestCase
 
         // 3. 他のユーザーがいいねした商品も作成（表示されないことを確認するため）
         $otherUser = User::factory()->create();
-        $otherUserLikedItem = Item::factory()->create();
+        $otherUserLikedItem = Item::factory()->create(['name' => 'Other User Item']);
         Good::factory()->create([
             'user_id' => $otherUser->id,
             'item_id' => $otherUserLikedItem->id,
         ]);
+        
+        // 4. ログインユーザーがいいねしていない、全く関係のない商品を作成
+        $unlikedItem = Item::factory()->create(['name' => 'Unliked Item']);
 
-        // 4. マイリストタブにアクセス
+        // 5. マイリストタブにアクセス
         $response = $this->get('/?tab=mylist');
 
-        // 5. レスポンスの検証
+        // 6. レスポンスの検証
         $response->assertStatus(200);
         $response->assertViewIs('front_page');
 
@@ -50,6 +54,9 @@ class Id05Test extends TestCase
 
         // 他のユーザーがいいねした商品が表示されていないことを確認
         $response->assertDontSeeText($otherUserLikedItem->name);
+        
+        // ログインユーザーがいいねしていない商品が表示されていないことを確認
+        $response->assertDontSeeText($unlikedItem->name);
     }
 
 

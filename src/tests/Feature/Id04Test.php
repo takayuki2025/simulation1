@@ -73,7 +73,8 @@ class Id04Test extends TestCase
         $this->actingAs($user);
 
         // 2. ログインユーザーが出品した商品と、他のユーザーが出品した商品を作成
-        $myOwnItem = Item::factory()->create(['user_id' => $user->id]);
+        // 'at' という文字列を含まない商品名を使用
+        $myOwnItem = Item::factory()->create(['user_id' => $user->id, 'name' => 'My Item for sale']);
         $otherUserItem = Item::factory()->create(); // user_idは自動で別のIDが割り当てられる
 
         // 3. フロントページ（'all'タブ）にアクセス
