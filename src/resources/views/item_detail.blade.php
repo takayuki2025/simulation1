@@ -104,7 +104,7 @@
                 <div class="comment">
                 <div class="comment_name_image">
                     <img src="{{ isset($comment->user->user_image) && $comment->user->user_image ? asset($comment->user->user_image) : asset('/storage/images/default-profile2.jpg') }}" alt="プロフィール画像" class="user_image_css">
-                    <p>{{ $comment->user->name }}</p>
+                    <p class="comment_name">{{ $comment->user->name }}</p>
                 </div>
                     <p class="comment-text">{{ $comment->comment }}</p>
                         <small style="font-size:11px">投稿日時: {{ $comment->created_at->format('Y/m/d H:i') }}</small>
@@ -121,7 +121,7 @@
                 <h2></h2>
             <div class="item_detail_comment_form">
                 @auth
-                    <h2>商品へのコメント</h2>
+                    <h2 class="comment_word">商品へのコメント</h2>
                 @if (count($errors) > 0)
                     <ul class='error_massage'>
                     @foreach ($errors->all() as $error)
