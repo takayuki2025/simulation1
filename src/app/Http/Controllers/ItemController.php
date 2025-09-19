@@ -301,7 +301,7 @@ class ItemController extends Controller
 
             $item->decrement('remain');
 
-            return redirect()->route('thanks_buy');
+            return redirect()->route('thanks_buy')->with('success_conbini','コンビニ払込用紙の処理方法はただいま勉強中です。<br>実装完了までしばらくお待ちください。');
 
         } elseif ($request->input('payment') === 'カード支払い') {
 
@@ -320,8 +320,8 @@ class ItemController extends Controller
                 ]],
                 'mode' => 'payment',
                 'success_url' => route('stripe_success', [
-                    'item_id' => $item->id, 
-                    'address' => $request->address, 
+                    'item_id' => $item->id,
+                    'address' => $request->address,
                     'payment' => 'カード支払い'
                 ]),
                 'cancel_url' => route('item_buy', ['item_id' => $item->id]),
@@ -439,7 +439,7 @@ class ItemController extends Controller
 
 
 
-// stripe・共通購入完了画面処理
+// stripe・購入完了画面処理
 
     public function stripeSuccess(Request $request)
     {
@@ -459,7 +459,7 @@ class ItemController extends Controller
         $item = Item::find($request->item_id);
         $item->decrement('remain');
 
-        return redirect()->route('thanks_buy');
+        return redirect()->route('thanks_buy')->with('success', 'クレジットカード購入処理完了致しました。');
     }
 
 
