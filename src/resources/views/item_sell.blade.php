@@ -138,6 +138,9 @@
                     <div class="sell_title2_2">
                         <label>ブランド名</label>
                         <input type="text" name="brand" class="sell_item_form" value="{{ old('brand') }}">
+                                @error('brand')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
                     </div>
 
                     <div class="sell_title2_3">

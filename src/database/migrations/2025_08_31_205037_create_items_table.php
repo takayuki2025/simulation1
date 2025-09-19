@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
             $table->string('name', 20);
             $table->integer('price');
             $table->string('brand', 20)->nullable();
-            $table->string('explain', 200);
+            $table->string('explain', 255);
             $table->string('condition', 20);
             $table->json('category');
             $table->string('item_image');

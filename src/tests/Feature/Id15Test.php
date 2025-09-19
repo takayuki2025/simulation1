@@ -108,7 +108,9 @@ class Id15Test extends TestCase
         return [
             // name バリデーション
             'nameが未入力' => [array_merge($validData, ['name' => null]), 'name', '商品名を入力してください。'],
-            'nameが256文字以上' => [array_merge($validData, ['name' => str_repeat('a', 256)]), 'name', '名前を255文字以下で入力してください。'],
+            'nameが21文字以上' => [array_merge($validData, ['name' => str_repeat('a', 21)]), 'name', '名前を20文字以下で入力してください。'],
+
+            'brandが21文字以上' => [array_merge($validData, ['brand' => str_repeat('a', 21)]), 'brand', 'ブランド名は20文字以下で入力してください。'],
 
             // price バリデーション
             'priceが未入力' => [array_merge($validData, ['price' => null]), 'price', '金額を入力してください。'],

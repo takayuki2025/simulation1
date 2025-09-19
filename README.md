@@ -13,7 +13,7 @@ Dockerビルド
  　4\.　　ダミーデーターのユーザー初期画像ファイルをstrageディレクトリーの中にimagesディレクトリーを作成して初期画像ファイルをコピーする<br>
  　　　（ターミナルコマンド）mkdir src/storage/app/public/images　の実行<br>
 　　　　　　　　　　　cp -r src/public/pictures_user/* src/storage/app/public/images　の実行<br>
-　5\. （ターミナルコマンド）docker-compose up -d --build　の実行
+　5\. Docker Desktopを立ち上げて（ターミナルコマンド）docker-compose up -d --build　の実行
 <br>
 　
   <br>
@@ -27,8 +27,6 @@ laravel環境構築
 　3\. 　env.exampleファイルから.envを作成し、.envファイルの環境変数を変更<br>
 　(PHPコンテナー)  cp .env.example .env　の実行後.envの環境変数の変更<br>
 
-APP_KEY=　を　APP_KEY=base64:KUoosogBL0QQaaukA2mxjGSicokkBKJ+dPItJHJ2MvQ=　に（３行目）<br>
-
 DB_HOST=127.0.0.1　を　DB_HOST=mysql　に（１２行目）<br>
 
 DB_DATABASE=laravel　を　DB_DATABASE=laravel_db　に（１４行目）<br>
@@ -37,9 +35,13 @@ DB_PASSWORD=         　を　DB_PASSWORD=laravel_pass　に（１６行目）<b
 
 MAIL_FROM_ADDRESS=null　を　MAIL_FROM_ADDRESS="hello@example.com"　に（３７行目）<br><br>
 
+　stripeの公開キーは　STRIPE_KEY=　へ、シークレットキーは　STRIPE_SECRET=　へ入力してstripe決済が機能しているか確認してください。<br>
 　ここからは全て追加です(env.ファイルの一番下に追加してください。)<br><br>
-STRIPE_KEY="pk_test_51S4djbL5FmW737EdtTZZSncxQjYuIhaB4FxsBjg7Of1Lr7mYkT74ZU2yauWUY2t0aPPGyIIydYnx8VfxrLs755yl0028SjCRfD"<br>
-STRIPE_SECRET="sk_test_51S4djbL5FmW737EdLMGqe36QaYF9cLb3QjIXfiEn8PDJkz6tnKFaJw7x3jKX97LNVLHX7dgJOlbvZ5MJhovqi5fp00QXOUV9Td"<br>
+
+STRIPE_KEY=　　　　　　<br>
+
+STRIPE_SECRET=　　　　<br>
+
 CASHIER_CURRENCY=ja_JP<br>
 CASHIER_CURRENCY_LOCALE=ja_JP<br>
 CASHIER_LOGGER=daily<br>
@@ -80,8 +82,8 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
    ３：名前:'テスト用のユーザ3'、アドレス:'test@33'、パスワード:'testtest3'、出品数：'３品'<br>
    ４：名前:'テスト用のユーザ4'、アドレス:'test@44'、パスワード:'testtest4'、出品数：'３品'　　です。メール認証は登録済みでログイン後トップページに移動します。<br><br>
 -  プロフィールのユーザー画像を登録していない場合は初期画面として、default-profile２.jpgファイルの画像を使っています。それからユーザー、商品画像を登録した際は同じファイル名にならないよう頭文字以外はランダムで生成するようにしました。<br>
--  スプレットシートの機能要件一覧（US006 FN022.4）の商品を購入した後の還移先は商品一覧画面のところを一つ挟んで購入完了画面を追加しました。その後ページのトップページに戻るを押すと商品一覧画面に移動します。商品を出品した後は出品完了画面に移動してトップページに戻るを押すと商品一覧画面に移動します。
-
+-  スプレットシートの機能要件一覧（US006 FN022.4）の商品を購入した後の還移先は商品一覧画面のところを一つ挟んで購入完了画面を追加しました。その後ページのトップページに戻るを押すと商品一覧画面に移動します。商品を出品した後は出品完了画面に移動してトップページに戻るを押すと商品一覧画面に移動します。<br>
+-  出品商品の商品名,ブランド名の文字数は２０文字以内に設定しました。<br>
 <br>
 <br>
 

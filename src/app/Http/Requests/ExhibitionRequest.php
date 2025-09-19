@@ -24,7 +24,8 @@ class ExhibitionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
+            'name' => 'required|max:20',
+            'brand' => 'max:20',
             'price' => 'required|numeric|min:100',
             'explain' => 'required|max:255',
             'condition' => ['required'],
@@ -37,7 +38,8 @@ class ExhibitionRequest extends FormRequest
     {
         return [
             'name.required' => '商品名を入力してください。',
-            'name.max' => '名前を255文字以下で入力してください。',
+            'name.max' => '名前を20文字以下で入力してください。',
+            'brand.max' => 'ブランド名は20文字以下で入力してください。',
             'price.required' => '金額を入力してください。',
             'price.numeric' => '数値で入力してください。',
             'price.min' => '１００円以上の金額で入力してください。',

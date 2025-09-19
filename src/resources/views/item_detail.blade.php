@@ -25,7 +25,7 @@
                 @if ($item->remain < 1)
                     <h2>sold</h2>
                 @else
-                    <h2>¥{{ number_format($item->price) }}<span class="price_after">(税込)</span></h2>
+                    <h2><span class="price_after">¥</span>{{ number_format($item->price) }}<span class="price_after"> (税込)</span></h2>
                 @endif
 
         </div>

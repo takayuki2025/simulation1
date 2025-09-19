@@ -55,17 +55,20 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    height: auto;
+    aspect-ratio: auto;
 }
 
 .items_select_all a {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
 }
 
 .items_select img {
     width: 100%;
     height: 100%;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
 }
@@ -79,6 +82,9 @@
 
 .item-name {
     margin: 0;
+    max-width: 75%;
+    word-wrap: break-word;
+    flex-shrink: 1;
 }
 
 .sold-text {
@@ -86,6 +92,7 @@
     color: rgb(250, 103, 77);
     font-weight: bold;
     margin: 0;
+    flex-shrink: 0;
 }
 
 .main_select {

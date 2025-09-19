@@ -29,6 +29,16 @@
     padding:50px;
 }
 
+.item_detail_name {
+    max-width: 75%;
+    overflow: hidden;
+    font-size: 22px;
+}
+
+.item_detail_brand_2 {
+    max-width: 50%;
+    overflow: hidden;
+}
 .item_detail_icon {
     display: flex;
 }
@@ -102,7 +112,7 @@ p {
 }
 
 .price_after {
-    font-size: 17px;
+    font-size: 19px;
     font-weight: 500;
 }
 

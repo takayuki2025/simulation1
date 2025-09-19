@@ -6,7 +6,7 @@
 }
 
 .item_buy_image {
-    width: 13%;
+    width: 19%;
     aspect-ratio: 1 / 1;
     margin-bottom: 20px;
 }
@@ -16,17 +16,23 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    /* margin: 70px; */
 }
+
 .item_name {
     position: relative;
     left: 60px;
+    bottom: 20px;
+    font-size: 23px;
+    font-weight: 800;
 }
 
 .item_price {
-    position: relative;
-    left: 20px;
-    top: 30px;
+    position: absolute;
+    left: 355px;
+    top: 185px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
 }
 
 .item_buy_content2 {
