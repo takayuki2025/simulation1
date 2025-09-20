@@ -367,7 +367,8 @@ class ItemController extends Controller
         return view('thanks_buy');
     }
 
-        // 出品商品登録処理
+// 出品商品登録処理
+
         public function thanks_sell_create(ExhibitionRequest $request)
     {
         $item = $request->only([
