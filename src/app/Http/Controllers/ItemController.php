@@ -109,15 +109,23 @@ class ItemController extends Controller
     }
 
 
-        public function item_buy_show($item_id)
+    public function item_buy_show($item_id)
     {
-            $user = Auth::user();
-            $item = Item::find($item_id);
-            if (!$item) {
-                abort(404);
-            }
+        // ←で戻るでページに移動したとしてもとしてもメール認証完了していないと購入ページには移動できないようにです。
+        if (Auth::check() && !Auth::user()->hasVerifiedEmail()) {
+            // 強制的にログイン画面へリダイレクト
+            return redirect('/login');
+        }
 
-        return view('item_buy',[
+        $user = Auth::user();
+
+        $item = Item::find($item_id);
+
+        if (!$item) {
+            abort(404);
+        }
+
+        return view('item_buy', [
             'item' => $item,
             'item_id' => $item->id,
             'user' => $user,
@@ -140,12 +148,16 @@ class ItemController extends Controller
     }
 
 
-        public function item_sell_show(Request $request)
+    public function item_sell_show(Request $request)
     {
-            if (Auth::check()) {
-            $items = Item::all();
-            }
-            return view('item_sell',compact('items'));
+        // ←で戻るでページに移動したとしてもとしてもメール認証完了していないと購入ページには移動できないようにです。
+        if (Auth::check() && !Auth::user()->hasVerifiedEmail()) {
+            // ログインページへリダイレクトします
+            return redirect('/login');
+        }
+
+        $items = Item::all();
+        return view('item_sell', compact('items'));
     }
 
 
