@@ -91,6 +91,10 @@
     position: relative;
     bottom: 100px;
     left: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
 }
 
 .item_buy_select {

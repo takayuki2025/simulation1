@@ -26,7 +26,7 @@ class ExhibitionRequest extends FormRequest
         return [
             'name' => 'required|max:20',
             'brand' => 'max:20',
-            'price' => 'required|numeric|min:100',
+            'price' => 'required|numeric|min:100|max:2000000000',
             'explain' => 'required|max:255',
             'condition' => ['required'],
             'category' => ['required', 'array'],
@@ -43,6 +43,7 @@ class ExhibitionRequest extends FormRequest
             'price.required' => '金額を入力してください。',
             'price.numeric' => '数値で入力してください。',
             'price.min' => '１００円以上の金額で入力してください。',
+            'price.max' => '２０億円以下の金額で入力してください。',
             'explain.required' => '商品説明を入力してください。',
             'explain.max' => '商品説明を２５５文字以内で入力してください。',
             'condition.required' => '商品状態を選択してください。',

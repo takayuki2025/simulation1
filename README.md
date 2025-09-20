@@ -35,12 +35,12 @@ DB_PASSWORD=         　を　DB_PASSWORD=laravel_pass　に（１６行目）<b
 
 MAIL_FROM_ADDRESS=null　を　MAIL_FROM_ADDRESS="hello@example.com"　に（３７行目）<br><br>
 
-　stripeの公開キーは　STRIPE_KEY=　へ、シークレットキーは　STRIPE_SECRET=　へ入力してstripe決済が機能しているか確認してください。<br>
+　stripeの公開キーは　STRIPE_KEY=""　　の""の中へ、シークレットキーは　STRIPE_SECRET=""　の""の中へ入力してstripe決済が機能しているか確認してください。<br>
 　ここからは全て追加です(env.ファイルの一番下に追加してください。)<br><br>
 
-STRIPE_KEY=　　　　　　<br>
+STRIPE_KEY=""<br>
 
-STRIPE_SECRET=　　　　<br>
+STRIPE_SECRET=""<br>
 
 CASHIER_CURRENCY=ja_JP<br>
 CASHIER_CURRENCY_LOCALE=ja_JP<br>
@@ -83,7 +83,7 @@ FORTIFY_FEATURES=registration,reset-passwords,update-profile-information,update-
    ４：名前:'テスト用のユーザ4'、アドレス:'test@44'、パスワード:'testtest4'、出品数：'３品'　　です。メール認証は登録済みでログイン後トップページに移動します。<br><br>
 -  プロフィールのユーザー画像を登録していない場合は初期画面として、default-profile２.jpgファイルの画像を使っています。それからユーザー、商品画像を登録した際は同じファイル名にならないよう頭文字以外はランダムで生成するようにしました。<br>
 -  スプレットシートの機能要件一覧（US006 FN022.4）の商品を購入した後の還移先は商品一覧画面のところを一つ挟んで購入完了画面を追加しました。その後ページのトップページに戻るを押すと商品一覧画面に移動します。商品を出品した後は出品完了画面に移動してトップページに戻るを押すと商品一覧画面に移動します。<br>
--  出品商品の商品名,ブランド名の文字数は２０文字以内に設定しました。<br>
+-  出品商品の商品名,ブランド名の文字数は２０文字以内、金額は２０億円以内（バリデーション、テストファイル含む）に設定しました。<br>
 <br>
 <br>
 

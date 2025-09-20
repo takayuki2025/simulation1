@@ -116,6 +116,7 @@ class Id15Test extends TestCase
             'priceが未入力' => [array_merge($validData, ['price' => null]), 'price', '金額を入力してください。'],
             'priceが数値ではない' => [array_merge($validData, ['price' => 'abc']), 'price', '数値で入力してください。'],
             'priceが100円未満' => [array_merge($validData, ['price' => 99]), 'price', '１００円以上の金額で入力してください。'],
+            'priceが2000000001円以上' => [array_merge($validData, ['price' => 2000000001]), 'price', '２０億円以下の金額で入力してください。'],
 
             // explain バリデーション
             'explainが未入力' => [array_merge($validData, ['explain' => null]), 'explain', '商品説明を入力してください。'],
