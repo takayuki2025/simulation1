@@ -51,7 +51,7 @@ Route::post('/logout', function (Request $request) {
 // 主に基本設計書の順に並んでいます。
 Route::get('/item/{item_id}', [ItemController::class, 'item_detail_show'])->name('item_detail');
 
-Route::get('/purchase/{item_id}', [ItemController::class, 'item_buy_show'])->name('item_buy');
+Route::get('/purchase/{item_id}', [ItemController::class, 'item_buy_show'])->middleware(['auth'])->name('item_buy');
 
 Route::patch('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'update'])->name('item.purchase.update');
 Route::get('/purchase/address/{item_id}/{user_id?}', [ItemController::class, 'item_purchase_edit'])->name('item.purchase.edit');

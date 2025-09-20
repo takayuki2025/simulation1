@@ -5,6 +5,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\Item;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -55,7 +56,6 @@ class Id16Test extends TestCase
     }
 
 
-
     // ID16-1(３)再送ボタンが2通目の認証メールを送信することをテストします。
     public function test_resend_button_sends_a_second_verification_email()
     {
@@ -75,8 +75,6 @@ class Id16Test extends TestCase
     }
 
 
-
-
     // ID16-1(４)未認証ユーザーがメール認証ページからMailHogにリダイレクトされることをテストします。
     public function test_unverified_user_is_redirected_to_mailhog_from_verification_page()
     {
@@ -92,7 +90,6 @@ class Id16Test extends TestCase
         // ここでは、指定されたHTMLのリンクが正しく存在し、MailHogのURLを指しているかを確認します。
         $response->assertSee('<a href="http://localhost:8025" target="_blank" class="verification-button">認証はこちらから</a>', false);
     }
-
 
 
     // ID16-1(５)認証メールリンクをクリックした後、ユーザーがプロファイル編集ページにリダイレクトされることをテストします。
@@ -129,7 +126,7 @@ class Id16Test extends TestCase
     }
 
 
-    // ID16-1(６)認証済みユーザーが認証リンクにアクセスした場合、プロファイルページにリダイレクトされることをテストします。
+    // ID16-1(６)認証済みユーザーが認証リンクにアクセスした場合、プロフィール編集ページにリダイレクトされることをテストします。
     public function test_verified_user_redirects_to_profile_page()
     {
         // 1. 既に認証済みのユーザーを作成する
@@ -150,5 +147,80 @@ class Id16Test extends TestCase
         // 4. プロファイルページにリダイレクトされることをアサートする
         // `verify`メソッドの実装に合わせて、`/mypage/profile`へのリダイレクトを確認します。
         $response->assertRedirect('/mypage/profile');
+    }
+
+
+    // ID16(追加：メール認証が済んでいないと出品、購入ができないテスト)メール認証済みのユーザーが商品出品ページにアクセスできるかテストします。
+    public function test_authenticated_and_verified_user_can_access_sell_page()
+    {
+        $user = User::factory()->verified()->create();
+
+        $response = $this->actingAs($user)->get(route('item_sell'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('item_sell');
+    }
+
+
+    // メール未認証のユーザーが商品出品ページにアクセスしようとすると、ログインページにリダイレクトされるかテストします。
+    public function test_authenticated_but_unverified_user_is_redirected_from_sell_page_to_login()
+    {
+        $user = User::factory()->create([
+            'email_verified_at' => null, // メール未認証の状態
+        ]);
+
+        $response = $this->actingAs($user)->get(route('item_sell'));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
+    }
+
+
+    // メール認証済みのユーザーが商品購入ページにアクセスできるかテストします。
+    public function test_authenticated_and_verified_user_can_access_buy_page()
+    {
+        $user = User::factory()->verified()->create();
+        $item = Item::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('item_buy', ['item_id' => $item->id]));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('item_buy');
+    }
+
+
+    // メール未認証のユーザーが商品購入ページにアクセスしようとすると、ログインページにリダイレクトされるかテストします。
+    public function test_authenticated_but_unverified_user_is_redirected_from_buy_page_to_login()
+    {
+        $user = User::factory()->create([
+            'email_verified_at' => null,
+        ]);
+        $item = Item::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('item_buy', ['item_id' => $item->id]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
+    }
+
+
+    // ゲストユーザーが商品出品ページにアクセスしようとすると、ログインページにリダイレクトされるかテストします。
+    public function test_guest_is_redirected_from_sell_page()
+    {
+        $response = $this->get(route('item_sell'));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
+    }
+
+
+    // ゲストユーザーが商品購入ページにアクセスしようとすると、ログインページにリダイレクトされるかテストします。
+    public function test_guest_is_redirected_from_buy_page()
+    {
+        $item = Item::factory()->create();
+        $response = $this->get(route('item_buy', ['item_id' => $item->id]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
     }
 }
