@@ -30,7 +30,6 @@ class ExhibitionRequest extends FormRequest
             'explain' => 'required|max:255',
             'condition' => ['required'],
             'category' => ['required', 'array'],
-            // 'category.*' => ['string'],
             'item_image' => 'required',
             ];
     }

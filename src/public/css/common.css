@@ -87,7 +87,6 @@ body .alert-success {
 
 
 
-/* PC向け設定 (1400px以上) */
 @media (min-width: 1400px) {
     body {
         width: 1300px;
