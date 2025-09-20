@@ -84,9 +84,10 @@
 }
 
 .comment-text {
-    word-break: break-all;
-    overflow-wrap: break-word;
     font-weight: 600;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.6;
 }
 
 .comment_submit {
