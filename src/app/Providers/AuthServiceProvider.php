@@ -29,6 +29,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // Fortifyにメール認証ページのビューを登録 (古いバージョンに対応)
-        Fortify::verifyEmailView('auth.verify-email');
+        // Fortify::verifyEmailView('auth.verify-email');
     }
 }

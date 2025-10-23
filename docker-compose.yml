@@ -8,16 +8,20 @@ services:
       - ./src:/var/www/
     depends_on:
       - php
+    networks:
+      simulation1_network: # ネットワークをオブジェクト形式に変更
+        ipv4_address: 172.22.0.2 # ★ 固定IPを割り当て
 
   php:
     build: ./docker/php
     volumes:
       - ./src:/var/www/
       - ./docker/php/conf.d/mailhog.ini:/usr/local/etc/php/conf.d/mailhog.ini
-    # ★ ネットワークエラー対策: wait-for-itでMySQLの起動を最大90秒待つ
-    # command: /usr/local/bin/wait-for-it.sh mysql:3306 -- timeout 120 bash -c "php-fpm"
-    depends_on: # ★ 依存関係を明示
+    depends_on:
       - mysql
+    networks:
+      simulation1_network: # ネットワークをオブジェクト形式に変更
+        ipv4_address: 172.22.0.3 # ★ 固定IPを割り当て
 
   mysql:
     image: mysql:8.3
@@ -26,29 +30,28 @@ services:
       MYSQL_DATABASE: laravel_db
       MYSQL_USER: laravel_user
       MYSQL_PASSWORD: laravel_pass
-    # ★ 起動失敗対策: カスタムコマンドをコメントアウトまたは削除
-    # command:
-    #   mysqld --default-authentication-plugin=mysql_native_password
     volumes:
-      - ./docker/mysql/data:/var/lib/mysql
-      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-
+      - mysql_data:/var/lib/mysql
+    networks:
+      simulation1_network: # ネットワークをオブジェクト形式に変更
+        ipv4_address: 172.22.0.4 # ★ 固定IPを割り当て (最も重要)
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     platform: linux/amd64
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOST=mysql
+      - PMA_HOST=172.22.0.4 # ★ PMA_HOSTを固定IPに変更
       - PMA_USER=laravel_user
       - PMA_PASSWORD=laravel_pass
     depends_on:
       - mysql
     ports:
       - 8080:80
+    networks:
+      simulation1_network: # ネットワークをオブジェクト形式に変更
+        ipv4_address: 172.22.0.5 # ★ 固定IPを割り当て
 
-
-  # MailHogサービス
   mailhog:
     image: mailhog/mailhog:latest
     platform: linux/amd64
@@ -56,8 +59,17 @@ services:
     ports:
       - "8025:8025" # MailHog Web UI
       - "1025:1025" # SMTPサーバー
+    networks:
+      simulation1_network: # ネットワークをオブジェクト形式に変更
+        ipv4_address: 172.22.0.6 # ★ 固定IPを割り当て
 
-# ★ ネットワーク解決対策: すべてのサービスを一つのカスタムネットワークに参加させる
+# ★ ネットワーク定義にIPアドレスのレンジ(サブネット)を追記
 networks:
-  default:
-    name: simulation1_network
+  simulation1_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/24
+
+volumes:
+  mysql_data: ~

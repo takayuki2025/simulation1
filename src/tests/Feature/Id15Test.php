@@ -92,7 +92,7 @@ class Id15Test extends TestCase
 
 
     // バリデーションテスト用のデータプロバイダ。
-    public function validationDataProvider(): array
+    public static function validationDataProvider(): array
     {
         // テスト用のダミーデータを生成
         $validData = [
