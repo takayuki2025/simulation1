@@ -12,7 +12,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
 
-class ID14Test extends TestCase
+class Id14Test extends TestCase
 {
     use RefreshDatabase;
 
